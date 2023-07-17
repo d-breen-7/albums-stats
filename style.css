@@ -20,8 +20,7 @@ section {
   width: 95%;
   background-color: white;
   margin: 10px 2px 10px 2px;
-  padding-botton: 10px;
-  
+  padding-bottom: 10px;
 }
 
 .inverse {
@@ -143,7 +142,7 @@ h2 {
 }
 
 .ca-x-axis text {
-  fill: #a9a9a9;
+  fill: #191414;
   font-weight: 400;
   font-size: 20px;
   text-anchor: start;
@@ -162,7 +161,7 @@ h2 {
 }
 
 .ca-y-axis text {
-  fill: #a9a9a9;
+  fill: #191414;
   font-weight: 400;
   font-size: 20px;
   text-anchor: start;
@@ -177,18 +176,19 @@ h2 {
 }
 
 .cy-legend {
-  fill: #a9a9a9;
-  font-weight: 1000;
+  fill: #191414;
   font-size: 20px;
   text-anchor: start;
 }
 
 .cy-legend-1 {
+  fill: #191414;
   stroke: #1db954;
   stroke-width: 3px;
 }
 
 .cy-legend-2 {
+  fill: #191414;
   stroke: #1db954;
   stroke-width: 3px;
   stroke-dasharray: 1%;
@@ -224,22 +224,22 @@ h2 {
 }
 
 .dy-text {
-  fill: #a9a9a9;
+  fill: #191414;
   font-weight: 400;
   font-size: 20px;
   text-anchor: end;
 }
 
 .dy-text-legend {
-  fill: #a9a9a9;
+  fill: #191414;
   font-weight: 400;
   font-size: 20px;
   text-anchor: start;
 }
 
 .dy-arrow {
-  fill: #a9a9a9;
-  stroke: #a9a9a9;
+  fill: #191414;
+  stroke: #191414;
   stroke-width: 2px;
 }
 

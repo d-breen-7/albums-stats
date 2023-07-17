@@ -27,7 +27,7 @@ d3.json(
         Number(new_albums).toLocaleString() +
         " albums, " +
         Number(total_albums).toLocaleString() +
-        " when counting relistens. I've listened to " +
+        " when including relistens. I've listened to " +
         Number(new_artists).toLocaleString() +
         " new artists"
     );

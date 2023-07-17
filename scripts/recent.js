@@ -1,15 +1,18 @@
-var ra_margins = { top: 20, right: 40, bottom: 25, left: 40 };
+var ra_margins = { top: 20, right: 50, bottom: 25, left: 40 };
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/recent"
 ).then(function (response) {
+  const today = new Date();
+
   var data = tidy(
     response.data,
     mutate({
       listen_date: (d) => d3.timeParse("%Y-%m-%d")(d.date),
       day: (d) => d3.timeParse("%Y-%m-%d")(d.date).getDate(),
       month: (d) => d3.timeParse("%Y-%m-%d")(d.date).getMonth(),
-    })
+    }),
+    filter((d) => d3.timeParse("%Y-%m-%d")(d.date) <= today)
   );
 
   var num_albums = data.filter((d) => d.album_id !== "").length;
@@ -100,7 +103,7 @@ d3.json(
         ? "#1db954"
         : d.artist_status === 1
         ? "#1db954"
-        : "#a9a9a9"
+        : "#191414"
     )
     .attr("fill", (d) => (d.album_status === 1 ? "#1db954" : "#ffffff"))
     .text((d) => d.artist_status + " | " + d.album_status);
