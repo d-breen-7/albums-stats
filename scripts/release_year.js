@@ -57,8 +57,8 @@ d3.json(
     .lighter()
     .thicker()
     .stroke("#ffffff")
-    .background("#dcf9e6")
-    .opacity(0.75);
+    .background("#dcf9e6");
+   // .opacity(0.75);
 
   dy_svg.call(no_albums);
 
