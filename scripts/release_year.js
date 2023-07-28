@@ -58,7 +58,6 @@ d3.json(
     .thicker()
     .stroke("#ffffff")
     .background("#dcf9e6");
-    // .opacity(0.75);
 
   dy_svg.call(no_albums);
 
@@ -69,7 +68,8 @@ d3.json(
     .attr("y", dy_rect_height * 2)
     .attr("width", dy_rect_width * 10)
     .attr("height", dy_rect_height * num_decades)
-    .style("fill", no_albums.url());
+    .attr("fill", no_albums.url())
+    .attr("opacity", 0.75);
 
   // Year grid
   dy_svg
@@ -135,7 +135,8 @@ d3.json(
     .attr("y", dy_rect_height / 2)
     .attr("width", dy_rect_width / 2)
     .attr("height", dy_rect_height / 2)
-    .attr("fill", no_albums.url());
+    .attr("fill", no_albums.url())
+    .attr("opacity", 0.75);
 
   dy_svg
     .selectAll("dy-svg")
