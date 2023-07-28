@@ -57,10 +57,15 @@ d3.json(
   //.d("crosses")
   //.lighter()
   //.thicker() 
-    .circles()
-    .heavier()
+  //.circles()
+  //.heavier()
+    .lines()
+    .orientation("vertical", "horizontal")
+    .size(4)
+    .strokeWidth(1)
+    .shapeRendering("crispEdges") 
     .background("#ffffff")
-    .fill("#dcf9e6");
+    .stroke("#dcf9e6");
 
   dy_svg.call(no_albums);
 
