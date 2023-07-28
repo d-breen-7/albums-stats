@@ -52,8 +52,9 @@ d3.json(
     .attr("viewBox", [0, 0, dy_width, dy_height]);
 
   no_albums = textures
-    .paths()
-    .d("crosses")
+    .lines()
+  //.paths()
+  //.d("crosses")
     .lighter()
     .thicker()
     .stroke("#ffffff")
