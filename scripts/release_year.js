@@ -55,10 +55,11 @@ d3.json(
     .lines()
   //.paths()
   //.d("crosses")
-    .lighter()
-    .thicker()
-    .stroke("#ffffff")
-    .background("#dcf9e6");
+  //.lighter()
+  //.thicker()
+    .heavier()
+    .background("#ffffff")
+    .stroke("#dcf9e6");
 
   dy_svg.call(no_albums);
 
