@@ -76,8 +76,7 @@ d3.json(
     .attr("y", dy_rect_height * 2)
     .attr("width", dy_rect_width * 10)
     .attr("height", dy_rect_height * num_decades)
-    .attr("fill", no_albums.url())
-    .attr("opacity", 0.75);
+    .attr("fill", no_albums.url());
 
   // Year grid
   dy_svg
@@ -143,8 +142,7 @@ d3.json(
     .attr("y", dy_rect_height / 2)
     .attr("width", dy_rect_width / 2)
     .attr("height", dy_rect_height / 2)
-    .attr("fill", no_albums.url())
-    .attr("opacity", 0.75);
+    .attr("fill", no_albums.url());
 
   dy_svg
     .selectAll("dy-svg")
