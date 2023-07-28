@@ -52,14 +52,15 @@ d3.json(
     .attr("viewBox", [0, 0, dy_width, dy_height]);
 
   no_albums = textures
-    .lines()
+  //.lines()
   //.paths()
   //.d("crosses")
   //.lighter()
-  //.thicker()
+  //.thicker() 
+    .circles()
     .heavier()
     .background("#ffffff")
-    .stroke("#dcf9e6");
+    .fill("#dcf9e6");
 
   dy_svg.call(no_albums);
 
