@@ -42,7 +42,7 @@ d3.json(
     .domain([0, 0.85, 1])
     .range(["#eeeeee", "#76e99f", "#1db954"]);
 
-  var dy_rect_width = dy_width / 12;
+  var dy_rect_width = dy_width / 12, 
   dy_rect_height = dy_height / (num_decades + 2);
 
   var dy_svg = d3
