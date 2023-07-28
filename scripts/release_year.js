@@ -57,7 +57,8 @@ d3.json(
     .lighter()
     .thicker()
     .stroke("#ffffff")
-    .background("#dcf9e6");
+    .background("#dcf9e6")
+    .opacity(0.75);
 
   dy_svg.call(no_albums);
 
@@ -123,7 +124,7 @@ d3.json(
     ...new d3.range(1, d3.extent(data, (d) => +d.year_total)[1]),
   ];
 
-  var target_data = [10, 100, 200, 500, 1000];
+  var ledgend_labels = [10, 100, 200, 500, 1000];
 
   var legend_width = dy_rect_width * 5;
 
@@ -132,7 +133,7 @@ d3.json(
     .attr("class", "dy-grid")
     .attr("x", dy_rect_width)
     .attr("y", dy_rect_height / 2)
-    .attr("width", dy_rect_width)
+    .attr("width", dy_rect_width / 2)
     .attr("height", dy_rect_height / 2)
     .attr("fill", no_albums.url());
 
@@ -162,7 +163,7 @@ d3.json(
       (d, i) => dy_rect_width * 2 + (i * legend_width) / legend_data.length
     )
     .attr("y", dy_rect_height)
-    .text((d) => (target_data.includes(d) ? d : ""))
+    .text((d) => (legend_points.includes(d) ? d : ""))
     .attr("alignment-baseline", "hanging");
 
   dy_svg
