@@ -6,12 +6,17 @@ var dy_width = d3.select("#stats-image-4").node().offsetWidth,
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
 ).then(function (response) {
-  var data = tidy(response.data);
 
-  let years = tidy(data, arrange("year_num"), groupBy("year_num", slice(0, 1)));
+  let data = response.data;
+
+  let years = tidy(
+    data, 
+    arrange("year_num"), 
+    groupBy("year_num", slice(0, 1))
+  );
 
   var num_years = data.length,
-    num_decades = [...new Set(data.map((item) => item.decade_num))].length;
+    num_decades = [...new Set(data.map((d) => d.decade_num))].length;
 
   // Add sub-title text
   d3.select("#stats-4-text")
@@ -34,10 +39,10 @@ d3.json(
 
   var dy_color = d3
     .scaleLinear()
-    .domain([0, 0.75, 1])
+    .domain([0, 0.85, 1])
     .range(["#eeeeee", "#76e99f", "#1db954"]);
 
-  var dy_rect_width = dy_width / 12; // 175years;
+  var dy_rect_width = dy_width / 12;
   dy_rect_height = dy_height / (num_decades + 2);
 
   var dy_svg = d3
