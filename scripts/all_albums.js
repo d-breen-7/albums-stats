@@ -12,7 +12,7 @@ d3.json(
   );
 
   var unique_albums = Number(response.unique).toLocaleString(),
-    current_albums = Number(d3.max(data, (d) => d.total_all)).toLocaleString();
+    total_albums = Number(d3.max(data, (d) => d.total_all)).toLocaleString();
 
   d3.select("#stats-1-text")
     .append("h2")
@@ -20,7 +20,7 @@ d3.json(
       "I've listened to " +
         unique_albums +
         " unique albums, " +
-        current_albums +
+        total_albums +
         " when including relistens"
     );
 
@@ -44,7 +44,7 @@ d3.json(
   var ca_y_axis = d3
     .axisRight()
     .scale(ca_y)
-    .ticks(d3.max(data, (d) => +d.total_all + 5) / 1000)
+    .ticks(d3.max(data, (d) => +d.total_all + 50) / 1000)
     .tickSize(ca_width - ca_margins.left - ca_margins.right)
     .tickFormat((d) => Number(d).toLocaleString());
 
@@ -68,23 +68,23 @@ d3.json(
     // .attr("transform", "translate(" + ca_margins.right + ", 0)")
     .call(ca_y_axis);
 
-  // // Data on 1st of each year
+  // Data on 1st of each year
   first_year = tidy(
     data,
     filter((d) => d.day === 1 && d.month === 0)
   );
 
   // Year lines
-  ca_svg
-    .selectAll("ca-svg")
-    .data(first_year)
-    .enter()
-    .append("line")
-    .attr("class", "ca-year-lines")
-    .attr("x1", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
-    .attr("x2", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
-    .attr("y1", ca_y(0))
-    .attr("y2", ca_y(d3.max(data, (d) => d.total_all)));
+  // ca_svg
+  //  .selectAll("ca-svg")
+  //  .data(first_year)
+  //  .enter()
+  //  .append("line")
+  //  .attr("class", "ca-year-lines")
+  //  .attr("x1", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
+  //  .attr("x2", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
+  //  .attr("y1", ca_y(0))
+  //  .attr("y2", ca_y(d3.max(data, (d) => d.total_all)));
 
   ca_svg
     .append("text")
