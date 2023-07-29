@@ -249,3 +249,104 @@ h2 {
   /* stroke: #a9a9a9; */
   stroke-width: 2px;
 }
+
+@keyframes quiet {
+  25% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes normal {
+  20% {
+    transform: scaleY(1);
+  }
+  40% {
+    transform: scaleY(0.4);
+  }
+  60% {
+    transform: scaleY(0.6);
+  }
+  80% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes loud {
+  25% {
+    transform: scaleY(1.5);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(1.2);
+  }
+}
+
+@keyframes fadeout {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.loader {
+  position: fixed;
+  display: flex;
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: #1db954;
+  gap: 10px;
+  color: #ffffff;
+  font-weight: bolder;
+  --boxSize: 8px;
+  --gutter: 4px;
+}
+
+.hidden {
+  animation: fadeout 1s;
+  animation-fill-mode: forward;
+}
+
+.wave {
+  transform: scaleY(0.4);
+  height: 64px;
+  width: var(--boxSize);
+  background: #ffffff;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  border-radius: 8px;
+}
+
+.wave1 {
+  animation-name: quiet;
+  animation-delay: 1.5s;
+}
+
+.wave2 {
+  animation-name: normal;
+  animation-delay: 0.5s;
+}
+
+.wave3 {
+  animation-name: loud;
+  animation-delay: 0.2s;
+}
+
+.wave4 {
+  animation-name: loud;
+}
+
+.wave5 {
+  animation-name: normal;
+}
