@@ -312,9 +312,9 @@ h2 {
   --gutter: 4px;
 }
 
-.hidden {
+.loader.hidden {
   animation: fadeout 1s;
-  animation-fill-mode: forward;
+  animation-fill-mode: forwards;
 }
 
 .wave {
