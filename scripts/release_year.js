@@ -203,6 +203,7 @@ d3.json(
       [dy_rect_width + 80, dy_rect_height * 1.9],
     ]);
 
-  const loader = document.querySelector(".loader");
-  loader.className += " hidden";
+  d3.select(".loader")
+    .node()
+    .classList.add("hidden");
 });
