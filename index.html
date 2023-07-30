@@ -83,11 +83,23 @@
     </main>
     
     <script type="text/javascript">
+      var a = document.getElementById("dy-svg");
+      a.addEventListener("load",function(){
+        var svgDoc = a.contentDocument;
+        var el = svgDoc.querySelector(".dy-arrow");
+        
+        el.addEventListener("load", function(){ 
+         const loader = document.querySelector(".loader");
+          loader.className += " hidden";
+        }, false);
+       , false);
+      /*
       var svg_check = document.getElementById("dy-arrow");
       svg_check.addEventListener("load", function() {
         const loader = document.querySelector(".loader");
         loader.className += " hidden";
-      });
+      }); */
+
     </script>
   </body>
 </html>
