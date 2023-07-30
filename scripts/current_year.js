@@ -1,4 +1,4 @@
-var cy_margins = { top: 20, right: 55, bottom: 25, left: 10 };
+var cy_margins = { top: 20, right: 55, bottom: 30, left: 10 };
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/current-year"
