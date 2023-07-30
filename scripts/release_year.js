@@ -203,7 +203,10 @@ d3.json(
       [dy_rect_width + 80, dy_rect_height * 1.9],
     ]);
 
-  d3.select(".loader")
-    .node()
-    .classList.add("hidden");
+  setTimeout(() => {
+    d3.select(".loader")
+      .node()
+      .classList.add("hidden");
+   }, 1000);
+
 });
