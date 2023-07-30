@@ -201,5 +201,9 @@ d3.json(
     .attr("points", [
       [dy_rect_width + 5, dy_rect_height * 1.9],
       [dy_rect_width + 80, dy_rect_height * 1.9],
-    ]);
+    ])
+    .on("load", function() {
+      const loader = document.querySelector(".loader");
+          loader.className += " hidden";
+    });
 });
