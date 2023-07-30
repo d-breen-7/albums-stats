@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/d3-arrow@0.0.25/dist/d3-arrow.min.js"></script>
     <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
     <script src="scripts/functions.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/arrive/2.4.1/arrive.min.js" integrity="sha512-wkU3qYWjenbM+t2cmvw2ADRRh4opbOYBjkhrPGHV7M6dcE/TR0oKpoDkWXfUs3HrulI2JFuTQyqPLRih1V54EQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
     <link rel="stylesheet" href="style.css" />
   </head>
 
@@ -82,13 +83,11 @@
       </section>
     </main>
     
-    <!--
     <script type="text/javascript">
-        window.addEventListener("load", function(){ 
-         const loader = document.querySelector(".loader");
-          loader.className += " hidden";
-        });
+    document.arrive(".dy-arrow", function() {
+        const loader = document.querySelector(".loader");
+        loader.className += " hidden";
+    });
     </script>
-    -->
   </body>
 </html>
