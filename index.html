@@ -83,10 +83,13 @@
       </section>
     
     <script type="text/javascript">
-    document.arrive(".dy-arrow", function() {
-        const loader = document.querySelector(".loader");
-        loader.className += " hidden";
-    });
+      var a = document.getElementById("dy-svg");
+      a.addEventListener("load",function(){
+        a.arrive(".dy-arrow", function() {
+          const loader = document.querySelector(".loader");
+          loader.className += " hidden";
+        });
+       });
     </script>
     </main>
   </body>
