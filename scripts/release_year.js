@@ -195,6 +195,7 @@ d3.json(
 
   dy_svg
     .append("polyline")
+    .attr("id", "dy-arrow") 
     .attr("class", "dy-arrow")
     .attr("marker-end", "url(#my-arrow)")
     .attr("points", [
