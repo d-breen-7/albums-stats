@@ -304,16 +304,17 @@ h2 {
   width: 100%;
   justify-content: center;
   align-items: center;
-  background: #1db954;
+  background: #ffffff;
   gap: 10px;
-  color: #ffffff;
+  color: #1db954;
   font-weight: bolder;
+  font-size: 32px;
   --boxSize: 8px;
   --gutter: 4px;
 }
 
 .loader.hidden {
-  animation: fadeout 1s;
+  animation: fadeout 0.5s;
   animation-fill-mode: forwards;
 }
 
@@ -321,7 +322,7 @@ h2 {
   transform: scaleY(0.4);
   height: 64px;
   width: var(--boxSize);
-  background: #ffffff;
+  background: #1db954;
   animation-duration: 2s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
