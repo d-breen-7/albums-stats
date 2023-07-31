@@ -329,6 +329,13 @@ h2 {
   border-radius: 8px;
 }
 
+.space {
+  transform: scaleY(0.4);
+  height: 64px;
+  width: 15px;
+  background: none;
+}
+
 .wave1 {
   animation-name: quiet;
   animation-delay: 1.5s;
