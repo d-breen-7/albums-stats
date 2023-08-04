@@ -1,9 +1,10 @@
-var ra_margins = { top: 20, right: 50, bottom: 25, left: 40 };
+var ra_margins = { top: 80, right: 50, bottom: 25, left: 10 };
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/recent"
 ).then(function (response) {
   const today = new Date();
+  const period_start = new Date(new Date().setDate(today.getDate() - 28));
 
   var data = tidy(
     response.data,
@@ -12,7 +13,11 @@ d3.json(
       day: (d) => d3.timeParse("%Y-%m-%d")(d.date).getDate(),
       month: (d) => d3.timeParse("%Y-%m-%d")(d.date).getMonth(),
     }),
-    filter((d) => d3.timeParse("%Y-%m-%d")(d.date) <= today)
+    filter(
+      (d) =>
+        d3.timeParse("%Y-%m-%d")(d.date) <= today &&
+        d3.timeParse("%Y-%m-%d")(d.date) > period_start
+    )
   );
 
   var num_albums = data.filter((d) => d.album_id !== "").length;
@@ -56,19 +61,34 @@ d3.json(
     ),
     rect_width = ra_x(next_day) - ra_x(first_date);
 
-  var ra_rect_height = ra_y(0) - ra_y(1) - 5;
+  var ra_rect_height = ra_y(0) - ra_y(1) - 7.5;
 
-  // Week bands
+  wk_end = textures
+    .lines()
+    .orientation("vertical", "horizontal")
+    .size(4)
+    .strokeWidth(1)
+    .shapeRendering("crispEdges")
+    .background("#ffffff")
+    .stroke("#dcf9e6");
+
+  ra_svg.call(wk_end);
+
+  // Weekend background
   ra_svg
     .selectAll("ra-svg")
-    .data(data.filter((d) => d.listen_date.getDay() === 1))
+    .data(
+      data.filter(
+        (d) => (d.listen_date.getDay() === 6) | (d.listen_date.getDay() === 0)
+      )
+    )
     .enter()
     .append("rect")
     .attr("x", (d) => ra_x(d3.timeParse("%Y-%m-%d")(d.date)))
     .attr("y", ra_y(day_max))
-    .attr("width", rect_width * 5)
+    .attr("width", rect_width)
     .attr("height", ra_height)
-    .attr("fill", "#e9fff4")
+    .attr("fill", wk_end.url())
     .attr("opacity", 1);
 
   ra_svg
@@ -91,26 +111,89 @@ d3.json(
       );
 
       diff = day_max - day_total;
-      shift_odd = diff * (ra_rect_height / 1.5);
-
-      return ra_y(d.day_rn) - shift_odd;
+      return ra_y(d.day_rn + diff / 2);
     })
     .attr("ry", 10)
     .attr("width", rect_width * 0.75)
     .attr("height", ra_rect_height)
-    .attr("stroke", (d) =>
+    .attr("stroke", (d) => (d.album_status === 1 ? "#191414" : "#1db954"))
+    .attr("fill", (d) =>
       d.album_status === 1
         ? "#1db954"
         : d.artist_status === 1
-        ? "#1db954"
-        : "#191414"
+        ? "#edfcf2"
+        : "#ffffff"
     )
-    .attr("fill", (d) => (d.album_status === 1 ? "#1db954" : "#ffffff"))
     .text((d) => d.artist_status + " | " + d.album_status);
 
   ra_svg
     .append("g")
     .attr("class", "ca-x-axis")
-    .attr("transform", "translate(0," + (ra_height - ra_margins.bottom) + ")")
+    .attr(
+      "transform",
+      "translate(0," + (ra_height - ra_margins.bottom - 2.5) + ")"
+    )
     .call(ra_x_axis);
+
+  ra_svg
+    .append("rect")
+    .attr("x", ra_margins.left)
+    .attr("y", 10)
+    .attr("width", rect_width * 2)
+    .attr("height", 40)
+    .attr("fill", wk_end.url());
+
+  ra_svg
+    .append("rect")
+    .attr("class", "ra-rect")
+    .attr("x", rect_width * 4)
+    .attr("y", 10)
+    .attr("ry", 10)
+    .attr("width", rect_width * 0.75)
+    .attr("height", 40)
+    .attr("stroke", "#191414")
+    .attr("fill", "#1db954");
+
+  ra_svg
+    .append("rect")
+    .attr("class", "ra-rect")
+    .attr("x", rect_width * 6)
+    .attr("y", 10)
+    .attr("ry", 10)
+    .attr("width", rect_width * 0.75)
+    .attr("height", 40)
+    .attr("stroke", "#1db954")
+    .attr("fill", "#edfcf2");
+
+  ra_svg
+    .append("rect")
+    .attr("class", "ra-rect")
+    .attr("x", rect_width * 8)
+    .attr("y", 10)
+    .attr("ry", 10)
+    .attr("width", rect_width * 0.75)
+    .attr("height", 40)
+    .attr("stroke", "#1db954")
+    .attr("fill", "#ffffff");
+
+  let legend_text = [
+    { text: "Weekend", x: ra_margins.left + rect_width, y: 55 },
+    { text: "Album", x: rect_width * 4 + (rect_width * 0.75) / 2, y: 55 },
+    { text: "Repeat", x: rect_width * 4 + (rect_width * 0.75) / 2, y: 70 },
+    { text: "Artist", x: rect_width * 6 + (rect_width * 0.75) / 2, y: 55 },
+    { text: "Repeat", x: rect_width * 6 + (rect_width * 0.75) / 2, y: 70 },
+    { text: "New", x: rect_width * 8 + (rect_width * 0.75) / 2, y: 55 },
+    { text: "Artist", x: rect_width * 8 + (rect_width * 0.75) / 2, y: 70 },
+  ];
+
+  ra_svg
+    .selectAll("ra-svg")
+    .data(legend_text)
+    .enter()
+    .append("text")
+    .attr("x", (d) => d.x)
+    .attr("y", (d) => d.y)
+    .text((d) => d.text)
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "hanging");
 });

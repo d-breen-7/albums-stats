@@ -6,14 +6,9 @@ var dy_width = d3.select("#stats-image-4").node().offsetWidth,
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
 ).then(function (response) {
-
   let data = response.data;
 
-  let years = tidy(
-    data, 
-    arrange("year_num"), 
-    groupBy("year_num", slice(0, 1))
-  );
+  let years = tidy(data, arrange("year_num"), groupBy("year_num", slice(0, 1)));
 
   var num_years = data.length,
     num_decades = [...new Set(data.map((d) => d.decade_num))].length;
@@ -42,8 +37,8 @@ d3.json(
     .domain([0, 0.85, 1])
     .range(["#eeeeee", "#76e99f", "#1db954"]);
 
-  var dy_rect_width = dy_width / 12, 
-  dy_rect_height = dy_height / (num_decades + 2);
+  var dy_rect_width = dy_width / 12,
+    dy_rect_height = dy_height / (num_decades + 2);
 
   var dy_svg = d3
     .select("#stats-image-4")
@@ -52,18 +47,18 @@ d3.json(
     .attr("viewBox", [0, 0, dy_width, dy_height]);
 
   no_albums = textures
-  //.lines()
-  //.paths()
-  //.d("crosses")
-  //.lighter()
-  //.thicker() 
-  //.circles()
-  //.heavier()
+    //.lines()
+    //.paths()
+    //.d("crosses")
+    //.lighter()
+    //.thicker()
+    //.circles()
+    //.heavier()
     .lines()
     .orientation("vertical", "horizontal")
     .size(4)
     .strokeWidth(1)
-    .shapeRendering("crispEdges") 
+    .shapeRendering("crispEdges")
     .background("#ffffff")
     .stroke("#dcf9e6");
 
@@ -195,7 +190,7 @@ d3.json(
 
   dy_svg
     .append("polyline")
-    .attr("id", "dy-arrow") 
+    .attr("id", "dy-arrow")
     .attr("class", "dy-arrow")
     .attr("marker-end", "url(#my-arrow)")
     .attr("points", [
@@ -203,10 +198,8 @@ d3.json(
       [dy_rect_width + 80, dy_rect_height * 1.9],
     ]);
 
+  // Remove loading screen
   setTimeout(() => {
-    d3.select(".loader")
-      .node()
-      .classList.add("hidden");
-   }, 1000);
-
+    d3.select(".loader").node().classList.add("hidden");
+  }, 1000);
 });
