@@ -121,7 +121,7 @@ d3.json(
       d.album_status === 1
         ? "#1db954"
         : d.artist_status === 1
-        ? "#edfcf2"
+        ? "#dcf9e6"
         : "#ffffff"
     )
     .text((d) => d.artist_status + " | " + d.album_status);
@@ -163,7 +163,7 @@ d3.json(
     .attr("width", rect_width * 0.75)
     .attr("height", 40)
     .attr("stroke", "#1db954")
-    .attr("fill", "#edfcf2");
+    .attr("fill", "#dcf9e6");
 
   ra_svg
     .append("rect")
