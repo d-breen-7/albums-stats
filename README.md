@@ -1,5 +1,5 @@
 
-[Album Track:](https://d-breen-7.github.io/albums-stats/)
+[Album Tracker:](https://d-breen-7.github.io/albums-stats/)
 
 Webpage to display some stats about the albums I listen to. I track all the music I listen to on Spotify and then figure out when I listen to a complete album. 
 
