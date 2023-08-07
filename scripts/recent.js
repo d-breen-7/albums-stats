@@ -121,10 +121,9 @@ d3.json(
       d.album_status === 1
         ? "#1db954"
         : d.artist_status === 1
-        ? "#dcf9e6"
-        : "#ffffff"
-    )
-    .text((d) => d.artist_status + " | " + d.album_status);
+        ? "#ffffff"
+        : "#dcf9e6"
+    );
 
   ra_svg
     .append("g")
