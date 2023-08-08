@@ -33,7 +33,7 @@ d3.json(
     .domain(d3.extent(data, (d) => d3.timeParse("%Y-%m-%d")(d.date)))
     .range([ca_margins.left, ca_width - ca_margins.right]);
 
-  var ca_x_axis = d3.axisBottom(ca_x);
+  var ca_x_axis = d3.axisBottom(ca_x).ticks(d3.timeYear);
 
   // Add Y axis
   var ca_y = d3
@@ -58,14 +58,13 @@ d3.json(
     .append("g")
     .attr("class", "ca-x-axis")
     .attr("transform", "translate(0," + (ca_height - ca_margins.bottom) + ")")
-    .call(ca_x_axis.ticks(d3.timeYear));
+    .call(ca_x_axis);
 
   // Add y axis labels
   ca_svg
     .append("g")
     .attr("class", "ca-y-axis")
     .attr("transform", "translate(" + ca_margins.left + ", 0)")
-    // .attr("transform", "translate(" + ca_margins.right + ", 0)")
     .call(ca_y_axis);
 
   // Data on 1st of each year
@@ -75,16 +74,16 @@ d3.json(
   );
 
   // Year lines
-  // ca_svg
-  //  .selectAll("ca-svg")
-  //  .data(first_year)
-  //  .enter()
-  //  .append("line")
-  //  .attr("class", "ca-year-lines")
-  //  .attr("x1", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
-  //  .attr("x2", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
-  //  .attr("y1", ca_y(0))
-  //  .attr("y2", ca_y(d3.max(data, (d) => d.total_all)));
+  ca_svg
+    .selectAll("ca-svg")
+    .data(first_year)
+    .enter()
+    .append("line")
+    .attr("class", "ca-year-lines")
+    .attr("x1", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
+    .attr("x2", (d) => ca_x(d3.timeParse("%Y-%m-%d")(d.date)))
+    .attr("y1", ca_y(0))
+    .attr("y2", ca_y(d3.max(data, (d) => d.total_all)));
 
   ca_svg
     .append("text")

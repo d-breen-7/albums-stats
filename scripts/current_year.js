@@ -17,7 +17,9 @@ d3.json(
     total_albums = d3.max(data, (d) => d.total_all);
 
   // Add sub-title text
-  d3.select("#stats-2-title").append("h1").html("Albums - " + data[0].year);
+  d3.select("#stats-2-title")
+    .append("h1")
+    .html("Albums - " + data[0].year);
 
   // Add sub-title text
   d3.select("#stats-2-text")
