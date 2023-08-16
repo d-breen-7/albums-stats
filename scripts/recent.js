@@ -1,4 +1,4 @@
-var ra_margins = { top: 80, right: 70, bottom: 25, left: 10 };
+var ra_margins = { top: 90, right: 70, bottom: 25, left: 10 };
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/recent"
