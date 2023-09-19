@@ -27,7 +27,7 @@ d3.json(
     .html(
       "So far this year I've listened to " +
         Number(new_albums).toLocaleString() +
-        " albums, " +
+        " new albums, " +
         Number(total_albums).toLocaleString() +
         " when including relistens. I've listened to " +
         Number(new_artists).toLocaleString() +
