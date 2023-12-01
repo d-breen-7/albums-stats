@@ -1,7 +1,7 @@
 var cy_margins = { top: 20, right: 55, bottom: 30, left: 10 };
 
 d3.json(
-  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/current-year"
+  // "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/current-year"
 ).then(function (response) {
   var data = tidy(
     response.data,
@@ -15,6 +15,7 @@ d3.json(
   var new_albums = response.new_albums,
     new_artists = response.new_artists,
     total_albums = d3.max(data, (d) => d.total_all);
+  year_start = d3.min(data, (d) => d3.timeParse("%Y-%m-%d")(d.date));
 
   // Add sub-title text
   d3.select("#stats-2-title")
@@ -51,13 +52,25 @@ d3.json(
   // Add Y axis
   var cy_y = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => +d.total_all + 5)])
+    .domain([0, total_albums])
     .range([cy_height - cy_margins.bottom, cy_margins.top]);
 
   var cy_y_axis = d3
     .axisRight()
     .scale(cy_y)
-    .ticks(d3.max(data, (d) => +d.total_all + 5) / 200)
+    .ticks(
+      total_albums < 10
+        ? total_albums / 1
+        : total_albums < 50
+        ? total_albums/ 5
+        : total_albums < 100
+        ? total_albums/ 10
+        : total_albums < 200
+        ? total_albums/ 25
+        : total_albums < 600
+        ? total_albums/ 100
+        : total_albums / 200
+    )
     .tickSize(cy_width - cy_margins.left - cy_margins.right)
     .tickFormat((d) => Number(d).toLocaleString());
 
@@ -96,14 +109,14 @@ d3.json(
     .attr("x1", (d) => cy_x(d3.timeParse("%Y-%m-%d")(d.date)))
     .attr("x2", (d) => cy_x(d3.timeParse("%Y-%m-%d")(d.date)))
     .attr("y1", cy_y(0))
-    .attr("y2", cy_y(d3.max(data, (d) => d.total_all)));
+    .attr("y2", cy_y(total_albums));
 
   cy_svg
     .append("text")
     .attr("class", "ca-today-text")
     .attr("x", cy_x(d3.max(data, (d) => d3.timeParse("%Y-%m-%d")(d.date))))
-    .attr("y", cy_y(d3.max(data, (d) => d.total_all)) - 7.5)
-    .text(Number(d3.max(data, (d) => d.total_all)).toLocaleString())
+    .attr("y", cy_y(total_albums) - 7.5)
+    .text(Number(total_albums).toLocaleString())
     .attr("alignment-baseline", "middle");
 
   // define the area
@@ -163,8 +176,8 @@ d3.json(
   cy_svg
     .append("text")
     .attr("class", "cy-legend")
-    .attr("x", cy_x(d3.min(data, (d) => d3.timeParse("%Y-%m-%d")(d.date))) + 15)
-    .attr("y", cy_y(d3.max(data, (d) => d.total_all)))
+    .attr("x", cy_x(year_start) + 15)
+    .attr("y", cy_y(total_albums))
     .text("All Albums")
     .attr("alignment-baseline", "middle");
 
@@ -172,21 +185,15 @@ d3.json(
     .append("polyline")
     .attr("class", "cy-legend-1")
     .attr("points", [
-      [
-        cy_x(d3.min(data, (d) => d3.timeParse("%Y-%m-%d")(d.date))) + 15,
-        cy_y(d3.max(data, (d) => d.total_all)) + 10,
-      ],
-      [
-        cy_x(d3.min(data, (d) => d3.timeParse("%Y-%m-%d")(d.date))) + 100,
-        cy_y(d3.max(data, (d) => d.total_all)) + 10,
-      ],
+      [cy_x(year_start) + 15, cy_y(total_albums) + 10],
+      [cy_x(year_start) + 110, cy_y(total_albums) + 10],
     ]);
 
   cy_svg
     .append("text")
     .attr("class", "cy-legend")
-    .attr("x", cy_x(d3.min(data, (d) => d3.timeParse("%Y-%m-%d")(d.date))) + 15)
-    .attr("y", cy_y(d3.max(data, (d) => d.total_all)) + 40)
+    .attr("x", cy_x(year_start) + 15)
+    .attr("y", cy_y(total_albums) + 40)
     .text("New Artist")
     .attr("alignment-baseline", "middle");
 
@@ -194,13 +201,7 @@ d3.json(
     .append("polyline")
     .attr("class", "cy-legend-2")
     .attr("points", [
-      [
-        cy_x(d3.min(data, (d) => d3.timeParse("%Y-%m-%d")(d.date))) + 15,
-        cy_y(d3.max(data, (d) => d.total_all)) + 50,
-      ],
-      [
-        cy_x(d3.min(data, (d) => d3.timeParse("%Y-%m-%d")(d.date))) + 100,
-        cy_y(d3.max(data, (d) => d.total_all)) + 50,
-      ],
+      [cy_x(year_start) + 15, cy_y(total_albums) + 50],
+      [cy_x(year_start) + 110, cy_y(total_albums) + 50],
     ]);
 });
