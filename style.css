@@ -95,13 +95,13 @@ h2 {
 }
 
 .stats-text {
-  display: flex;
-  /* height: 50px; */
+  display: block;
+  margin-top: 5px;
 }
 
 .stats-image {
   display: flex;
-  marin: 5px;
+  margin: 5px;
 }
 
 .ca-line-all {
@@ -357,4 +357,28 @@ h2 {
 
 .wave5 {
   animation-name: normal;
+}
+
+.radio-container {
+  display: inline-flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  gap: 10px;
+}
+
+.radio-container input[type="radio"] {
+  display: none;
+}
+.radio-container label {
+  padding: 5px;
+  background-color: #ffffff;
+  border: 1px solid #1db954;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.radio-container input[type="radio"]:checked + label {
+  background-color: #1db954;
+  color: #ffffff;
+  font-weight: bold;
 }
