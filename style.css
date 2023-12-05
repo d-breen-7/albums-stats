@@ -110,11 +110,23 @@ h2 {
   stroke-width: 3px;
 }
 
+.ca-line-current {
+  fill: none;
+  stroke: #1db954;
+  stroke-width: 3px;
+}
+
+.ca-line-old {
+  fill: none;
+  stroke: #a9a9a9;
+  stroke-width: 2px;
+  stroke-dasharray: 10 5;
+}
+
 .cy-line-new {
   fill: none;
   stroke: #1db954;
   stroke-width: 3px;
-  stroke-dasharray: 1%;
 }
 
 .ca-area {
@@ -378,7 +390,43 @@ h2 {
   cursor: pointer;
 }
 .radio-container input[type="radio"]:checked + label {
-  background-color: #1db954;
-  color: #ffffff;
+  background-color: #dcf9e6;
+  color: #191414;
   font-weight: bold;
+}
+
+.radio-container-years {
+  display: inline-flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  gap: 10px;
+}
+
+.radio-container-years input[type="radio"] {
+  display: none;
+}
+.radio-container-years label {
+  padding: 5px;
+  background-color: #ffffff;
+  border: 1px solid #1db954;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.radio-container-years input[type="radio"]:checked + label {
+  background-color: #dcf9e6;
+  color: #191414;
+  font-weight: bold;
+}
+
+.ca-tooltip {
+  position: absolute;
+  background: #ffffff;
+  font-size: larger;
+  font-weight: 300;
+  border-radius: 10px;
+  text-align: center;
+  color: #1db954;
+  padding-bottom: 2px;
+  padding: auto;
 }
