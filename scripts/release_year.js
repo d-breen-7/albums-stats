@@ -14,8 +14,7 @@ d3.json(
     groupBy("year_num", slice(0, 1))
   );
 
-  var total_decades = [...new Set(data["all"].map((d) => d.decade_num))]
-    .length;
+  var total_decades = [...new Set(data["all"].map((d) => d.decade_num))].length;
 
   let decades = tidy(
     data["all"],
@@ -86,7 +85,6 @@ d3.json(
   var sub_text = d3.select("#stats-4-text").append("h2");
 
   function draw_period(period) {
-
     d3.selectAll("#year-color").remove();
     d3.selectAll(".dy-text-legend").remove();
 
@@ -95,12 +93,32 @@ d3.json(
 
     d3.select("#stats-4-text.h2").remove();
 
-    sub_text.html(
-        num_years +
-        " years spread across " +
-        num_decades +
-        " decades"
-    );
+    var dy_sub_heading =
+      period === "all"
+        ? "I've listened to albums from " +
+          num_years +
+          " years spread across " +
+          num_decades +
+          " decades"
+        : period === "year"
+        ? "Over the past year, I've listened to albums from " +
+          num_years +
+          " years spread across " +
+          num_decades +
+          " decades"
+        : period === "month"
+        ? "Over the past month, I've listened to albums from " +
+          num_years +
+          " years spread across " +
+          num_decades +
+          " decades"
+        : "Over the past week, I've listened to albums from " +
+          num_years +
+          " years spread across " +
+          num_decades +
+          " decades";
+
+    sub_text.html(dy_sub_heading);
 
     var dy_scale = d3
       .scaleLog()

@@ -1,12 +1,11 @@
-var ca_margins = { top: 20, right: 55, bottom: 30, left: 10 },
+var ca_margins = { top: 20, right: 55, bottom: 25, left: 10 },
   ca_width = d3.select("#stats-image-1").node().offsetWidth,
-  ca_height = d3.select("#stats-image-1").node().offsetHeight,
-  current_year = new Date().getFullYear(),
-  parse_date = d3.timeParse("%Y-%m-%d");
+  ca_height = d3.select("#stats-image-1").node().offsetHeight;
+(current_year = new Date().getFullYear()),
+  (parse_date = d3.timeParse("%Y-%m-%d"));
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/albums"
-  // "data//albums.json"
 ).then(function (response) {
   var res_data = tidy(
     response.data,
@@ -138,6 +137,7 @@ d3.json(
     // Remove existing elements
     d3.select("#stats-1-sub-text").remove();
     d3.select("#ca-today-text").remove();
+    d3.selectAll("#ca-ytd-text").remove();
     d3.selectAll("#ca-year-lines").remove();
     d3.selectAll(".ca-line-all").remove();
     d3.selectAll(".ca-line-current").remove();
@@ -181,7 +181,7 @@ d3.json(
       // Update Y axis
       var ca_y = d3
         .scaleLinear()
-        .domain([0, period_total + 5])
+        .domain([0, period_total])
         .range([ca_height - ca_margins.bottom, ca_margins.top]);
 
       var ca_y_axis = d3
@@ -330,6 +330,7 @@ d3.json(
       );
 
       ytd_data = data.filter((d) => d.norm_date <= ytd);
+      ytd_data.filter((d) => d.day == 1).forEach((d) => (d.cum_sum = 0));
 
       // Update X axis
       var ca_x = d3
@@ -358,15 +359,17 @@ d3.json(
         .call(ca_x_axis);
 
       // Update Y axis
-      var ca_y = d3
-        .scaleLinear()
-        .domain([0, d3.max(ytd_data, (d) => +d.cum_sum) + 5])
-        .range([ca_height - ca_margins.bottom, ca_margins.top]);
-
       period_total = d3.max(ytd_data, (d) => +d.cum_sum);
 
+      var ca_y = d3
+        .scaleLinear()
+        .domain([0, period_total])
+        .range([ca_height - ca_margins.bottom, ca_margins.top]);
+
+      var axis_shift = period_total < 10 ? 15 : period_total < 100 ? 30 : 50;
+
       var ca_y_axis = d3
-        .axisRight()
+        .axisLeft()
         .scale(ca_y)
         .ticks(
           period_total < 10
@@ -385,14 +388,18 @@ d3.json(
             ? period_total / 250
             : period_total / 1000
         )
-        .tickSize(ca_width - ca_margins.left - ca_margins.right)
-        .tickFormat((d) => Number(d).toLocaleString());
+        .tickSize(-ca_width + ca_margins.left + ca_margins.right + axis_shift)
+        .tickPadding(axis_shift)
+        .tickFormat((d) => (d == 0 ? "" : Number(d).toLocaleString()));
 
       ca_svg
         .select(".ca-y-axis")
         .transition()
         .duration(1000)
-        .attr("transform", "translate(" + ca_margins.left + ", 0)")
+        .attr(
+          "transform",
+          "translate(" + (ca_margins.left + axis_shift) + ", 0)"
+        )
         .call(ca_y_axis);
 
       // Loop through each year of data
@@ -409,18 +416,7 @@ d3.json(
             .append("path")
             .data([ytd_data.filter((d) => d.year == year)])
             .attr("class", "ca-line-all")
-            .attr("d", ca_line)
-            .on("mouseover", function (d) {
-              return tooltip.style("visibility", "visible").text(year);
-            })
-            .on("mousemove", function () {
-              return tooltip
-                .style("top", d3.event.pageY - 25 + "px")
-                .style("left", d3.event.pageX - 20 + "px");
-            })
-            .on("mouseout", function () {
-              return tooltip.style("visibility", "hidden");
-            });
+            .attr("d", ca_line);
 
           total_length = new_line.node().getTotalLength();
 
@@ -437,6 +433,54 @@ d3.json(
             .attr(
               "class",
               year == current_year ? "ca-line-current" : "ca-line-old"
+            );
+
+          // Rank Years
+          rank = tidy(
+            ytd_data,
+            filter(
+              (d) =>
+                d.norm_date.getFullYear() === ytd.getFullYear() &&
+                d.norm_date.getMonth() === ytd.getMonth() &&
+                d.norm_date.getDate() === ytd.getDate()
+            ),
+            arrange(desc("cum_sum")),
+            mutate({ ytd_rank: (_, i) => i + 1 })
+          );
+
+          var year_rank =
+            year +
+            " (" +
+            rank.filter((d) => d.year == year)[0]["ytd_rank"] +
+            ")";
+
+          // Year label
+          ca_svg
+            .append("text")
+            .attr("class", "ca-ytd-text")
+            .attr("id", "ca-ytd-text")
+            .attr(
+              "y",
+              ca_y(
+                d3.max(
+                  ytd_data.filter((d) => d.year == year),
+                  (d) => d.cum_sum
+                )
+              )
+            )
+            .attr("x", ca_x(d3.max(ytd_data, (d) => d.norm_date)))
+            .text("")
+            .attr("alignment-baseline", "middle")
+            .transition()
+            .delay(i * 1100 + 500)
+            .duration(0)
+            .text(year)
+            .transition()
+            .delay(1000)
+            .duration(0)
+            .attr(
+              "class",
+              year == current_year ? "ca-ytd-text" : "ca-ytd-text-old"
             );
         });
 
@@ -469,15 +513,14 @@ d3.json(
             d.norm_date.getDate() === ytd.getDate()
         ),
         arrange(desc("cum_sum")),
-        mutate({ ytd_rank: (_, i) => i + 1 }),
-        filter((d) => d.year === current_year)
-      )[0]["ytd_rank"];
+        mutate({ ytd_rank: (_, i) => i + 1 })
+      );
 
       var summary_text =
         "The <span style='color: #1db954; font-weight: 1000';>" +
         ytd_total +
-        "</span> albums so far this year ranks no. <span style='color: #1db954; font-weight: 1000';>" +
-        rank +
+        "</span> albums so far this year, ranks no. <span style='color: #1db954; font-weight: 1000';>" +
+        rank.filter((d) => d.year === current_year)[0]["ytd_rank"] +
         "</span> compared to previous years";
 
       // Update heading sub text
