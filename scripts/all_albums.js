@@ -330,7 +330,7 @@ d3.json(
       );
 
       ytd_data = data.filter((d) => d.norm_date <= ytd);
-      ytd_data.filter((d) => d.day == 1).forEach((d) => (d.cum_sum = 0));
+      ytd_data.filter((d) => d.day == 1 && d.month === 0).forEach((d) => (d.cum_sum = 0)); // added month condition
 
       // Update X axis
       var ca_x = d3
