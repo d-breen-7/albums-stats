@@ -446,3 +446,82 @@ h2 {
   padding-bottom: 2px;
   padding: auto;
 }
+
+/* Add some basic styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px; /* Light bottom margin for the table */
+}
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 0.5px solid #a9a9a9; /* Light bottom border for each cell */
+}
+th {
+  background-color: #edfcf2;
+  color: #1db954;
+  border-bottom: 2px solid #1db954;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+tr:hover {
+  background-color: #dcf9e6; /* Highlight row on hover */
+}
+#pagination {
+  text-align: center;
+  margin-top: 10px;
+}
+button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #1db954; /* Green background for buttons */
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #1db954; /* Darker green on hover */
+}
+button:disabled {
+  background-color: #ccc; /* Grayed out when disabled */
+}
+#searchInput {
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+/* Style for the headphones icon */
+.headphones-icon {
+  color: #1db954; /* Example: green color */
+}
+
+.center-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.column-album {
+  width: 35%;
+}
+
+.column-artist {
+  width: 30%;
+}
+
+.column-release-date {
+  width: 15%;
+}
+
+.column-album-url {
+  width: 10%;
+  align-items: center;
+}
+
+.column-album-cover {
+  width: 0%;
+}
