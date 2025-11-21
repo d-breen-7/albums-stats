@@ -14,33 +14,20 @@
     <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
     <script src="scripts/functions.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
   </head>
 
   <body>
-    <div class="loader">
-      <div class="wave wave1"></div>
-      <div class="wave wave2"></div>
-      <div class="wave wave3"></div>
-      <div class="wave wave4"></div>
-      <div class="wave wave5"></div>
-      <div class="space"></div>
-      <div>LOADING...</div>
-      <div class="space"></div>
-      <div class="wave wave5"></div>
-      <div class="wave wave4"></div>
-      <div class="wave wave3"></div>
-      <div class="wave wave2"></div>
-      <div class="wave wave1"></div>
-    </div>
     <main class="container">
       <section>
         <div id="stats-1" class="stats-tile">
           <div class="stats-title">
             <h1>Albums</h1>
           </div>
-          <div id="stats-1-text" class="stats-text">
-            <div class="radio-container-years">
+            <!-- <div class="radio-container-years">
               <div>
                 <input
                   type="radio"
@@ -50,6 +37,26 @@
                   checked
                 />
                 <label for="all-time">All Time</label>
+              </div>
+              <div>
+                <input type="radio" id="2029" name="albums-year" value="2029" />
+                <label for="2025">2029</label>
+              </div>
+              <div>
+                <input type="radio" id="2028" name="albums-year" value="2028" />
+                <label for="2025">2028</label>
+              </div>
+              <div>
+                <input type="radio" id="2028" name="albums-year" value="2028" />
+                <label for="2025">2028</label>
+              </div>
+              <div>
+                <input type="radio" id="2027" name="albums-year" value="2027" />
+                <label for="2025">2027</label>
+              </div>
+              <div>
+                <input type="radio" id="2026" name="albums-year" value="2026" />
+                <label for="2026">2026</label>
               </div>
               <div>
                 <input type="radio" id="2025" name="albums-year" value="2025" />
@@ -83,116 +90,11 @@
                 <input type="radio" id="ytd" name="albums-year" value="ytd" />
                 <label for="ytd">Year to Date Comparison</label>
               </div>
-            </div>
+            </div> -->
+            <div id="stats-1-text" class="stats-text"></div>
+            <div id="stats-image-1" class="stats-image">
           </div>
-          <div id="stats-image-1" class="stats-image">
             <script src="scripts/all_albums.js"></script>
-          </div>
-        </div>
-      </section>
-
-      <!-- <section>
-      <div id="stats-2" class="stats-tile">
-        <div id="stats-2-title" class="stats-title"></div>
-        <div id="stats-2-text" class="stats-text"></div>
-        <div id="stats-image-2" class="stats-image">
-          <script src="scripts/current_year.js"></script>
-        </div>
-      </div>
-    </section> -->
-
-      <section>
-        <div id="stats-3" class="stats-tile">
-          <div class="stats-title">
-            <h1>Recent Albums</h1>
-          </div>
-          <div id="stats-3-text" class="stats-text"></div>
-          <div id="stats-image-3" class="stats-image">
-            <script src="scripts/recent.js"></script>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div id="stats-4" class="stats-tile">
-          <div id="stats-4-title" class="stats-title">
-            <h1>Release Year of Albums</h1>
-          </div>
-          <div id="stats-4-text" class="stats-text">
-            <div class="radio-container">
-              <div>
-                <input
-                  type="radio"
-                  id="all"
-                  name="listen-period"
-                  value="all"
-                  checked
-                />
-                <label for="all">All Time</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="year"
-                  name="listen-period"
-                  value="year"
-                />
-                <label for="year">Last Year</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="month"
-                  name="listen-period"
-                  value="month"
-                />
-                <label for="month">Last Month</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="week"
-                  name="listen-period"
-                  value="week"
-                />
-                <label for="week">Last Week</label>
-              </div>
-            </div>
-          </div>
-
-          <div id="stats-image-4" class="stats-image">
-            <script src="scripts/release_year.js"></script>
-          </div>
-        </div>
-      </section>
-      
-      <section>
-        <div id="stats-5-title" class="stats-title">
-          <h1>All Albums</h1>
-        </div>
-        <input type="text" id="searchInput" placeholder="Search...">
-        <!-- Pagination controls -->
-        <table id="dataTable">
-          <thead>
-            <tr id="tableHeader">
-              <!-- Table headers will be populated here -->
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <!-- Table data will be populated here -->
-          </tbody>
-        </table>
-        
-        <div id="pagination">
-          <button id="prevButton">Previous</button>
-          <span id="pageInfo"></span>
-          <button id="nextButton">Next</button>
-        </div>
-        
-        
-
-          <div id="stats-image-5" class="stats-image">
-            <script src="scripts/albums_list.js"></script>
           </div>
         </div>
       </section>

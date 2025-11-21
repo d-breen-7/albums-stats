@@ -47,7 +47,7 @@ section {
 
 h1 {
   font-size: 30px;
-  line-height: 34px;
+  /* line-height: 5px; */
   font-weight: 1000;
   color: #191414;
   margin-top: 0px;
@@ -59,6 +59,7 @@ h2 {
   line-height: 26px;
   font-weight: 500;
   color: #191414;
+  border-top: #1db954 solid 1px;
   border-bottom: #1db954 solid 1px;
   margin: 0;
 }
@@ -72,9 +73,9 @@ h2 {
 .stats-tile {
   display: grid;
   grid-template-rows: auto auto 1fr;
-  /* padding-bottom: 10px; */
+  padding-bottom: 10px;
   margin-bottom: 10px;
-  height: 600px;
+  height: auto;
 }
 
 .stats-tile::before {
@@ -404,19 +405,20 @@ h2 {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .radio-container input[type="radio"]:checked + label {
   background-color: #dcf9e6;
   color: #191414;
   font-weight: bold;
-  /* font-size: 50px; */
 }
 
 .radio-container-years {
   display: inline-flex;
-  justify-content: space-around;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  gap: 10px;
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  /* gap: 5px; */
 }
 
 .radio-container-years input[type="radio"] {
@@ -453,11 +455,13 @@ table {
   border-collapse: collapse;
   margin-bottom: 10px; /* Light bottom margin for the table */
 }
-th, td {
+th,
+td {
   padding: 8px;
   text-align: left;
   border-bottom: 0.5px solid #a9a9a9; /* Light bottom border for each cell */
 }
+
 th {
   background-color: #edfcf2;
   color: #1db954;

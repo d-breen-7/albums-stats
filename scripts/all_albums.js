@@ -1,4 +1,4 @@
-var ca_margins = { top: 20, right: 55, bottom: 25, left: 10 },
+var ca_margins = { top: 20, right: 60, bottom: 30, left: 10 },
   ca_width = d3.select("#stats-image-1").node().offsetWidth,
   ca_height = d3.select("#stats-image-1").node().offsetHeight;
 (current_year = new Date().getFullYear()),
@@ -59,7 +59,7 @@ d3.json(
   // Y axis
   var ca_y = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => +d.total_all + 5)])
+    .domain([0, d3.max(data, (d) => +d.total_all + 20)])
     .range([ca_height - ca_margins.bottom, ca_margins.top]);
 
   var ca_y_axis = d3
@@ -113,25 +113,28 @@ d3.json(
     .attr("class", "ca-line-all")
     .attr("d", ca_line);
 
+  const overview_text =
+    "\
+Overview of the number of albums I have listened to since the start of 2019. \
+I started to consciously listen to more albums during 2020. \
+</br> <i>2019 starts at 116 to account for some albums where I have no listen date</i> \
+";
+
   // Add heading sub text
   d3.select("#stats-1-text")
     .append("h2")
     .attr("id", "stats-1-sub-text")
-    .html(
-      "I've listened to <span style='color: #1db954; font-weight: 1000';>" +
-        total_albums +
-        "</span> albums (including re-listens) since I started tracking in 2019"
-    );
+    .html(overview_text);
 
   // Text for total
-  ca_svg
-    .append("text")
-    .attr("class", "ca-today-text")
-    .attr("id", "ca-today-text")
-    .attr("x", ca_x(d3.max(data, (d) => parse_date(d.date))))
-    .attr("y", ca_y(d3.max(data, (d) => d.total_all)) - 7.5)
-    .text(Number(d3.max(data, (d) => d.total_all)).toLocaleString())
-    .attr("alignment-baseline", "middle");
+  // ca_svg
+  //   .append("text")
+  //   .attr("class", "ca-today-text")
+  //   .attr("id", "ca-today-text")
+  //   .attr("x", ca_x(d3.max(data, (d) => parse_date(d.date))))
+  //   .attr("y", ca_y(d3.max(data, (d) => d.total_all)) - 7.5)
+  //   .text(Number(d3.max(data, (d) => d.total_all)).toLocaleString())
+  //   .attr("alignment-baseline", "middle");
 
   function transition_period(period) {
     // Remove existing elements
@@ -330,7 +333,9 @@ d3.json(
       );
 
       ytd_data = data.filter((d) => d.norm_date <= ytd);
-      ytd_data.filter((d) => d.day == 1 && d.month === 0).forEach((d) => (d.cum_sum = 0)); // added month condition
+      ytd_data
+        .filter((d) => d.day == 1 && d.month === 0)
+        .forEach((d) => (d.cum_sum = 0)); // added month condition
 
       // Update X axis
       var ca_x = d3
