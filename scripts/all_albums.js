@@ -1,8 +1,8 @@
 var ca_margins = { top: 20, right: 60, bottom: 30, left: 10 },
   ca_width = d3.select("#stats-image-1").node().offsetWidth,
-  ca_height = d3.select("#stats-image-1").node().offsetHeight;
-(current_year = new Date().getFullYear()),
-  (parse_date = d3.timeParse("%Y-%m-%d"));
+  ca_height = d3.select("#stats-image-1").node().offsetHeight,
+  current_year = new Date().getFullYear(),
+  parse_date = d3.timeParse("%Y-%m-%d");
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/albums"
@@ -36,11 +36,11 @@ d3.json(
     .attr("viewBox", [0, 0, ca_width, ca_height]);
 
   // Define tooltip
-  var tooltip = d3
-    .select("#stats-image-1")
-    .append("div")
-    .attr("class", "ca-tooltip")
-    .style("visibility", "hidden");
+  // var tooltip = d3
+  //   .select("#stats-image-1")
+  //   .append("div")
+  //   .attr("class", "ca-tooltip")
+  //   .style("visibility", "hidden");
 
   // X axis
   var ca_x = d3
@@ -59,7 +59,7 @@ d3.json(
   // Y axis
   var ca_y = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => +d.total_all + 20)])
+    .domain([0, d3.max(data, (d) => +d.total_all + 5)])
     .range([ca_height - ca_margins.bottom, ca_margins.top]);
 
   var ca_y_axis = d3
@@ -113,18 +113,16 @@ d3.json(
     .attr("class", "ca-line-all")
     .attr("d", ca_line);
 
+  console.log(data);
+
   const overview_text =
     "\
 Overview of the number of albums I have listened to since the start of 2019. \
-I started to consciously listen to more albums during 2020. \
-</br> <i>2019 starts at 116 to account for some albums where I have no listen date</i> \
+I started to consciously listen to more albums during 2020.\
 ";
 
   // Add heading sub text
-  d3.select("#stats-1-text")
-    .append("h2")
-    .attr("id", "stats-1-sub-text")
-    .html(overview_text);
+  d3.select("#stats-1-text").append("h2").html(overview_text);
 
   // Text for total
   // ca_svg

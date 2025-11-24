@@ -104,7 +104,7 @@ h2 {
 }
 
 .stats-image {
-  /* display: flex; */
+  display: flex;
   margin: 5px;
 }
 
