@@ -70,38 +70,41 @@ h2 {
   background-color: #1db954;
 }
 
-.stats-tile {
+.stats-tile-1 {
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  grid-template-rows: auto auto auto 1fr;
+  margin: 10px;
   height: auto;
 }
 
-.stats-tile::before {
+.stats-tile-1::before {
   content: "";
   width: 0;
   grid-row: 1 / 1;
   grid-column: 1 / 1;
 }
 
-.stats-tile > *:first-child {
+.stats-tile-1 > *:first-child {
   grid-row: 1 / 1;
   grid-column: 1 / 1;
 }
 
 .stats-title {
   display: flex;
-  margin: 0;
+  margin: 5px;
+}
+
+.stats-tile-1 > .stats-title {
+  border-bottom: #1db954 solid 2px;
 }
 
 .stats-text {
   display: block;
-  margin-top: 5px;
+  margin: 5px;
 }
 
 .stats-image {
-  display: flex;
+  /* display: flex; */
   margin: 5px;
 }
 
@@ -413,28 +416,37 @@ h2 {
 }
 
 .radio-container-years {
-  display: inline-flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  /* gap: 5px; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 5px;
 }
 
 .radio-container-years input[type="radio"] {
   display: none;
 }
-.radio-container-years label {
-  padding: 5px;
-  background-color: #ffffff;
-  border: 1px solid #1db954;
-  border-radius: 4px;
-  cursor: pointer;
-}
+
 .radio-container-years input[type="radio"]:checked + label {
   background-color: #dcf9e6;
   color: #191414;
   font-weight: bold;
+}
+
+.radio-container-years > div {
+  flex: 0 1 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radio-container-years label {
+  padding: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  background-color: #ffffff;
+  border: 1px solid #1db954;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .ca-tooltip {
