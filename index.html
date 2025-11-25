@@ -23,14 +23,43 @@
   <body>
     <main class="container">
       <section>
-        <div id="stats-1" class="stats-tile-1">
-          <div class="stats-title">
-            <h1>All Album Listens Since 2019</h1>
+        <div id="stats-4" class="stats-tile-4r">
+          <div id="stats-4-title" class="stats-title">
+            <h1>Release Year of Albums</h1>
           </div>
-          <div id="stats-1-text" class="stats-text"></div>
-          <div class="radio-container-years"></div>
-          <div id="stats-image-1" class="stats-image">
-            <script src="scripts/all_albums.js"></script>
+          <div class="radio-container">
+            <div>
+              <input
+                type="radio"
+                id="all"
+                name="listen-period"
+                value="all"
+                checked
+              />
+              <label for="all">All Time</label>
+            </div>
+            <div>
+              <input type="radio" id="year" name="listen-period" value="year" />
+              <label for="year">Last Year</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="month"
+                name="listen-period"
+                value="month"
+              />
+              <label for="month">Last Month</label>
+            </div>
+            <div>
+              <input type="radio" id="week" name="listen-period" value="week" />
+              <label for="week">Last Week</label>
+            </div>
+          </div>
+          <div id="stats-4-text" class="stats-text"></div>
+
+          <div id="stats-image-4" class="stats-image">
+            <script src="scripts/release_year.js"></script>
           </div>
         </div>
       </section>

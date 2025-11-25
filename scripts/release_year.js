@@ -3,9 +3,14 @@ var dy_margins = { top: 0, right: 0, bottom: 0, left: 75 };
 var dy_width = d3.select("#stats-image-4").node().offsetWidth,
   dy_height = d3.select("#stats-image-4").node().offsetHeight;
 
+// Add sub-title text
+var sub_text = d3.select("#stats-4-text").append("h2");
+
 d3.json(
-  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
+  "data/release_year.json"
+  // "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
 ).then(function (response) {
+  // console.log(response);
   let data = response.data;
 
   let years = tidy(
@@ -14,6 +19,7 @@ d3.json(
     groupBy("year_num", slice(0, 1))
   );
 
+  // Count number of decades
   var total_decades = [...new Set(data["all"].map((d) => d.decade_num))].length;
 
   let decades = tidy(
@@ -27,12 +33,14 @@ d3.json(
       dy_height /
       ([...new Set(data["all"].map((d) => d.decade_num))].length + 2);
 
+  // Add SVG
   var dy_svg = d3
     .select("#stats-image-4")
     .append("svg")
     .attr("id", "dy-svg")
     .attr("viewBox", [0, 0, dy_width, dy_height]);
 
+  // Define textures for years with no albums
   no_albums = textures
     .lines()
     .orientation("vertical", "horizontal")
@@ -44,6 +52,7 @@ d3.json(
 
   dy_svg.call(no_albums);
 
+  // Add background texture
   dy_svg
     .append("rect")
     .attr("class", "dy-back")
@@ -53,6 +62,7 @@ d3.json(
     .attr("height", dy_rect_height * total_decades)
     .attr("fill", no_albums.url());
 
+  // Add decade labels
   dy_svg
     .selectAll("dy-svg")
     .data(decades)
@@ -67,26 +77,88 @@ d3.json(
   // Legend text
   dy_svg
     .append("text")
-    .attr("class", "dy-text-legend-main")
+    // .attr("class", "dy-text-legend-main")
+    .attr("class", "dy-text-legend")
     .attr("x", dy_rect_width)
     .attr("y", dy_rect_height)
     .text("None")
     .attr("alignment-baseline", "hanging");
 
-  dy_svg
-    .append("text")
-    .attr("class", "dy-text-legend-main")
-    .attr("x", dy_rect_width)
-    .attr("y", dy_rect_height * 1.75)
-    .text("Years in decade")
-    .attr("alignment-baseline", "baseline");
+  var dy_scale_legend = d3.scaleLog().domain([1, 100]);
 
-  // Add sub-title text
-  var sub_text = d3.select("#stats-4-text").append("h2");
+  var dy_color = d3
+    .scaleLinear()
+    .domain([0, 0.9, 1])
+    .range(["#eeeeee", "#76e99f", "#1db954"])
+    .interpolate(d3.interpolateLab)
+    .clamp(true);
+
+  // Legend
+  var legend_data = [...new d3.range(1, 110, 0.25)];
+
+  var legend_width = dy_rect_width * 5;
+
+  // Add legend rects
+  dy_svg
+    .selectAll("dy-svg")
+    .data(legend_data)
+    .enter()
+    .append("rect")
+    .attr("class", "dy-grid")
+    .attr(
+      "x",
+      (d, i) => dy_rect_width * 2 + (i * legend_width) / legend_data.length
+    )
+    .attr("y", dy_rect_height / 2)
+    .attr("width", legend_width / legend_data.length)
+    .attr("height", dy_rect_height / 2)
+    .attr("fill", (d) => dy_color(dy_scale_legend(d)));
+
+  // Add legend text
+  dy_svg
+    .selectAll("dy-svg")
+    .data(legend_data)
+    .enter()
+    .append("text")
+    .attr("class", "dy-text-legend")
+    .attr(
+      "x",
+      (d, i) => dy_rect_width * 2 + (i * legend_width) / legend_data.length
+    )
+    .attr("y", dy_rect_height)
+    .text((d) => (d == 1 ? "Less" : d == 98 ? "More" : ""))
+    .attr("alignment-baseline", "hanging");
+
+  // Legend: None
+  dy_svg
+    .append("rect")
+    .attr("class", "dy-grid")
+    .attr("x", dy_rect_width)
+    .attr("y", dy_rect_height / 2)
+    .attr("width", dy_rect_width)
+    .attr("height", dy_rect_height / 2)
+    .attr("fill", no_albums.url())
+    .attr("z-index", 10);
+
+  // Add labels for each year
+  years_data = release_year_range(data["all"]);
+
+  // Update grid rects based on period selection
+  dy_svg
+    .selectAll("dy-svg")
+    .data(years_data)
+    .enter()
+    .append("text")
+    .attr("class", "dy-grid-label")
+    .attr(
+      "x",
+      (d) => dy_rect_width + dy_rect_width * d.year_num + dy_rect_width / 2
+    )
+    .attr("y", (d) => dy_rect_height * 2.5 + dy_rect_height * d.decade_num)
+    .text((d) => d.decade + d.year_num);
 
   function draw_period(period) {
     d3.selectAll("#year-color").remove();
-    d3.selectAll(".dy-text-legend").remove();
 
     var num_years = data[period].length,
       num_decades = [...new Set(data[period].map((d) => d.decade_num))].length;
@@ -118,19 +190,24 @@ d3.json(
           num_decades +
           " decades";
 
+    var dy_sub_heading =
+      "I've listened to albums from " +
+      num_years +
+      " years spread across " +
+      num_decades +
+      " decades. \
+    I've listened to at least 1 album each year since the 1956. \
+    Most of the albums I've listened to have been released since 2020. Some of this is due \
+    to it being easier to discover recent album releases on Spotify. This has changed over time though, \
+    and I am now listening to more albums from older years as a result of my listening habits changing.";
+
     sub_text.html(dy_sub_heading);
 
     var dy_scale = d3
       .scaleLog()
       .domain(d3.extent(data[period], (d) => +d.year_total));
 
-    var dy_color = d3
-      .scaleLinear()
-      .domain([0, 0.85, 1])
-      .range(["#eeeeee", "#76e99f", "#1db954"]);
-
-    // Based on period selected
-    // Year grid
+    // Update grid rects based on period selection
     dy_svg
       .selectAll("dy-svg")
       .data(data[period])
@@ -145,69 +222,7 @@ d3.json(
       .attr("fill", (d) => dy_color(dy_scale(d.year_total)))
       .text((d) => d.decade_num + " " + d.year_num);
 
-    // Legend
-    var legend_data = [
-      ...new d3.range(1, d3.extent(data[period], (d) => +d.year_total)[1]),
-    ];
-
-    var period_max = d3.max(data[period], (d) => +d.year_total);
-
-    var legend_labels =
-      period_max <= 10
-        ? [2, 4, 6, 8, 10]
-        : period_max <= 50
-        ? [10, 20, 30, 40, 50]
-        : period_max <= 100
-        ? [20, 40, 60, 80, 100]
-        : period_max <= 200
-        ? [40, 80, 120, 160, 200]
-        : period_max <= 600
-        ? [100, 200, 300, 400, 500, 600]
-        : [10, 100, 200, 500, 1000];
-
-    var legend_width = dy_rect_width * 5;
-
-    dy_svg
-      .append("rect")
-      .attr("class", "dy-grid")
-      .attr("x", dy_rect_width)
-      .attr("y", dy_rect_height / 2)
-      .attr("width", dy_rect_width / 2)
-      .attr("height", dy_rect_height / 2)
-      .attr("fill", no_albums.url())
-      .attr("z-index", 10);
-
-    dy_svg
-      .selectAll("dy-svg")
-      .data(legend_data)
-      .enter()
-      .append("rect")
-      .attr("class", "dy-grid")
-      .attr("id", "year-tiles")
-      .attr(
-        "x",
-        (d, i) => dy_rect_width * 2 + (i * legend_width) / legend_data.length
-      )
-      .attr("y", dy_rect_height / 2)
-      .attr("width", legend_width / legend_data.length)
-      .attr("height", dy_rect_height / 2)
-      .attr("fill", (d) => dy_color(dy_scale(d)));
-
-    dy_svg
-      .selectAll("dy-svg")
-      .data(legend_data)
-      .enter()
-      .append("text")
-      .attr("class", "dy-text-legend")
-      .attr(
-        "x",
-        (d, i) => dy_rect_width * 2 + (i * legend_width) / legend_data.length
-      )
-      .attr("y", dy_rect_height)
-      .text((d) => (legend_labels.includes(d) ? d : ""))
-      .attr("alignment-baseline", "hanging");
-
-    // Axis lines
+    // Draw lines to create grids
     dy_svg
       .selectAll("dy-svg")
       .data(years)
@@ -229,20 +244,6 @@ d3.json(
       .attr("x2", dy_rect_width * 11)
       .attr("y1", (d) => dy_rect_height * 2 + d.decade_num * dy_rect_height)
       .attr("y2", (d) => dy_rect_height * 2 + d.decade_num * dy_rect_height);
-
-    const arrow = d3.arrow1().id("my-arrow").attr("class", "dy-arrow");
-
-    dy_svg.call(arrow);
-
-    dy_svg
-      .append("polyline")
-      .attr("id", "dy-arrow")
-      .attr("class", "dy-arrow")
-      .attr("marker-end", "url(#my-arrow)")
-      .attr("points", [
-        [dy_rect_width + 5, dy_rect_height * 1.9],
-        [dy_rect_width + 80, dy_rect_height * 1.9],
-      ]);
   }
 
   draw_period("all");
@@ -253,8 +254,8 @@ d3.json(
     }
   });
 
-  // Remove loading screen
-  setTimeout(() => {
-    d3.select(".loader").node().classList.add("hidden");
-  }, 1000);
+  // // Remove loading screen
+  // setTimeout(() => {
+  //   d3.select(".loader").node().classList.add("hidden");
+  // }, 1000);
 });

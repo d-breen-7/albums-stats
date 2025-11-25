@@ -1,0 +1,1152 @@
+{
+    "data": {
+        "all": [
+            {
+                "decade": "190",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 0
+            },
+            {
+                "decade": "195",
+                "year_num": "7",
+                "year_total": 1,
+                "decade_num": 1
+            },
+            {
+                "decade": "195",
+                "year_num": "8",
+                "year_total": 2,
+                "decade_num": 1
+            },
+            {
+                "decade": "195",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 1
+            },
+            {
+                "decade": "196",
+                "year_num": "0",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "1",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "2",
+                "year_total": 2,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "3",
+                "year_total": 2,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "4",
+                "year_total": 4,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "5",
+                "year_total": 6,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "6",
+                "year_total": 6,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "7",
+                "year_total": 8,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "8",
+                "year_total": 9,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "9",
+                "year_total": 13,
+                "decade_num": 2
+            },
+            {
+                "decade": "197",
+                "year_num": "0",
+                "year_total": 17,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "1",
+                "year_total": 14,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "2",
+                "year_total": 13,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "3",
+                "year_total": 10,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "4",
+                "year_total": 10,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "5",
+                "year_total": 8,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "6",
+                "year_total": 11,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "7",
+                "year_total": 15,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "8",
+                "year_total": 15,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "9",
+                "year_total": 19,
+                "decade_num": 3
+            },
+            {
+                "decade": "198",
+                "year_num": "0",
+                "year_total": 13,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "1",
+                "year_total": 24,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "2",
+                "year_total": 23,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "3",
+                "year_total": 24,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "4",
+                "year_total": 23,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "5",
+                "year_total": 18,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "6",
+                "year_total": 29,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "7",
+                "year_total": 18,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "8",
+                "year_total": 32,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "9",
+                "year_total": 25,
+                "decade_num": 4
+            },
+            {
+                "decade": "199",
+                "year_num": "0",
+                "year_total": 30,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "1",
+                "year_total": 34,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "2",
+                "year_total": 35,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "3",
+                "year_total": 49,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "4",
+                "year_total": 53,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "5",
+                "year_total": 77,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "6",
+                "year_total": 67,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "7",
+                "year_total": 75,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "8",
+                "year_total": 75,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "9",
+                "year_total": 75,
+                "decade_num": 5
+            },
+            {
+                "decade": "200",
+                "year_num": "0",
+                "year_total": 81,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "1",
+                "year_total": 91,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "2",
+                "year_total": 85,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "3",
+                "year_total": 95,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "4",
+                "year_total": 96,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "5",
+                "year_total": 96,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "6",
+                "year_total": 99,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "7",
+                "year_total": 124,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "8",
+                "year_total": 113,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "9",
+                "year_total": 142,
+                "decade_num": 6
+            },
+            {
+                "decade": "201",
+                "year_num": "0",
+                "year_total": 150,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "1",
+                "year_total": 192,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "2",
+                "year_total": 176,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "3",
+                "year_total": 229,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "4",
+                "year_total": 275,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "5",
+                "year_total": 295,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "6",
+                "year_total": 375,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "7",
+                "year_total": 464,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "8",
+                "year_total": 573,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "9",
+                "year_total": 751,
+                "decade_num": 7
+            },
+            {
+                "decade": "202",
+                "year_num": "0",
+                "year_total": 1153,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "1",
+                "year_total": 1131,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "2",
+                "year_total": 731,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "3",
+                "year_total": 675,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "4",
+                "year_total": 382,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "5",
+                "year_total": 143,
+                "decade_num": 8
+            }
+        ],
+        "year": [
+            {
+                "decade": "190",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 0
+            },
+            {
+                "decade": "195",
+                "year_num": "7",
+                "year_total": 1,
+                "decade_num": 1
+            },
+            {
+                "decade": "196",
+                "year_num": "0",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "2",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "3",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "4",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "5",
+                "year_total": 2,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "6",
+                "year_total": 3,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "8",
+                "year_total": 3,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "9",
+                "year_total": 6,
+                "decade_num": 2
+            },
+            {
+                "decade": "197",
+                "year_num": "0",
+                "year_total": 8,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "1",
+                "year_total": 4,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "2",
+                "year_total": 8,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "3",
+                "year_total": 5,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "4",
+                "year_total": 7,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "6",
+                "year_total": 3,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "7",
+                "year_total": 4,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "8",
+                "year_total": 6,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "9",
+                "year_total": 2,
+                "decade_num": 3
+            },
+            {
+                "decade": "198",
+                "year_num": "0",
+                "year_total": 5,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "1",
+                "year_total": 9,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "2",
+                "year_total": 9,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "3",
+                "year_total": 8,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "4",
+                "year_total": 8,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "5",
+                "year_total": 7,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "6",
+                "year_total": 12,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "7",
+                "year_total": 5,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "8",
+                "year_total": 4,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "9",
+                "year_total": 4,
+                "decade_num": 4
+            },
+            {
+                "decade": "199",
+                "year_num": "0",
+                "year_total": 9,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "1",
+                "year_total": 9,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "2",
+                "year_total": 6,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "3",
+                "year_total": 8,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "4",
+                "year_total": 9,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "5",
+                "year_total": 17,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "6",
+                "year_total": 11,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "7",
+                "year_total": 17,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "8",
+                "year_total": 19,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "9",
+                "year_total": 14,
+                "decade_num": 5
+            },
+            {
+                "decade": "200",
+                "year_num": "0",
+                "year_total": 14,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "1",
+                "year_total": 13,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "2",
+                "year_total": 13,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "3",
+                "year_total": 15,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "4",
+                "year_total": 11,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "5",
+                "year_total": 10,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "6",
+                "year_total": 14,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "7",
+                "year_total": 17,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "8",
+                "year_total": 15,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "9",
+                "year_total": 19,
+                "decade_num": 6
+            },
+            {
+                "decade": "201",
+                "year_num": "0",
+                "year_total": 11,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "1",
+                "year_total": 17,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "2",
+                "year_total": 17,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "3",
+                "year_total": 16,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "4",
+                "year_total": 15,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "5",
+                "year_total": 22,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "6",
+                "year_total": 15,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "7",
+                "year_total": 28,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "8",
+                "year_total": 31,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "9",
+                "year_total": 46,
+                "decade_num": 7
+            },
+            {
+                "decade": "202",
+                "year_num": "0",
+                "year_total": 39,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "1",
+                "year_total": 31,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "2",
+                "year_total": 33,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "3",
+                "year_total": 46,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "4",
+                "year_total": 131,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "5",
+                "year_total": 143,
+                "decade_num": 8
+            }
+        ],
+        "month": [
+            {
+                "decade": "190",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 0
+            },
+            {
+                "decade": "196",
+                "year_num": "0",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "4",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "197",
+                "year_num": "0",
+                "year_total": 2,
+                "decade_num": 3
+            },
+            {
+                "decade": "197",
+                "year_num": "3",
+                "year_total": 1,
+                "decade_num": 3
+            },
+            {
+                "decade": "198",
+                "year_num": "1",
+                "year_total": 1,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "2",
+                "year_total": 2,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "6",
+                "year_total": 2,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 4
+            },
+            {
+                "decade": "199",
+                "year_num": "4",
+                "year_total": 1,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "5",
+                "year_total": 4,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "6",
+                "year_total": 1,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "7",
+                "year_total": 3,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "8",
+                "year_total": 1,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "9",
+                "year_total": 2,
+                "decade_num": 5
+            },
+            {
+                "decade": "200",
+                "year_num": "1",
+                "year_total": 1,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "2",
+                "year_total": 3,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "4",
+                "year_total": 2,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "7",
+                "year_total": 1,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 6
+            },
+            {
+                "decade": "201",
+                "year_num": "0",
+                "year_total": 1,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "1",
+                "year_total": 3,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "2",
+                "year_total": 1,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "3",
+                "year_total": 1,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "4",
+                "year_total": 1,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "5",
+                "year_total": 2,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "7",
+                "year_total": 1,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "8",
+                "year_total": 5,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "9",
+                "year_total": 2,
+                "decade_num": 7
+            },
+            {
+                "decade": "202",
+                "year_num": "1",
+                "year_total": 1,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "2",
+                "year_total": 4,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "3",
+                "year_total": 4,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "4",
+                "year_total": 4,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "5",
+                "year_total": 18,
+                "decade_num": 8
+            }
+        ],
+        "week": [
+            {
+                "decade": "196",
+                "year_num": "4",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "196",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 2
+            },
+            {
+                "decade": "197",
+                "year_num": "0",
+                "year_total": 1,
+                "decade_num": 3
+            },
+            {
+                "decade": "198",
+                "year_num": "2",
+                "year_total": 1,
+                "decade_num": 4
+            },
+            {
+                "decade": "198",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 4
+            },
+            {
+                "decade": "199",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "6",
+                "year_total": 1,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "7",
+                "year_total": 1,
+                "decade_num": 5
+            },
+            {
+                "decade": "199",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 5
+            },
+            {
+                "decade": "200",
+                "year_num": "2",
+                "year_total": 2,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "4",
+                "year_total": 1,
+                "decade_num": 6
+            },
+            {
+                "decade": "200",
+                "year_num": "9",
+                "year_total": 1,
+                "decade_num": 6
+            },
+            {
+                "decade": "201",
+                "year_num": "1",
+                "year_total": 1,
+                "decade_num": 7
+            },
+            {
+                "decade": "201",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 7
+            },
+            {
+                "decade": "202",
+                "year_num": "2",
+                "year_total": 1,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "3",
+                "year_total": 1,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "4",
+                "year_total": 2,
+                "decade_num": 8
+            },
+            {
+                "decade": "202",
+                "year_num": "5",
+                "year_total": 1,
+                "decade_num": 8
+            }
+        ]
+    }
+}
