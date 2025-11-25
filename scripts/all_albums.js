@@ -2,6 +2,7 @@ var ca_margins = { top: 20, right: 60, bottom: 30, left: 10 },
   ca_width = d3.select("#stats-image-1").node().offsetWidth,
   ca_height = d3.select("#stats-image-1").node().offsetHeight,
   current_year = new Date().getFullYear(),
+  norm_year = 2020, // Should be current_year for YTD
   parse_date = d3.timeParse("%Y-%m-%d");
 
 d3.json(
@@ -15,7 +16,7 @@ d3.json(
       month: (d) => parse_date(d.date).getMonth(),
       norm_date: (d) =>
         new Date(
-          current_year,
+          norm_year,
           parse_date(d.date).getMonth(),
           parse_date(d.date).getDate()
         ),
@@ -28,6 +29,38 @@ d3.json(
   var data = group_by_year(res_data),
     total_albums = Number(d3.max(data, (d) => d.total_all)).toLocaleString();
 
+  // Dynamically radio buttons for each year + all time + ytd
+  const years = Array.from(new Set(data.map((d) => +d.year))).sort(
+    (a, b) => b - a
+  );
+
+  const radio_options = [
+    { value: "all-time", label: "All" },
+    ...years.map((y) => ({ value: y, label: y })),
+    { value: "ytd", label: "YTD" },
+  ];
+
+  const container = d3.select(".radio-container-years");
+
+  const items = container
+    .selectAll("div")
+    .data(radio_options)
+    .enter()
+    .append("div");
+
+  items
+    .append("input")
+    .attr("type", "radio")
+    .attr("name", "albums-year")
+    .attr("id", (d) => d.value)
+    .attr("value", (d) => d.value)
+    .property("checked", (d) => d.value === "all-time");
+
+  items
+    .append("label")
+    .attr("for", (d) => d.value)
+    .text((d) => d.label);
+
   // Define SVG
   var ca_svg = d3
     .select("#stats-image-1")
@@ -35,14 +68,7 @@ d3.json(
     .attr("id", "ca-svg")
     .attr("viewBox", [0, 0, ca_width, ca_height]);
 
-  // Define tooltip
-  // var tooltip = d3
-  //   .select("#stats-image-1")
-  //   .append("div")
-  //   .attr("class", "ca-tooltip")
-  //   .style("visibility", "hidden");
-
-  // X axis
+  // Define X axis
   var ca_x = d3
     .scaleTime()
     .domain(d3.extent(data, (d) => parse_date(d.date)))
@@ -56,7 +82,7 @@ d3.json(
     .attr("transform", "translate(0," + (ca_height - ca_margins.bottom) + ")")
     .call(ca_x_axis);
 
-  // Y axis
+  // Define Y axis
   var ca_y = d3
     .scaleLinear()
     .domain([0, d3.max(data, (d) => +d.total_all + 5)])
@@ -75,18 +101,18 @@ d3.json(
     .attr("transform", "translate(" + ca_margins.left + ", 0)")
     .call(ca_y_axis);
 
-  // Year grid line
-  ca_svg
-    .selectAll("ca-svg")
-    .data(data.filter((d) => d.day === 1 && d.month === 0))
-    .enter()
-    .append("line")
-    .attr("class", "ca-year-lines")
-    .attr("id", "ca-year-lines")
-    .attr("x1", (d) => ca_x(parse_date(d.date)))
-    .attr("x2", (d) => ca_x(parse_date(d.date)))
-    .attr("y1", ca_y(0))
-    .attr("y2", ca_y(d3.max(data, (d) => d.total_all)));
+  // Add year grid line
+  // ca_svg
+  //   .selectAll("ca-svg")
+  //   .data(data.filter((d) => d.day === 1 && d.month === 0))
+  //   .enter()
+  //   .append("line")
+  //   .attr("class", "ca-year-lines")
+  //   .attr("id", "ca-year-lines")
+  //   .attr("x1", (d) => ca_x(parse_date(d.date)))
+  //   .attr("x2", (d) => ca_x(parse_date(d.date)))
+  //   .attr("y1", ca_y(0))
+  //   .attr("y2", ca_y(d3.max(data, (d) => d.total_all)));
 
   // Albums area
   var ca_area = d3
@@ -113,16 +139,18 @@ d3.json(
     .attr("class", "ca-line-all")
     .attr("d", ca_line);
 
-  console.log(data);
-
   const overview_text =
     "\
-Overview of the number of albums I have listened to since the start of 2019. \
-I started to consciously listen to more albums during 2020.\
-";
+An overview of all the albums I have listened to since the start of 2019. \
+I started to consciously listen to more albums at the start of 2020. \
+<br> \
+<span style='color:#a9a9a9'>2019 starts at 116 to account for some albums where I don't have the exact listen date.</span>";
 
   // Add heading sub text
-  d3.select("#stats-1-text").append("h2").html(overview_text);
+  d3.select("#stats-1-text")
+    .append("h2")
+    .attr("id", "stats-1-sub-text")
+    .html(overview_text);
 
   // Text for total
   // ca_svg
@@ -214,23 +242,6 @@ I started to consciously listen to more albums during 2020.\
         .duration(1000)
         .attr("transform", "translate(" + ca_margins.left + ", 0)")
         .call(ca_y_axis);
-
-      // Update year grid lines
-      ca_svg
-        .selectAll("ca-svg")
-        .data(
-          period === "all-time"
-            ? data.filter((d) => d.day === 1 && d.month === 0)
-            : period_data.filter((d) => d.day === 1)
-        )
-        .enter()
-        .append("line")
-        .attr("class", "ca-year-lines")
-        .attr("id", "ca-year-lines")
-        .attr("x1", (d) => ca_x(parse_date(d.date)))
-        .attr("x2", (d) => ca_x(parse_date(d.date)))
-        .attr("y1", ca_y(period_total))
-        .attr("y2", ca_y(0));
 
       // Update Area
       var ca_area =
@@ -326,11 +337,12 @@ I started to consciously listen to more albums during 2020.\
     } else {
       // Logic for when ytd selected
       var ytd = d3.max(
-        data.filter((d) => d.year == current_year),
+        data.filter((d) => d.year == norm_year),
         (d) => d.norm_date
       );
 
       ytd_data = data.filter((d) => d.norm_date <= ytd);
+
       ytd_data
         .filter((d) => d.day == 1 && d.month === 0)
         .forEach((d) => (d.cum_sum = 0)); // added month condition
@@ -340,7 +352,7 @@ I started to consciously listen to more albums during 2020.\
         .scaleTime()
         .domain(
           d3.extent(
-            ytd_data.filter((d) => d.year == current_year),
+            ytd_data.filter((d) => d.year == norm_year),
             (d) => d.norm_date
           )
         )
@@ -405,6 +417,32 @@ I started to consciously listen to more albums during 2020.\
         )
         .call(ca_y_axis);
 
+      // Step 1: Group all rows by year
+      const groups = ytd_data.reduce((acc, row) => {
+        const year = row.year;
+        if (!acc[year]) acc[year] = [];
+        acc[year].push(row);
+        return acc;
+      }, {});
+
+      // Step 2: Pick the row with maximum cum_sum per year
+      const maxRowsPerYear = Object.values(groups).map((rows) => {
+        return rows.reduce((maxRow, row) => {
+          return row.cum_sum > maxRow.cum_sum ? row : maxRow;
+        }, rows[0]);
+      });
+
+      // Step 3: Sort by cum_sum descending
+      maxRowsPerYear.sort((a, b) => b.cum_sum - a.cum_sum);
+
+      // Step 4: Add rank
+      const rank = maxRowsPerYear.map((row, i) => ({
+        ...row,
+        ytd_rank: i + 1,
+      }));
+
+      console.log(rank);
+
       // Loop through each year of data
       d3.set(ytd_data.map((d) => d.year))
         .values()
@@ -438,25 +476,6 @@ I started to consciously listen to more albums during 2020.\
               year == current_year ? "ca-line-current" : "ca-line-old"
             );
 
-          // Rank Years
-          rank = tidy(
-            ytd_data,
-            filter(
-              (d) =>
-                d.norm_date.getFullYear() === ytd.getFullYear() &&
-                d.norm_date.getMonth() === ytd.getMonth() &&
-                d.norm_date.getDate() === ytd.getDate()
-            ),
-            arrange(desc("cum_sum")),
-            mutate({ ytd_rank: (_, i) => i + 1 })
-          );
-
-          var year_rank =
-            year +
-            " (" +
-            rank.filter((d) => d.year == year)[0]["ytd_rank"] +
-            ")";
-
           // Year label
           ca_svg
             .append("text")
@@ -487,18 +506,26 @@ I started to consciously listen to more albums during 2020.\
             );
         });
 
-      // Update year grid lines
-      ca_svg
-        .selectAll("ca-svg")
-        .data(ytd_data.filter((d) => d.day === 1 && d.year == current_year))
-        .enter()
-        .append("line")
-        .attr("class", "ca-year-lines")
-        .attr("id", "ca-year-lines")
-        .attr("x1", (d) => ca_x(d.norm_date))
-        .attr("x2", (d) => ca_x(d.norm_date))
-        .attr("y1", "100%")
-        .attr("y2", "0%");
+      // Rank Years
+      // rank = tidy(
+      //   ytd_data,
+      //   filter(
+      //     (d) =>
+      //       d.norm_date.getFullYear() === ytd.getFullYear() &&
+      //       d.norm_date.getMonth() === ytd.getMonth() &&
+      //       d.norm_date.getDate() === ytd.getDate()
+      //   ),
+      //   arrange(desc("cum_sum")),
+      //   mutate({ ytd_rank: (_, i) => i + 1 })
+      // );
+
+      // console.log(ytd_data);
+
+      // var year_rank =
+      //   year +
+      //   " (" +
+      //   rank.filter((d) => d.year == year)[0]["ytd_rank"] +
+      //   ")";
 
       ytd_total = Number(
         d3.max(
@@ -507,24 +534,29 @@ I started to consciously listen to more albums during 2020.\
         )
       ).toLocaleString();
 
-      rank = tidy(
-        ytd_data,
-        filter(
-          (d) =>
-            d.norm_date.getFullYear() === ytd.getFullYear() &&
-            d.norm_date.getMonth() === ytd.getMonth() &&
-            d.norm_date.getDate() === ytd.getDate()
-        ),
-        arrange(desc("cum_sum")),
-        mutate({ ytd_rank: (_, i) => i + 1 })
-      );
+      // rank = tidy(
+      //   ytd_data,
+      //   filter(
+      //     (d) =>
+      //       d.norm_date.getFullYear() === ytd.getFullYear() &&
+      //       d.norm_date.getMonth() === ytd.getMonth() &&
+      //       d.norm_date.getDate() === ytd.getDate()
+      //   ),
+      //   arrange(desc("cum_sum")),
+      //   mutate({ ytd_rank: (_, i) => i + 1 })
+      // );
 
       var summary_text =
-        "The <span style='color: #1db954; font-weight: 1000';>" +
-        ytd_total +
-        "</span> albums so far this year, ranks no. <span style='color: #1db954; font-weight: 1000';>" +
-        rank.filter((d) => d.year === current_year)[0]["ytd_rank"] +
-        "</span> compared to previous years";
+        "My album listening peaked in 2021 and has been declining ever since. \
+       This reflects a shift in my listening habits whereby I listen to albums while working, \
+       but spend the remainder of my listening time discovering new music using things like internet \
+       radio services like NTS.";
+
+      // "The <span style='color: #1db954; font-weight: 1000';>" +
+      // ytd_total +
+      // "</span> albums so far this year, ranks no. <span style='color: #1db954; font-weight: 1000';>" +
+      // rank.filter((d) => d.year === current_year)[0]["ytd_rank"] +
+      // "</span> compared to previous years";
 
       // Update heading sub text
       d3.select("#stats-1-text")
