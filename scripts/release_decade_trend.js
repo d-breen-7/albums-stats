@@ -6,9 +6,9 @@ var dy_width = d3.select("#stats-image-5").node().offsetWidth,
 var sub_text = d3.select("#stats-5-text").append("h2");
 
 var dy_sub_heading =
-  "A breakdown of the release decade of albums during each listen year to show the proportion <span style='color: #ffffff; font-weight: 1000; background-color: #1db954;border-radius: 5px;'>released pre-2010</span> \
+  "A breakdown of the release decade of albums listened to each year to show the proportion <span style='color: #ffffff; font-weight: 1000; background-color: #1db954;border-radius: 5px;'>released pre-2010</span> \
   and <span style='color: #191414; font-weight: 1000; background-color: #9df7bd;border-radius: 5px;'> released 2010 onwards</span>.\
-  The proportion released pre-2010 has been increasing over time as I explore older music. Some of this is increase can also be explained by \
+  The proportion released pre-2010 has been increasing over time, from 7.3% to ~40%, as I explore older music. Some of this is increase can also be explained by \
   the reduction in album listens over time.";
 
 sub_text.html(dy_sub_heading);
