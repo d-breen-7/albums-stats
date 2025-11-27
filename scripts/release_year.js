@@ -7,17 +7,20 @@ var dy_width = d3.select("#stats-image-4").node().offsetWidth,
 var sub_text = d3.select("#stats-4-text").append("h2");
 
 d3.json(
-  "data/release_year.json"
-  // "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
+  // "data/release_year.json"
+  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
 ).then(function (response) {
-  // console.log(response);
-  let data = response.data;
+  var raw = response.data;
 
-  let years = tidy(
-    data["all"],
-    arrange("year_num"),
-    groupBy("year_num", slice(0, 1))
+  var data = Object.fromEntries(
+    Object.entries(raw).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? value.filter((d) => d.decade !== "190") : value,
+    ])
   );
+
+  // Define years in a decade 0 - 9
+  let years = Array.from({ length: 10 }, (_, i) => ({ year_num: String(i) }));
 
   // Count number of decades
   var total_decades = [...new Set(data["all"].map((d) => d.decade_num))].length;
@@ -29,9 +32,8 @@ d3.json(
   );
 
   var dy_rect_width = dy_width / 12,
-    dy_rect_height =
-      dy_height /
-      ([...new Set(data["all"].map((d) => d.decade_num))].length + 2);
+    dy_rect_height = dy_height / total_decades;
+  // ([...new Set(data["all"].map((d) => d.decade_num))].length + 3);
 
   // Add SVG
   var dy_svg = d3
