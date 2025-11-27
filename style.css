@@ -223,7 +223,7 @@ h2 {
 } */
 
 .dy-grid {
-  stroke: none;
+  stroke: 0px;
 }
 
 .dy-line {
