@@ -32,8 +32,9 @@ d3.json(
   );
 
   var dy_rect_width = dy_width / 12,
-    dy_rect_height = dy_height / total_decades;
-  // ([...new Set(data["all"].map((d) => d.decade_num))].length + 3);
+    dy_rect_height = dy_height / (total_decades + 3);
+  // dy_height /
+  // ([...new Set(data["all"].map((d) => d.decade_num))].length + 2);
 
   // Add SVG
   var dy_svg = d3
@@ -72,7 +73,7 @@ d3.json(
     .append("text")
     .attr("class", "dy-text")
     .attr("x", dy_rect_width - 5)
-    .attr("y", (d) => dy_rect_height * 2.5 + d.decade_num * dy_rect_height)
+    .attr("y", (d) => dy_rect_height * 1.5 + d.decade_num * dy_rect_height)
     .text((d) => d.decade + "0's")
     .attr("alignment-baseline", "middle");
 
@@ -86,17 +87,17 @@ d3.json(
     .text("None")
     .attr("alignment-baseline", "hanging");
 
-  var dy_scale_legend = d3.scaleLog().domain([1, 100]);
+  var dy_scale_legend = d3.scaleLog().domain([1, 500]);
 
   var dy_color = d3
     .scaleLinear()
-    .domain([0, 0.9, 1])
+    .domain([0, 0.8, 1])
     .range(["#eeeeee", "#76e99f", "#1db954"])
-    .interpolate(d3.interpolateLab)
-    .clamp(true);
+    .interpolate(d3.interpolateLab);
+  // .clamp(true);
 
   // Legend
-  var legend_data = [...new d3.range(1, 110, 0.25)];
+  var legend_data = [...new d3.range(1, 550, 1)];
 
   var legend_width = dy_rect_width * 5;
 
@@ -125,10 +126,11 @@ d3.json(
     .attr("class", "dy-text-legend")
     .attr(
       "x",
-      (d, i) => dy_rect_width * 2 + (i * legend_width) / legend_data.length
+      (d, i) =>
+        dy_rect_width * 2 + (i * legend_width - 0.1) / legend_data.length
     )
     .attr("y", dy_rect_height)
-    .text((d) => (d == 1 ? "Less" : d == 98 ? "More" : ""))
+    .text((d) => (d == 1 ? "Less" : d == 500 ? "More" : ""))
     .attr("alignment-baseline", "hanging");
 
   // Legend: None
@@ -156,7 +158,7 @@ d3.json(
       "x",
       (d) => dy_rect_width + dy_rect_width * d.year_num + dy_rect_width / 2
     )
-    .attr("y", (d) => dy_rect_height * 2.5 + dy_rect_height * d.decade_num)
+    .attr("y", (d) => dy_rect_height * 1.5 + dy_rect_height * d.decade_num)
     .text((d) => d.decade + d.year_num);
 
   function draw_period(period) {
@@ -218,13 +220,15 @@ d3.json(
       .attr("class", "dy-grid")
       .attr("id", "year-color")
       .attr("x", (d) => dy_rect_width + dy_rect_width * d.year_num)
-      .attr("y", (d) => dy_rect_height * 2 + dy_rect_height * d.decade_num)
+      .attr("y", (d) => dy_rect_height + dy_rect_height * d.decade_num)
       .attr("width", dy_rect_width)
       .attr("height", dy_rect_height)
       .attr("fill", (d) => dy_color(dy_scale(d.year_total)))
       .text((d) => d.decade_num + " " + d.year_num);
 
     // Draw lines to create grids
+    // Last to account for overlay / z-order
+    // Vertical grid lines
     dy_svg
       .selectAll("dy-svg")
       .data(years)
@@ -236,6 +240,7 @@ d3.json(
       .attr("y1", dy_rect_height * 2 - 10)
       .attr("y2", dy_rect_height * 2 + dy_rect_height * total_decades + 10);
 
+    // Horizontal grid lines
     dy_svg
       .selectAll("dy-svg")
       .data(decades)
