@@ -1,15 +1,14 @@
 var dy_margins = { top: 0, right: 0, bottom: 0, left: 75 };
 
-var dy_width = d3.select("#stats-image-5").node().offsetWidth,
-  dy_height = d3.select("#stats-image-5").node().offsetHeight;
-
 var sub_text = d3.select("#stats-5-text").append("h2");
 
-var dy_sub_heading =
-  "A breakdown of the release decade of albums listened to each year to show the proportion <span style='color: #ffffff; font-weight: 1000; background-color: #1db954;border-radius: 5px;'>released pre-2010</span> \
-  and <span style='color: #191414; font-weight: 1000; background-color: #9df7bd;border-radius: 5px;'> released 2010 onwards</span>.\
-  The proportion released pre-2010 has been increasing over time, from 7.3% to ~40%, as I explore older music. Some of this is increase can also be explained by \
-  the reduction in album listens over time.";
+var dy_sub_heading = `Over time, albums released <span style='color: #ffffff; font-weight: 1000; 
+background-color: #1db954;border-radius: 5px;'>pre-2010</span> have been making up a higher proportion of my total 
+album listens. In 2020, these albums made up just <span style='color: #1db954; font-weight:1000'>7.3%</span> of my album listens. 
+In 2025, this number has increased to <span style='color: #1db954; font-weight:1000'>35.7%</span>. A big proportion of the
+albums I listen to are still those which were released from <span style=' color: #191414; font-weight: 1000; background-color:
+#9df7bd; border-radius: 5px;'> 2010 onwards</span>. Given that I am now listening to less albums, and trying to listen to more older 
+albums, the changes in proportions are not that surprising.`;
 
 sub_text.html(dy_sub_heading);
 
@@ -111,9 +110,9 @@ data.forEach((yearData, index) => {
 
   // Define layout dimensions
   var tile_width = d3.select("#rd-tile-0").node().offsetWidth;
-  var bar_start_x = 50;
+  var bar_start_x = 62.5;
   var bar_width = tile_width - tile_width * 0.1 - bar_start_x;
-  var row_height = 30;
+  var row_height = 27.5;
 
   tile.append("div").attr("class", "rd-title").text(yearData.listen_year);
 
@@ -121,7 +120,7 @@ data.forEach((yearData, index) => {
 
   const svg = tile
     .append("svg")
-    .attr("width", tile_width)
+    .attr("width", tile_width - 10)
     .attr("height", svgHeight);
 
   // Calculate total listens
@@ -158,7 +157,6 @@ data.forEach((yearData, index) => {
       .attr("class", "rd-decade-label")
       .attr("x", bar_start_x - 10)
       .attr("y", y + row_height / 2 + 4)
-      .attr("text-anchor", "end")
       .attr("fill", decade == "" ? "#191414" : "#a9a9a9")
       .attr("font-weight", decade == "" ? "bolder" : "normal")
       .text(decade == "" ? "Overall" : decade + "s");
@@ -187,7 +185,7 @@ data.forEach((yearData, index) => {
       .append("text")
       .attr("class", "rd-grid-label")
       .attr("x", x)
-      .attr("y", svgHeight - 5)
+      .attr("y", svgHeight - 0)
       .attr("text-anchor", "middle")
       .text(p + "%");
   });
