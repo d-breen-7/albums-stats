@@ -101,19 +101,6 @@ d3.json(
     .attr("transform", "translate(" + ca_margins.left + ", 0)")
     .call(ca_y_axis);
 
-  // Add year grid line
-  // ca_svg
-  //   .selectAll("ca-svg")
-  //   .data(data.filter((d) => d.day === 1 && d.month === 0))
-  //   .enter()
-  //   .append("line")
-  //   .attr("class", "ca-year-lines")
-  //   .attr("id", "ca-year-lines")
-  //   .attr("x1", (d) => ca_x(parse_date(d.date)))
-  //   .attr("x2", (d) => ca_x(parse_date(d.date)))
-  //   .attr("y1", ca_y(0))
-  //   .attr("y2", ca_y(d3.max(data, (d) => d.total_all)));
-
   // Albums area
   var ca_area = d3
     .area()
@@ -139,17 +126,26 @@ d3.json(
     .attr("class", "ca-line-all")
     .attr("d", ca_line);
 
-  const overview_text =
-    "\
-An overview of all the albums I have listened to since the start of 2019. \
-I started to consciously listen to more albums at the start of 2020. \
-<br> \
-<span style='color:#a9a9a9'>2019 starts at 116 to account for some albums where I don't have the exact listen date.</span>";
+  var unique_albums = Number(response.unique).toLocaleString();
+
+  const overview_text = `All the albums I have listened to since I started tracking at the start of 2019.
+  During 2019 I mostly listened to new releases, 2020 was when I started to consciously listen to more albums.
+  After excluding relistens (which are included below), I have listened to 
+  <span style='color: #1db954; font-weight: 1000'>${unique_albums}</span> unique albums.
+  <br><span style='color: #a9a9a9'>2019 starts at 116 to account for some albums where I 
+  don't have the exact listen date.</span>`;
+  // An overview of all the albums I have listened to since the start of 2019. \
+  // I started to consciously listen to more albums at the start of 2020. \
 
   // Add heading sub text
-  d3.select("#stats-1-text")
+  d3.select("#stats-title-1")
+    .append("h1")
+    .attr("id", "stats-title-text-1")
+    .html("Cumulative Album Listens Since 2019");
+
+  d3.select("#stats-text-1")
     .append("h2")
-    .attr("id", "stats-1-sub-text")
+    .attr("id", "stats-sub-text-1")
     .html(overview_text);
 
   // Text for total
@@ -164,7 +160,8 @@ I started to consciously listen to more albums at the start of 2020. \
 
   function transition_period(period) {
     // Remove existing elements
-    d3.select("#stats-1-sub-text").remove();
+    d3.select("#stats-title-text-1").remove();
+    d3.select("#stats-sub-text-1").remove();
     d3.select("#ca-today-text").remove();
     d3.selectAll("#ca-ytd-text").remove();
     d3.selectAll("#ca-year-lines").remove();
@@ -306,20 +303,30 @@ I started to consciously listen to more albums at the start of 2020. \
         period == "all-time"
           ? "I've listened to <span style='color: #1db954; font-weight: 1000';>" +
             Number(period_total).toLocaleString() +
-            "</span> albums since I started tracking in 2019"
+            "</span> albums since I started tracking in 2019."
           : period == current_year
-          ? "So far this year, I've listened to <span style='color: #1db954; font-weight: 1000';>" +
+          ? "So far this year I've listened to <span style='color: #1db954; font-weight: 1000';>" +
             Number(period_total).toLocaleString() +
-            "</span> albums"
+            "</span> albums."
           : "In " +
             period +
-            ", I listened to <span style='color: #1db954; font-weight: 1000';>" +
+            " I listened to <span style='color: #1db954; font-weight: 1000';>" +
             Number(period_total).toLocaleString() +
-            "</span> albums";
+            "</span> albums.";
 
-      d3.select("#stats-1-text")
+      // Add h1, h2 title
+      d3.select("#stats-title-1")
+        .append("h1")
+        .attr("id", "stats-title-text-1")
+        .html(
+          period === "all-time"
+            ? "Cumulative Album Listens Since 2019"
+            : "All Album Listens During " + period
+        );
+
+      d3.select("#stats-text-1")
         .append("h2")
-        .attr("id", "stats-1-sub-text")
+        .attr("id", "stats-sub-text-1")
         .html(summary_text);
 
       // Update total text
@@ -441,8 +448,6 @@ I started to consciously listen to more albums at the start of 2020. \
         ytd_rank: i + 1,
       }));
 
-      console.log(rank);
-
       // Loop through each year of data
       d3.set(ytd_data.map((d) => d.year))
         .values()
@@ -461,6 +466,7 @@ I started to consciously listen to more albums at the start of 2020. \
 
           total_length = new_line.node().getTotalLength();
 
+          // Add year line
           new_line
             .attr("stroke-dasharray", total_length + " " + total_length)
             .attr("stroke-dashoffset", total_length)
@@ -506,27 +512,6 @@ I started to consciously listen to more albums at the start of 2020. \
             );
         });
 
-      // Rank Years
-      // rank = tidy(
-      //   ytd_data,
-      //   filter(
-      //     (d) =>
-      //       d.norm_date.getFullYear() === ytd.getFullYear() &&
-      //       d.norm_date.getMonth() === ytd.getMonth() &&
-      //       d.norm_date.getDate() === ytd.getDate()
-      //   ),
-      //   arrange(desc("cum_sum")),
-      //   mutate({ ytd_rank: (_, i) => i + 1 })
-      // );
-
-      // console.log(ytd_data);
-
-      // var year_rank =
-      //   year +
-      //   " (" +
-      //   rank.filter((d) => d.year == year)[0]["ytd_rank"] +
-      //   ")";
-
       ytd_total = Number(
         d3.max(
           ytd_data.filter((d) => d.year == current_year),
@@ -546,22 +531,25 @@ I started to consciously listen to more albums at the start of 2020. \
       //   mutate({ ytd_rank: (_, i) => i + 1 })
       // );
 
-      var summary_text =
-        "My album listening peaked in 2021 and has been declining ever since. \
-       This reflects a shift in my listening habits whereby I listen to albums while working, \
-       but spend the remainder of my listening time discovering new music using things like internet \
-       radio services like NTS.";
+      var rank_num = rank.filter((d) => d.year === current_year)[0]["ytd_rank"];
 
-      // "The <span style='color: #1db954; font-weight: 1000';>" +
-      // ytd_total +
-      // "</span> albums so far this year, ranks no. <span style='color: #1db954; font-weight: 1000';>" +
-      // rank.filter((d) => d.year === current_year)[0]["ytd_rank"] +
-      // "</span> compared to previous years";
+      var summary_text = `My album listening peaked in 2021 and has been declining ever since. 
+        This reflects a shift in my listening habits as I spend more time discovering new music.
+        I mostly listen to albums while working and listen to things like internet radio shows and mixes while exercising,
+        reading etc.`;
 
-      // Update heading sub text
-      d3.select("#stats-1-text")
+      // `The <span style='color: #1db954; font-weight: 1000';>${ytd_total}</span> albums so far this year ranks<span style='color: #1db954; font-weight: 1000';>
+      //  #${rank_num}</span> when compared to previous years.`;
+
+      // Update h1, h2 text
+      d3.select("#stats-title-1")
+        .append("h1")
+        .attr("id", "stats-title-text-1")
+        .html("Cumulative Album Listens by Year");
+
+      d3.select("#stats-text-1")
         .append("h2")
-        .attr("id", "stats-1-sub-text")
+        .attr("id", "stats-sub-text-1")
         .html(summary_text);
     }
   }
