@@ -74,7 +74,7 @@ d3.json(
     .attr("class", "dy-text")
     .attr("x", dy_rect_width - 5)
     .attr("y", (d) => dy_rect_height * 1.5 + d.decade_num * dy_rect_height)
-    .text((d) => d.decade + "0's")
+    .text((d) => d.decade + "0s")
     .attr("alignment-baseline", "middle");
 
   // Legend text
@@ -83,7 +83,7 @@ d3.json(
     // .attr("class", "dy-text-legend-main")
     .attr("class", "dy-text-legend")
     .attr("x", dy_rect_width)
-    .attr("y", dy_rect_height)
+    .attr("y", dy_rect_height + 2)
     .text("None")
     .attr("alignment-baseline", "hanging");
 
@@ -112,8 +112,8 @@ d3.json(
       "x",
       (d, i) => dy_rect_width * 2 + (i * legend_width) / legend_data.length
     )
-    .attr("y", dy_rect_height)
-    .text((d) => (d == 1 ? "Less" : d == 446 ? "More" : ""))
+    .attr("y", dy_rect_height + 2)
+    .text((d) => (d == 1 ? "Less albums" : d == 451 ? "More" : ""))
     .attr("alignment-baseline", "hanging");
 
   // Legend: None
@@ -180,11 +180,11 @@ d3.json(
         : `Over the past week, I've listened to albums from ${num_years} years spread across ${num_decades} decades`;
 
     var dy_sub_heading = `I've listened to albums from <span style='color: #1db954; 
-    font-weight: 1000'>${num_years}</span> years spread  across <span style='color: #1db954; 
-    font-weight: 1000'>${num_decades}</span> decades. I've listened to at least one album from each
-    year since the 1956. I've listened to albums released between 2019 and 2021 most. Some 
-    of this is due to it being easier to find recent releases on Spotify and my listening habits during 
-    2020 and 2021. This has changed over time as I try to listen to more older albums.`;
+    font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954; 
+    font-weight: 1000'>${num_decades}</span> decades, with at least one album from each
+    year since 1956. I've listened to albums released between 2019 and 2021 most frequently. Some 
+    of this is due to it being easier to find recent releases on Spotify and also due to my listening
+    habits in 2020 and 2021. This has changed over time as I try to listen to more older albums.`;
 
     sub_text.html(dy_sub_heading);
 
