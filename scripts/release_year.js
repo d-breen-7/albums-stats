@@ -183,8 +183,8 @@ d3.json(
     font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954; 
     font-weight: 1000'>${num_decades}</span> decades, with at least one album from each
     year since 1956. I've listened to albums released between 2019 and 2021 most frequently. Some 
-    of this is due to it being easier to find recent releases on Spotify and also due to my listening
-    habits in 2020 and 2021. This has changed over time as I try to listen to more older albums.`;
+    of this is due to my listening habits in 2020 and 2021, and the fact it is easier to find recent 
+    releases on Spotify. This has changed over time as I try to listen to more older albums.`;
 
     sub_text.html(dy_sub_heading);
 
