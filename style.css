@@ -65,21 +65,21 @@ h2 {
   background-color: #1db954;
 }
 
-.stats-tile-4r {
+.stats-tile-3r {
   display: grid;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto auto 1fr;
   height: 600px;
   margin: 5px;
 }
 
-.stats-tile-4r::before {
+.stats-tile-3r::before {
   content: "";
   width: 0;
   grid-row: 1 / 1;
   grid-column: 1 / 1;
 }
 
-.stats-tile-4r > *:first-child {
+.stats-tile-3r > *:first-child {
   grid-row: 1 / 1;
   grid-column: 1 / 1;
 }
@@ -89,7 +89,7 @@ h2 {
   margin: 5px;
 }
 
-/* .stats-tile-4r > .stats-title {
+/* .stats-tile-3r > .stats-title {
   border-bottom: #1db954 solid 2px;
 } */
 
@@ -516,4 +516,16 @@ button:disabled {
 
 .column-album-cover {
   width: 0%;
+}
+
+.artist-dropdown {
+  display: block;
+  /* font-size: 28px; */
+  color: #191414;
+  /* width: 400px; */
+  box-sizing: border-box;
+  margin-left: 2.5%;
+  margin-bottom: 7.5px;
+  border-bottom: 2px solid #191414;
+  background-color: white;
 }
