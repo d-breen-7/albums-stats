@@ -529,3 +529,27 @@ button:disabled {
   border-bottom: 2px solid #191414;
   background-color: white;
 }
+
+.stats-image-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 350px);
+  gap: 20px;
+  justify-items: center; /* center items horizontally in grid cells */
+  align-items: center; /* center items vertically in grid cells */
+}
+
+.rd-tile {
+  width: 350px;
+  background: white;
+  border: 1px solid #a9a9a9;
+  border-radius: 12px;
+  padding: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column; /* stack children vertically */
+  justify-content: center; /* center vertically */
+  align-items: center; /* center horizontally */
+}

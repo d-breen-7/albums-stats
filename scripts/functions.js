@@ -114,10 +114,7 @@ const sequence = (min, max, step) =>
 function scale_x_history(year, width) {
   let mindate = new Date(+year, 0, 1),
     maxdate = new Date(+year + 1, 0, 0);
-  return d3
-    .scaleTime()
-    .domain([mindate, maxdate])
-    .range([12, width - 12]);
+  return d3.scaleTime().domain([mindate, maxdate]).range([0, width]);
 }
 
 function scale_y_history(max, height) {
@@ -125,10 +122,7 @@ function scale_y_history(max, height) {
 }
 
 function scale_h_history(max, height) {
-  return d3
-    .scaleLinear()
-    .domain([0, max])
-    .range([0, height - 5]);
+  return d3.scaleLinear().domain([0, max]).range([0, height]);
 }
 
 function last_listen_days(last_listen) {
