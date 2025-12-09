@@ -63,7 +63,7 @@ d3.json("data/artist_level.json", function (data) {
   listen to an artist they will be shown in the new data, with any subsequent albums shown as part of the total.
   <br><span style='color: #a9a9a9'>I can also search for an artist to see a listen history.</span>`;
 
-  const artist_overview_text = `After seraching for an artist, I get an overview of album listens. The data includes albums 
+  const artist_overview_text = `After searching for an artist, I get an overview of album listens. The data includes albums 
   by the artist, and albums that the artist features on. Each listens can be selected to get more details about the 
   specific album. The album image can also be clicked to open the album in Spotify.
   <br><span style='color: #a9a9a9'>Album meta data is sourced from Spotify.</span>`;
