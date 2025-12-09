@@ -15,26 +15,52 @@
     <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
     <script src="scripts/functions.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
   </head>
 
   <body>
     <main class="container">
-      <section class="section">
-        <div id="stats-1" class="stats-tile-3r">
-          <div class="section-title">
-            <h1>Listen History</h1>
-          </div>
+      <section>
+        <div id="stats-1" class="stats-tile-4r">
+          <div class="stats-title" id="stats-title"></div>
+          <div id="stats-text-1" class="stats-text"></div>
 
-          <div class="radio-container-years">
+          <div class="search-container">
             <select id="select-artist" class="artist-dropdown">
               <option value="0">Overview</option>
             </select>
+          </div>
+          <div id="legend" class="legend-show">
+            <div class="legend-container" id="legend-container">
+              <div class="overview-legend" id="overview-legend">
+                <div class="overview-legend-div" id="overview-legend-div"></div>
+              </div>
+              <div class="overview-legend" id="overview-legend-1">
+                <div
+                  class="overview-legend-div"
+                  id="overview-legend-div-1"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="album-container album-container-hide"
+            id="album-container"
+          >
+            <div class="album-info-tiles">
+              <div class="album-info-legend" id="album-info-legend"></div>
+              <div class="album-artist-image"></div>
+              <div class="album-artist-title"></div>
+              <div class="album-artist-info"></div>
+              <div class="album-artist-plays"></div>
+              <div class="album-src">
+                <img
+                  src="images\Spotify_Full_Logo_RGB_Green.png"
+                  id="album-src"
+                  class="album-src-image album-src-hide"
+                />
+              </div>
+            </div>
           </div>
           <div id="dash" class="stats-image-tiles">
             <!-- <div id="listen-history"> -->

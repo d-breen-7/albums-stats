@@ -111,14 +111,14 @@ function leap_year(year) {
 const sequence = (min, max, step) =>
   Array.from({ length: (max - min + 1) / step + 1 }, (_, i) => min + i * step);
 
-function scale_x_history(year, width) {
+function scale_x_history(year, margin_left, width) {
   let mindate = new Date(+year, 0, 1),
     maxdate = new Date(+year + 1, 0, 0);
-  return d3.scaleTime().domain([mindate, maxdate]).range([0, width]);
+  return d3.scaleTime().domain([mindate, maxdate]).range([margin_left, width]);
 }
 
-function scale_y_history(max, height) {
-  return d3.scaleLinear().domain([0, max]).range([height, 0]);
+function scale_y_history(max, height, margin_top) {
+  return d3.scaleLinear().domain([0, max]).range([height, margin_top]);
 }
 
 function scale_h_history(max, height) {
@@ -245,4 +245,68 @@ function album_slider(selector, data) {
     .attr("src", (d) => d.album_cover)
     .attr("height", 150)
     .attr("width", 150);
+}
+
+var release_texture_legend = textures
+  .lines()
+  .stroke("#76e99f")
+  .background("#1db954")
+  .thicker();
+  
+function draw_artist_legend() {
+  // Data for artist legend
+  const legendData = [
+    { className: "album-play-0", text: "First listen", cy: 30 },
+    { className: "album-play-1", text: "New listen", cy: 60 },
+    { className: "album-play-2", text: "Relisten", cy: 90 },
+    { className: "album-play-5", text: "Feat. on album", cy: 120 },
+  ];
+
+  // Create SVG
+  const legend_svg = d3
+    .select("#album-info-legend")
+    .append("svg")
+    .attr("id", "album-info-legend-svg")
+    .attr("width", "100%")
+    .attr("height", "100%");
+
+  // Add circles
+  legend_svg
+    .selectAll(".album-type-legend")
+    .data(legendData)
+    .enter()
+    .append("circle")
+    .attr("class", (d) => `${d.className} ablum-type-legend`)
+    .attr("cx", 40)
+    .attr("cy", (d) => d.cy)
+    .attr("r", 10);
+
+  // Add text labels
+  legend_svg
+    .selectAll(".legend-text.dynamic")
+    .data(legendData)
+    .enter()
+    .append("text")
+    .attr("x", 60)
+    .attr("y", (d) => d.cy + 5)
+    .text((d) => d.text)
+    .attr("class", "legend-text dynamic");
+
+  legend_svg.call(release_texture_legend);
+
+  legend_svg
+    .append("rect")
+    .attr("x", 160)
+    .attr("y", 20)
+    .attr("width", 5)
+    .attr("height", 80)
+    // .attr("class", "album-release")
+    .style("fill", release_texture_legend.url());
+
+  legend_svg
+    .append("text")
+    .attr("x", 170)
+    .attr("y", 35)
+    .text("Album release")
+    .attr("class", "legend-text");
 }

@@ -1,35 +1,9 @@
-d3.json("data/listenHistory.json", function (data) {
-  let _overview = data.overview,
-    dropdown = data.dropdown,
-    albumsData = data.data,
-    favourites = data.favourite;
+d3.json("data/artist_level.json", function (data) {
+  let _overview_data = data.overview,
+    albums_data = data.data,
+    dropdown = data.dropdown;
 
-  let overview = tidy(
-    _overview,
-    mutate({
-      year: (d) => d.date.slice(0, 4),
-    })
-  );
-
-  var d = 0,
-    albums = [];
-
-  // Need to return object of albums only
-  for (var d = 0; d < albumsData.length; d++) {
-    var artistAlbums = albumsData[d].albums;
-    var a = 0;
-    for (var a = 0; a < artistAlbums.length; a++) {
-      albums.push(artistAlbums[a]);
-    }
-  }
-
-  let YEARS = tidy(overview, distinct([(d) => d.year]), select(["year"]));
-
-  let color = d3
-    .scaleLinear()
-    .domain([0, 10, 16])
-    .range(["#eeeeee", "#76e99f", "#1db954"]);
-
+  // Get artists in the dropdown
   let dropdown_names = d3
     .map(dropdown, function (d) {
       return d.artist_name;
@@ -38,16 +12,7 @@ d3.json("data/listenHistory.json", function (data) {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     });
 
-  let today = String(new Date().toISOString().slice(0, 10));
-
-  let last_entry = overview[overview.length - 1].date,
-    albums_today =
-      last_entry === today
-        ? overview.filter((d) => d.date === today)[0].albums
-        : 0,
-    total_today = albums_today === undefined ? 0 : albums_today,
-    albums_today_text = total_today === 1 ? "album today" : "albums today";
-
+  // Populdate the dropdown list
   d3.select("#select-artist")
     .selectAll("options")
     .data(dropdown_names)
@@ -60,212 +25,523 @@ d3.json("data/listenHistory.json", function (data) {
       return d;
     });
 
+  // Overview of all listens
+  let overview_data = tidy(
+    _overview_data,
+    mutate({
+      year: (d) => d.listen_date.slice(0, 4),
+    }),
+    arrange((d) => d.listen_date)
+  );
+
+  var max_total = tidy(overview_data, max("avg_total")),
+    albums = [];
+
+  let years_in_data = tidy(
+    overview_data,
+    distinct([(d) => d.year]),
+    select(["year"])
+  );
+
   let release_texture = textures
-    .lines()
-    .stroke("#76e99f")
-    .background("#1db954")
-    .thicker();
+      .lines()
+      .stroke("#76e99f")
+      .background("#1db954")
+      .thicker(),
+    existing_artists_texture = textures
+      .lines()
+      .orientation("diagonal")
+      .size(3)
+      .strokeWidth(1)
+      .shapeRendering("crispEdges")
+      .background("#1db954")
+      .stroke("#9df7bd");
+
+  // Add overview text
+  const overview_text = `Despite the high number of albums I have listened to, I am still consistently finding new artists 
+  to listen. The overview below shows the 7-day rolling average for all albums and albums by new artists. The first time I 
+  listen to an artist they will be shown in the new data, with any subsequent albums shown as part of the total.
+  <br><span style='color: #a9a9a9'>I can also search for an artist to see a listen history.</span>`;
+
+  const artist_overview_text = `After seraching for an artist, I get an overview of album listens. The data includes albums 
+  by the artist, and albums that the artist features on. Each listens can be selected to get more details about the 
+  specific album. The album image can also be clicked to open the album in Spotify.
+  <br><span style='color: #a9a9a9'>Album meta data is sourced from Spotify.</span>`;
+
+  d3.select("#stats-title")
+    .append("h1")
+    .attr("id", "stats-title-text")
+    .html("Average Albums Per Day by Artist Status");
+
+  d3.select("#stats-text-1")
+    .append("h2")
+    .attr("id", "stats-sub-text-1")
+    .html(overview_text);
 
   const dashboard = d3.select("#dash");
 
   function drawOverview() {
-    // d3.select("#listen-history")
-    //   .selectAll("div")
-    //   .data(YEARS)
-    //   .enter()
-    //   .append("div")
-    //   .attr("class", "history-year-container")
-    //   .attr("id", (d, i) => "history-" + d.year);
+    years_in_data
+      .map((d) => d.year)
+      .forEach((year, index) => {
+        var year_data = overview_data.filter((d) => d.year === year);
 
-    // d3.select(".history-year-container")
-    //   .append("div")
-    //   .attr("class", "listen-history")
-    //   .text("Listen History");
+        const tile = dashboard
+          .append("div")
+          .attr("class", "artist-tile")
+          .attr("id", "artist-tile-" + year);
 
-    YEARS.map((d) => d.year).forEach((year, index) => {
-      let year_data = overview.filter((d) => d.year === year);
+        tile.append("div").attr("class", "tile-title").text(year);
 
-      const tile = dashboard
-        .append("div")
-        .attr("class", "rd-tile")
-        .attr("id", "rd-tile-" + index);
+        tile
+          .append("div")
+          .attr("id", "tile-main-" + year)
+          .attr("class", "tile-main");
 
-      tile.append("div").attr("class", "rd-title").text(year);
+        var svg_width = d3.selectAll("#tile-main-" + year).node().clientWidth,
+          svg_height = d3.selectAll("#tile-main-" + year).node().clientHeight,
+          album_radius = svg_height / 5 / 2,
+          scale_x = scale_x_history(
+            year,
+            album_radius + 2,
+            svg_width - (album_radius + 2)
+          ),
+          scale_y_total = scale_y_history(max_total, svg_height, 0);
 
-      const svg = tile
-        .append("svg")
-        .attr("width", "100%")
-        .attr("height", "100%");
+        const svg_overview = d3
+          .selectAll("#tile-main-" + year)
+          .append("svg")
+          .attr("width", svg_width)
+          .attr("height", svg_height)
+          .attr("id", "svg-main-" + year);
 
-      t_width = d3.select("#rd-tile-0").node().offsetWidth;
-      t_height = d3.select("#rd-tile-0").node().offsetHeight;
+        // Grid lines for months
+        let months = d3.timeMonths(
+          d3.timeParse("%Y-%m-%d")(year + "-01-01"),
+          d3.timeParse("%Y-%m-%d")(+year + 1 + "-01-01")
+        );
 
-      let h_ = 100,
-        s_ = t_width / days_in_year(year);
+        svg_overview
+          .append("g")
+          .attr("class", "month-grid")
+          .selectAll("line")
+          .data(months)
+          .enter()
+          .append("line")
+          .attr("x1", (d) => scale_x(d))
+          .attr("x2", (d) => scale_x(d))
+          .attr("y1", 0)
+          .attr("y2", svg_height);
 
-      let scale_x = scale_x_history(year, t_width),
-        scale_y = scale_y_history(16, t_height),
-        scale_h = scale_h_history(16, t_height);
+        // Create ticks from 0 to max_total every 2 units
+        // Grid lines every 2
+        let horizontalGridTicks = d3.range(
+          0,
+          Math.ceil(max_total / 2) * 2 + 1,
+          2
+        );
 
-      // d3.select(year_selector)
-      //   .append("div")
-      //   .attr("class", "history-year")
-      //   .text(year);
+        svg_overview
+          .append("g")
+          .attr("class", "month-grid")
+          .selectAll("line")
+          .data(horizontalGridTicks)
+          .enter()
+          .append("line")
+          .attr("id", (d) => (d === 0 ? "" : "y-axis-grid"))
+          .attr("x1", album_radius + 2)
+          .attr("x2", svg_width - album_radius + 2)
+          .attr("y1", (d) => scale_y_total(d))
+          .attr("y2", (d) => scale_y_total(d));
 
-      // var svg = d3
-      //   .select(year_selector)
-      //   .append("div")
-      //   .attr("class", "history-year-svg")
-      //   .append("svg")
-      //   .attr("viewBox", [0, 0, w_, index === YEARS.length - 1 ? h_ + 40 : h_])
-      //   .attr("id", "history-year-svg-" + year);
+        // Line for average total
+        const area_total_avg = d3
+          .area()
+          .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+          .y0((d) => scale_y_total(0))
+          .y1((d) => scale_y_total(+d.avg_total))
+          .curve(d3.curveMonotoneX);
 
-      svg
-        .append("g")
-        .selectAll("rect")
-        .data(year_data.filter((d) => +d.albums > 0))
-        .enter()
-        .append("rect")
-        .attr("class", "history-strip-back")
-        .attr("id", "history-strip-back-" + year)
-        .attr("x", (d) => scale_x(d3.timeParse("%Y-%m-%d")(d.date)))
-        .attr("y", (d) => scale_y(8 + d.albums / 2))
-        .attr("height", (d) => scale_h(+d.albums))
-        .attr("width", s_)
-        // .attr("rx", 0.75)
-        .attr("opacity", 1)
-        .attr("fill", (d) => color(d.albums)); // "#1db954");
+        const line_total_avg = d3
+          .line()
+          .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+          .y((d) => scale_y_total(+d.avg_total))
+          .curve(d3.curveMonotoneX);
 
-      // svg
-      //   .append("g")
-      //   .selectAll("rect")
-      //   .data(year_data.filter((d) => +d.albums > 0))
-      //   .enter()
-      //   .append("rect")
-      //   .attr("class", "history-strip-mask")
-      //   .attr("id", "history-strip-mask-" + year)
-      //   .attr("x", (d) => scale_x(d3.timeParse("%Y-%m-%d")(d.date)))
-      //   .attr("y", (d) => scale_y(8 + d.albums / 2 - 0.3))
-      //   .attr("height", (d) => scale_h(+d.albums - 0.6))
-      //   .attr("width", s_ - 0.5)
-      //   .attr("fill", "#ffffff")
-      //   .attr("opacity", 1);
+        svg_overview
+          .append("g")
+          .append("path")
+          .attr("id", "overview")
+          .datum(year_data)
+          .attr("fill", "#9df7bd")
+          .attr("opacity", 1)
+          .attr("d", area_total_avg);
 
-      // svg
-      //   .append("g")
-      //   .selectAll("rect")
-      //   .data(year_data.filter((d) => +d.albums > 0))
-      //   .enter()
-      //   .append("rect")
-      //   .attr("class", "history-strip-main")
-      //   .attr("id", "history-strip-main-" + year)
-      //   .attr("x", (d) => scale_x(d3.timeParse("%Y-%m-%d")(d.date)))
-      //   .attr("y", (d) => scale_y(8 + d.albums / 2 - 0.3))
-      //   .attr("height", (d) => scale_h(+d.albums - 0.6))
-      //   .attr("width", s_ - 0.5)
-      //   .attr("fill", (d) =>
-      //     d.date === today
-      //       ? "#1db954"
-      //       : +d.albums === 0
-      //       ? "white"
-      //       : color(+d.albums)
-      //   )
-      //   .attr("opacity", (d) => (d.date === today ? 1 : 0.85));
+        svg_overview
+          .append("path")
+          .datum(year_data)
+          .attr("id", "overview")
+          .attr("fill", "none")
+          .attr("stroke", "#1db954")
+          .attr("stroke-width", 1)
+          .attr("d", line_total_avg);
 
-      if (index === YEARS.length - 1) {
-        // let x_axis = d3
-        //   .axisBottom()
-        //   .scale(scale_x)
-        //   .ticks(12)
-        //   .tickFormat(d3.timeFormat("%b"));
-        // svg
-        //   .append("g")
-        //   .attr("class", "history-x-axis")
-        //   .style("text-anchor", "start")
-        //   .attr("transform", "translate(0," + (h_ + 15) + ")")
-        //   .call(x_axis);
-        // svg
-        //   .append("text")
-        //   .attr("class", "today-stats-number")
-        //   .attr("id", "today-stats-number")
-        //   .attr("x", scale_x(d3.timeParse("%Y-%m-%d")(today)) + s_ / 2 + 10)
-        //   .attr("y", 10)
-        //   .text(total_today)
-        //   .attr("alignment-baseline", "middle")
-        //   .attr(
-        //     "text-anchor",
-        //     scale_x(d3.timeParse("%Y-%m-%d")(today)) > 1000 ? "end" : "middle"
-        //   );
-        // svg
-        //   .append("text")
-        //   .attr("class", "today-stats")
-        //   .attr("id", "today-stats")
-        //   .attr("x", scale_x(d3.timeParse("%Y-%m-%d")(today)) + 1.4 + 10)
-        //   .attr("y", 20)
-        //   .text(albums_today_text)
-        //   .attr("alignment-baseline", "middle")
-        //   .attr("text-anchor", "end")
-        //   .attr("transform", function (d) {
-        //     let x_point = scale_x(d3.timeParse("%Y-%m-%d")(today)) + 1.4 + 10,
-        //       y_point = 20;
-        //     return "rotate(" + 270 + ", " + x_point + ", " + y_point + ")";
-        //   });
-      }
-    });
+        // Line for average new
+        const area_existing_avg = d3
+          .area()
+          .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+          .y0((d) => scale_y_total(0))
+          .y1((d) => scale_y_total(+d.avg_new))
+          .curve(d3.curveMonotoneX);
+
+        const line_existing_avg = d3
+          .line()
+          .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+          .y((d) => scale_y_total(+d.avg_new))
+          .curve(d3.curveMonotoneX);
+
+        svg_overview.call(existing_artists_texture);
+
+        svg_overview
+          .append("g")
+          .append("path")
+          .attr("id", "overview")
+          .datum(year_data)
+          .attr("fill", existing_artists_texture.url())
+          .attr("opacity", 1)
+          .attr("d", area_existing_avg);
+
+        svg_overview
+          .append("path")
+          .attr("id", "overview")
+          .datum(year_data)
+          .attr("fill", "none")
+          .attr("stroke", "#1db954")
+          .attr("stroke-width", 1)
+          .attr("d", line_existing_avg);
+
+        if (index === 6) {
+          const legend_data = [
+            {
+              listen_date: "2025-01-03",
+              avg_new: 1,
+              avg_total: 2.75,
+            },
+            {
+              listen_date: "2025-02-01",
+              avg_new: 1.7,
+              avg_total: 4.2,
+            },
+            {
+              listen_date: "2025-03-01",
+              avg_new: 2.575,
+              avg_total: 4.75,
+            },
+            {
+              listen_date: "2025-04-01",
+              avg_new: 2.725,
+              avg_total: 6.125,
+            },
+            {
+              listen_date: "2025-05-01",
+              avg_new: 4.725,
+              avg_total: 8,
+            },
+            {
+              listen_date: "2025-06-01",
+              avg_new: 5.225,
+              avg_total: 8.5,
+            },
+            {
+              listen_date: "2025-07-04",
+              avg_new: 5.7,
+              avg_total: 8.7,
+            },
+          ];
+
+          // Add overview legend
+          // Create SVG
+          const legend_svg = d3
+            .select("#overview-legend-div")
+            .append("svg")
+            .attr("id", "overview-legend-svg")
+            .attr("width", svg_width)
+            .attr("height", svg_height + 20);
+
+          d3.select("#overview-legend-div-1")
+            .append("svg")
+            .attr("id", "overview-legend-svg-1")
+            .attr("width", svg_width)
+            .attr("height", svg_height + 20);
+
+          // Create ticks from 0 to max_total every 2 units
+          // Grid lines every 2
+          let horizontalGridTicks = d3.range(
+            0,
+            Math.ceil(max_total / 2) * 2 + 1,
+            2
+          );
+
+          // Labels every 4
+          let horizontalLabelTicks = d3.range(
+            0,
+            Math.ceil(max_total / 2) * 2 + 1,
+            2
+          );
+
+          const hGrid = legend_svg.append("g").attr("class", "month-grid");
+
+          hGrid
+            .selectAll("line")
+            .data(horizontalGridTicks)
+            .enter()
+            .append("line")
+            .attr("x1", album_radius + 2)
+            .attr("x2", svg_width / 2 - album_radius + 2)
+            .attr("y1", (d) => scale_y_total(d))
+            .attr("y2", (d) => scale_y_total(d));
+
+          // X axis labels
+          hGrid
+            .selectAll("text")
+            .data(horizontalLabelTicks)
+            .enter()
+            .append("text")
+            .attr("class", "ca-x-axis")
+            .attr("x", 2)
+            .attr("y", (d) => scale_y_total(d) + 5)
+            .text((d) => d);
+
+          let x_axis = d3
+            .axisBottom()
+            .scale(scale_x)
+            .ticks(12)
+            .tickFormat(d3.timeFormat("%b"));
+
+          legend_svg
+            .append("g")
+            .attr("class", "ca-x-axis")
+            .style("text-anchor", "start")
+            .attr("transform", "translate(0," + 82.5 + ")")
+            .call(x_axis);
+
+          // Grid lines for months
+          let months = d3.timeMonths(
+            d3.timeParse("%Y-%m-%d")(year + "-01-01"),
+            d3.timeParse("%Y-%m-%d")(year + "-08-01")
+          );
+
+          legend_svg
+            .append("g")
+            .attr("class", "month-grid")
+            .selectAll("line")
+            .data(months)
+            .enter()
+            .append("line")
+            .attr("x1", (d) => scale_x(d))
+            .attr("x2", (d) => scale_x(d))
+            .attr("y1", 0)
+            .attr("y2", svg_height);
+
+          legend_svg.call(existing_artists_texture);
+
+          // Line for average total
+          const area_total_avg = d3
+            .area()
+            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .y0((d) => scale_y_total(0))
+            .y1((d) => scale_y_total(+d.avg_total))
+            .curve(d3.curveMonotoneX);
+
+          const line_total_avg = d3
+            .line()
+            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .y((d) => scale_y_total(+d.avg_total))
+            .curve(d3.curveMonotoneX);
+
+          legend_svg
+            .append("g")
+            .append("path")
+            .attr("id", "overview")
+            .datum(legend_data)
+            .attr("fill", "#9df7bd")
+            .attr("opacity", 1)
+            .attr("d", area_total_avg);
+
+          legend_svg
+            .append("path")
+            .datum(legend_data)
+            .attr("id", "overview")
+            .attr("fill", "none")
+            .attr("stroke", "#1db954")
+            .attr("stroke-width", 1)
+            .attr("d", line_total_avg);
+
+          // Line for average new
+          const area_existing_avg = d3
+            .area()
+            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .y0((d) => scale_y_total(0))
+            .y1((d) => scale_y_total(+d.avg_new))
+            .curve(d3.curveMonotoneX);
+
+          const line_existing_avg = d3
+            .line()
+            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .y((d) => scale_y_total(+d.avg_new))
+            .curve(d3.curveMonotoneX);
+
+          legend_svg.call(existing_artists_texture);
+
+          legend_svg
+            .append("g")
+            .append("path")
+            .attr("id", "overview")
+            .datum(legend_data)
+            .attr("fill", existing_artists_texture.url())
+            .attr("opacity", 1)
+            .attr("d", area_existing_avg);
+
+          legend_svg
+            .append("path")
+            .attr("id", "overview")
+            .datum(legend_data)
+            .attr("fill", "none")
+            .attr("stroke", "#1db954")
+            .attr("stroke-width", 1)
+            .attr("d", line_existing_avg);
+
+          legend_svg
+            .append("rect")
+            .attr("id", "overview")
+            .attr("fill", "white")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2025-08-01")))
+            .attr("y", 0)
+            .attr("width", "250px")
+            .attr("height", svg_height + 20);
+
+          legend_svg
+            .append("rect")
+            .attr("id", "overview")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2025-05-09")))
+            .attr("y", 10)
+            .attr("width", 77.5)
+            .attr("height", 20)
+            .attr("fill", "white");
+
+          legend_svg
+            .append("text")
+            .attr("id", "overview")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2025-05-10")))
+            .attr("y", 25)
+            .text("All albums")
+            .attr("fill", "#1db954")
+            .attr("font-weight", 1000)
+            .attr("font-size", "16px");
+
+          legend_svg
+            .append("rect")
+            .attr("id", "overview")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2025-04-23")))
+            .attr("y", 55)
+            .attr("width", 100)
+            .attr("height", 20)
+            .attr("fill", "white");
+
+          legend_svg
+            .append("text")
+            .attr("id", "overview")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2025-04-24")))
+            .attr("y", 70)
+            .text("By new artists")
+            .attr("fill", "#1db954")
+            .attr("font-weight", 1000)
+            .attr("font-size", "16px");
+
+          legend_svg
+            .append("text")
+            .attr("id", "overview")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2025-07-15")))
+            .attr("y", 70)
+            .text("*X and Y gridlines")
+            .attr("fill", "#121212")
+            .attr("font-size", "14px");
+
+          legend_svg
+            .append("text")
+            .attr("id", "overview")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2025-07-19")))
+            .attr("y", 85)
+            .text("mirror the tiles below")
+            .attr("fill", "#121212")
+            .attr("font-size", "14px");
+        }
+      });
   }
 
   function drawArtist(artist) {
     if (artist === "0") {
-      // d3.selectAll("#album-play").remove();
-      // d3.selectAll(".history-albums").remove();
-      // d3.selectAll(".album-release").remove();
-      // d3.select("#albums-detail-name-1").text("Favourite Albums");
-      // d3.select("#albums-detail-name-2").text("Oldest Albums");
+      // Update text
+      d3.select("#stats-title-text").html(
+        "Average Albums Per Day by Artist Status"
+      );
+      d3.select("#stats-sub-text-1").html(overview_text);
 
-      overview_stats(overview, YEARS);
+      // Show overview
+      d3.selectAll("#overview").attr("class", "overview-show");
+      d3.select("#legend").attr("class", "legend-show");
+      d3.selectAll("#y-axis-grid").attr("display", "block");
 
-      YEARS.map((d) => d.year).forEach((year, index) => {
-        year_selector = "#history-" + year;
+      // Remove artist info
+      d3.selectAll(".album-play").remove();
+      d3.selectAll(".album-release").remove();
 
-        // let w_ = d3.select(year_selector).node().offsetWidth,
-        //   h_ = 100;
+      // Remove any album being highlighted
+      d3.select("#album-container").attr(
+        "class",
+        "album-container album-container-hide"
+      );
+      d3.selectAll("#album-image").remove();
+      d3.selectAll(".album-artist-title").text("");
+      d3.selectAll(".album-artist-info").text("");
+      d3.selectAll(".album-artist-plays").text("");
+      d3.select("#album-src").attr("class", "album-src-image album-src-hide");
 
-        // let scale_y = scale_y_history(16, h_),
-        //   scale_h = scale_h_history(16, h_);
-
-        // d3.select(year_selector)
-        //   .selectAll(".history-strip-back")
-        //   .transition()
-        //   .attr("y", (d) => scale_y(8 + d.albums / 2))
-        //   .attr("height", (d) => scale_h(+d.albums))
-        //   .attr("opacity", 1);
-
-        // d3.select(year_selector)
-        //   .selectAll(".history-strip-mask")
-        //   .transition()
-        //   .attr("y", (d) => scale_y(8 + d.albums / 2 - 0.3))
-        //   .attr("height", (d) => scale_h(+d.albums - 0.6))
-        //   .attr("opacity", 1);
-
-        // d3.select(year_selector)
-        //   .selectAll(".history-strip-main")
-        //   .transition()
-        //   .attr("y", (d) => scale_y(8 + d.albums / 2 - 0.3))
-        //   .attr("height", (d) => scale_h(+d.albums - 0.6))
-        //   .attr("opacity", (d) => (d.date === today ? 1 : 0.85));
-      });
+      years_in_data
+        .map((d) => d.year)
+        .forEach((year, index) => {
+          // Format year div based on number of albums
+          d3.selectAll("#artist-tile-" + year).attr("class", "artist-tile");
+        });
     } else {
-      let artist_data = albumsData.filter((d) => d.artist_name === artist),
-        _artist_albums = artist_data[0].albums,
+      let artist_data = albums_data.filter((d) => d.artist_name === artist),
+        albums_meta = artist_data[0].albums,
         _album_plays = artist_data[0].played,
         _artist_feats = artist_data[0].features,
         _feat_plays = [];
 
-      d3.selectAll("#album-play").remove();
-      d3.selectAll(".history-albums").remove();
+      // Update summary text
+      // Update text
+      d3.select("#stats-title-text").html("Artist Listen History");
+      d3.select("#stats-sub-text-1").html(artist_overview_text);
+
+      // Remove other artist elements
+      d3.selectAll(".album-play").remove();
       d3.selectAll(".album-release").remove();
-      d3.select("#albums-detail-name-1").text("Artist Albums");
-      d3.select("#albums-detail-name-2").text("Features On");
+      d3.selectAll("#overview").attr("class", "overview-hide");
+      d3.select("#legend").attr("class", "legend-hide");
+      d3.selectAll("#album-image").remove();
+      d3.selectAll(".album-artist-title").text("");
+      d3.selectAll(".album-artist-info").text("");
+      d3.selectAll(".album-artist-plays").text("");
+      d3.selectAll("#y-axis-grid").attr("display", "none");
+
+      // Show album card
+      d3.select("#album-container").attr(
+        "class",
+        "album-container album-container-show"
+      );
+      d3.select("#album-src").attr("class", "album-src-image album-src-hide");
 
       let album_plays = tidy(
         _album_plays,
@@ -277,13 +553,11 @@ d3.json("data/listenHistory.json", function (data) {
 
       let artist_feats = tidy(
         _artist_feats,
-        filter(
-          (d) => !_artist_albums.map((a) => a.album_id).includes(d.album_id)
-        ),
+        filter((d) => !albums_meta.map((a) => a.album_id).includes(d.album_id)),
         arrange(["artist_id", "album_release"])
       );
 
-      let artist_albums = tidy(_artist_albums, arrange("album_release"));
+      let artist_albums = tidy(albums_meta, arrange("album_release"));
 
       artist_feats.forEach((d) => d.plays.forEach((d) => _feat_plays.push(d)));
 
@@ -303,143 +577,152 @@ d3.json("data/listenHistory.json", function (data) {
         arrange(desc("play_code"), "listen_date")
       );
 
-      album_slider("#slider-1", artist_albums);
-      album_slider("#slider-2", artist_feats);
+      years_in_data
+        .map((d) => d.year)
+        .forEach((year, index) => {
+          let year_selector = "#tile-main-" + year,
+            svg_id = "#svg-main-" + year;
 
-      let last_listen = album_plays[album_plays.length - 1].listen_date,
-        last_listen_gap = last_listen_days(
-          d3.timeParse("%Y-%m-%d")(last_listen)
-        );
-      listen_gap_text = "last listen";
+          var svg_width = d3.selectAll(svg_id).node().clientWidth,
+            svg_height = d3.selectAll(svg_id).node().clientHeight,
+            album_radius = svg_height / 5 / 2,
+            day_width = svg_width / days_in_year(year);
 
-      d3.select("#today-stats-number").text(
-        Number(last_listen_gap).toLocaleString()
-      );
-      d3.select("#today-stats").text(listen_gap_text);
+          var scale_x = scale_x_history(
+              year,
+              album_radius + 2,
+              svg_width - (album_radius + 2)
+            ),
+            year_plays = tidy(
+              all_artist_plays,
+              filter((d) => d.year === year),
+              arrange("listen_date")
+            ),
+            year_releases = artist_albums.filter(
+              (d) => d.album_release.slice(0, 4) === year
+            ),
+            albums_for_year = tidy(year_plays, distinct(["album_id"]));
 
-      YEARS.map((d) => d.year).forEach((year, index) => {
-        let year_selector = "#history-" + year,
-          svg_id = "#history-year-svg-" + year;
+          // Format year div based on number of albums
+          d3.selectAll("#artist-tile-" + year).attr(
+            "class",
+            albums_for_year.length === 0
+              ? "artist-tile artist-tile-none"
+              : "artist-tile artist-tile-data"
+          );
 
-        let w_ = d3.select(year_selector).node().offsetWidth,
-          h_ = 100,
-          s_ = w_ / days_in_year(year);
+          d3.select(year_selector).select(svg_id).call(release_texture);
 
-        // let scale_x = scale_x_history(year, w_),
-        //   R = 10;
+          // Add album releases
+          d3.select(year_selector)
+            .select(svg_id)
+            .append("g")
+            .selectAll("g")
+            .data(year_releases)
+            .enter()
+            .append("rect")
+            .attr("class", "album-release")
+            .attr("id", "album-release")
+            .attr(
+              "x",
+              (d) =>
+                scale_x(d3.timeParse("%Y-%m-%d")(d.album_release)) -
+                day_width / 2
+            )
+            .attr("y", 0)
+            .attr("width", day_width)
+            .attr("height", svg_height)
+            .style("fill", release_texture.url());
 
-        // year_plays = all_artist_plays.filter((d) => d.year === year);
-        // year_releases = artist_albums.filter(
-        //   (d) => d.album_release.slice(0, 4) === year
-        // );
+          // Add album plays
+          d3.select(year_selector)
+            .select(svg_id)
+            .append("g")
+            .selectAll("g")
+            .data(year_plays)
+            .enter()
+            .append("circle")
+            .attr("class", (d) => "album-play album-play-" + d.play_code)
+            .attr("id", (d) => d.album_id)
+            .attr("cx", (d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .attr(
+              "cy",
+              (d) =>
+                svg_height -
+                0.5 +
+                album_radius -
+                album_cy(year_plays, d.album_id, d.listen_date) *
+                  album_radius *
+                  2
+            )
+            .attr("r", album_radius)
+            .on("click", function (d, i) {
+              if (d.play_code === 5) {
+                // Getting album meta data for features
+                feat_artist_data = albums_data.find((artist) =>
+                  artist.albums.some((album) => album.album_id === d.album_id)
+                );
 
-        // year_num_albums = tidy(
-        //   year_plays,
-        //   filter((d) => d.play_code !== 5),
-        //   distinct(["album_id"])
-        // );
+                feat_albums_meta = feat_artist_data.albums;
+                album_data = feat_albums_meta.filter(
+                  (e) => e.album_id === d.album_id
+                )[0];
+              } else {
+                album_data = albums_meta.filter(
+                  (e) => d.album_id === e.album_id
+                )[0];
+              }
 
-        // year_num_listens = tidy(
-        //   year_plays,
-        //   filter((d) => d.play_code !== 5),
-        //   distinct(["album_id", "listen_date"])
-        // );
+              // Show Spotify as source
+              d3.select("#album-src").attr(
+                "class",
+                "album-src-image album-src-show"
+              );
 
-        // year_num_tracks = tidy(
-        //   year_plays,
-        //   filter((d) => d.play_code !== 5),
-        //   distinct(["album_id"]),
-        //   leftJoin(albums, { by: ["album_id", "album_id"] }),
-        //   summarize({
-        //     total: sum("album_tracks"),
-        //   })
-        // )[0];
+              // Remove existing
+              d3.select("#album-image").remove();
 
-        // year_num_feats = tidy(
-        //   year_plays,
-        //   filter((d) => d.play_code === 5),
-        //   arrange(["listen_date", "album_id"]),
-        //   distinct(["album_id", "listen_date"])
-        // );
+              // Add album image
+              d3.select(".album-artist-image")
+                .append("a")
+                .attr("id", "album-image")
+                .attr("href", album_data.album_url)
+                .append("div")
+                .append("img")
+                .attr("src", album_data.album_cover)
+                .attr("width", "100%")
+                .attr("height", "100%");
 
-        // d3.select(year_selector)
-        //   .select("#history-stats-1")
-        //   .text(year_num_albums.length);
-
-        // d3.select(year_selector)
-        //   .select("#history-stats-2")
-        //   .text(year_num_listens.length);
-
-        // d3.select(year_selector)
-        //   .select("#history-stats-3")
-        //   .text(year_num_tracks.total);
-
-        // d3.select(year_selector)
-        //   .select("#history-stats-4")
-        //   .text(year_num_feats.length);
-
-        // d3.select(year_selector).select(svg_id).call(release_texture);
-
-        // d3.select(year_selector)
-        //   .select(svg_id)
-        //   .append("g")
-        //   .selectAll("g")
-        //   .data(year_releases)
-        //   .enter()
-        //   .append("rect")
-        //   .attr("class", "album-release")
-        //   .attr("id", "album-release")
-        //   .attr("x", (d) => scale_x(d3.timeParse("%Y-%m-%d")(d.album_release)))
-        //   .attr("y", 0)
-        //   .attr("width", s_ - 0.5)
-        //   .attr("height", h_)
-        //   .style("fill", release_texture.url());
-
-        d3.select(year_selector)
-          .select(svg_id)
-          .append("g")
-          .selectAll("g")
-          .data(year_plays)
-          .enter()
-          .append("circle")
-          .attr("class", (d) => "album-play-" + d.play_code)
-          .attr("id", (d) => "album-play")
-          .attr(
-            "cx",
-            (d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)) + s_ / 2
-          )
-          .attr(
-            "cy",
-            (d) =>
-              h_ -
-              0.5 +
-              R -
-              album_cy(year_plays, d.album_id, d.listen_date) * R * 2
-          )
-          .attr("r", R);
-      });
-
-      d3.selectAll("rect.history-strip-main")
-        .transition()
-        .attr("y", 0)
-        .attr("height", 100)
-        .attr("opacity", 0.2);
-
-      d3.selectAll("rect.history-strip-back")
-        .transition()
-        .attr("y", 0)
-        .attr("height", 100)
-        .attr("opacity", 0.2);
-
-      d3.selectAll("rect.history-strip-mask")
-        .transition()
-        .attr("y", 0)
-        .attr("height", 100)
-        .attr("opacity", 0.2);
+              // Add album info
+              // Album name
+              d3.select(".album-artist-title").text(
+                album_data.album_name.length < 26
+                  ? album_data.album_name
+                  : album_data.album_name.slice(0, 26) + "..."
+              );
+              // Info
+              release_date = d3.timeFormat("%-d %b %y")(
+                d3.timeParse("%Y-%m-%d")(album_data.album_release)
+              );
+              d3.select(".album-artist-info").html(
+                `${album_data.album_tracks} tracks <span style='font-weight:1000;'>|</span> ${release_date}`
+              );
+              // Album plays
+              num_plays = album_plays.filter(
+                (e) => e.album_id === d.album_id
+              ).length;
+              d3.select(".album-artist-plays").html(
+                num_plays <= 1
+                  ? ""
+                  : `<span style='color:#1db954; font-weight:1000;'>${num_plays} listens</span>`
+              );
+            });
+        });
     }
   }
 
   drawOverview();
+  draw_artist_legend();
 
   d3.select("#select-artist").on("change", function (d) {
     var selected_artist = d3.select(this).property("value");
