@@ -1,13 +1,13 @@
 var dy_margins = { top: 0, right: 0, bottom: 0, left: 75 };
 
-var sub_text = d3.select("#stats-5-text").append("h2");
+var sub_text = d3.select("#release-decade-text").append("h2");
 
 var dy_sub_heading = `Over time, albums released <span style='color: #ffffff; font-weight: 1000; 
-background-color: #1db954;border-radius: 5px;'>pre-2010</span> have been making up a higher proportion of my total 
+background-color: #1db954;border-radius: 5px;'> &nbsp&nbsp pre-2010 &nbsp&nbsp</span> have been making up a higher proportion of my total 
 album listens. In 2020, these albums made up just <span style='color: #1db954; font-weight:1000'>7.2%</span> of my album listens. 
 In 2025, this number has increased to <span style='color: #1db954; font-weight:1000'>37.5%</span>. A big proportion of the
-albums I listen to are still those which were released from <span style=' color: #191414; font-weight: 1000; background-color:
-#9df7bd; border-radius: 5px;'> 2010 onwards</span>. Given that I am now listening to less albums, and trying to listen to more older 
+albums I listen to are still those which were released from <span style=' color: #121212; font-weight: 1000; background-color:
+#9df7bd; border-radius: 5px;'> &nbsp&nbsp 2010 onwards &nbsp&nbsp</span>. Given that I am now listening to less albums, and trying to listen to more older 
 albums, the changes in proportions are not surprising.`;
 
 sub_text.html(dy_sub_heading);
@@ -99,41 +99,60 @@ const decades = [
 ];
 
 // Create tiles for each listen year
-const dashboard = d3.select("#stats-image-5");
+const dashboard = d3.select("#release-decade-image");
 
 data.forEach((yearData, index) => {
   const tile = dashboard
     .append("div")
-    .attr("class", "rd-tile")
-    .attr("id", "rd-tile-" + index);
+    .attr("class", "release-decade-tile")
+    .attr("id", "release-decade-tile-" + index);
+});
+
+data.forEach((yearData, index) => {
+  const tile = d3.select("#release-decade-tile-" + index);
 
   // Define layout dimensions
-  var tile_width = d3.select("#rd-tile-0").node().offsetWidth;
-  var bar_start_x = 62.5;
-  var bar_width = tile_width - tile_width * 0.1 - bar_start_x;
-  var row_height = 27.5;
+  let tile_width = d3.select("#release-decade-tile-0").node().offsetWidth;
 
-  tile.append("div").attr("class", "rd-title").text(yearData.listen_year);
+  tile
+    .append("div")
+    .attr("class", "release-decade-title")
+    .text(yearData.listen_year);
 
-  const svgHeight = decades.length * row_height + row_height + 5;
-
-  const svg = tile
+  let release_decade_svg_id = "release-decade-svg-" + yearData.listen_year;
+  const release_decade_svg = tile
     .append("svg")
-    .attr("width", tile_width - 10)
-    .attr("height", svgHeight);
+    .attr("class", "release-decade-svg")
+    .attr("id", release_decade_svg_id)
+    .attr("width", tile_width - 10);
+  const release_decade_svg_height = parseFloat(
+    release_decade_svg.style("height")
+  );
+  //   decades.length * row_height + row_height + 5;
+
+  console.log(decades.length + 2);
+
+  let bar_start_x = 62.5,
+    bar_width = tile_width - bar_start_x - (bar_start_x - 20),
+    row_height = release_decade_svg_height / (decades.length + 2);
+
+  // console.log(
+  //   // yearData.length
+  //   release_decade_svg.style("height")
+  // );
 
   // Calculate total listens
-  let preTotal = 0;
-  let postTotal = 0;
+  let pre_total = 0;
+  let post_total = 0;
 
   Object.keys(yearData).forEach((key) => {
     if (key.startsWith("d")) {
       const decade = Number(key.slice(1)); // extract the number e.g. "d2010" -> 2010
 
       if (decade < 2010) {
-        preTotal += yearData[key];
+        pre_total += yearData[key];
       } else {
-        postTotal += yearData[key];
+        post_total += yearData[key];
       }
     }
   });
@@ -143,17 +162,17 @@ data.forEach((yearData, index) => {
     const y = i * row_height + 20;
 
     // Decade background
-    svg
+    release_decade_svg
       .append("rect")
-      .attr("class", "rd-bar-bg")
+      .attr("class", "release-decade-bar-bg")
       .attr("x", bar_start_x)
       .attr("y", y + 4)
       .attr("width", bar_width)
       .attr("height", row_height - 8);
 
-    svg
+    release_decade_svg
       .append("text")
-      .attr("class", "rd-decade-label")
+      .attr("class", "release-decalde-label")
       .attr("x", bar_start_x - 10)
       .attr("y", y + row_height / 2 + 4)
       .attr("fill", decade == "" ? "#191414" : "#a9a9a9")
@@ -167,9 +186,9 @@ data.forEach((yearData, index) => {
   gridPercents.forEach((p) => {
     const x = bar_start_x + (p / 100) * bar_width;
 
-    svg
+    release_decade_svg
       .append("line")
-      .attr("class", "rd-gridline")
+      .attr("class", "release-decade-gridline")
       .attr("x1", x)
       .attr("x2", x)
       .attr("y1", 25)
@@ -180,11 +199,11 @@ data.forEach((yearData, index) => {
   gridPercents.forEach((p) => {
     const x = bar_start_x + (p / 100) * bar_width;
 
-    svg
+    release_decade_svg
       .append("text")
-      .attr("class", "rd-grid-label")
+      .attr("class", "release-decade-grid-label")
       .attr("x", x)
-      .attr("y", svgHeight - 0)
+      .attr("y", release_decade_svg_height - row_height / 2)
       .attr("text-anchor", "middle")
       .text(p + "%");
   });
@@ -198,46 +217,46 @@ data.forEach((yearData, index) => {
     const y = i * row_height + 20;
 
     if (decade === "") {
-      const bar_widthPre = (preTotal / 100) * bar_width;
-      const bar_widthPost = (postTotal / 100) * bar_width;
+      const bar_width_pre = (pre_total / 100) * bar_width;
+      const bar_width_post = (post_total / 100) * bar_width;
 
       // Pre-2010 total bar
-      svg
+      release_decade_svg
         .append("rect")
-        .attr("class", "rd-bar rd-bar-comp")
+        .attr("class", "release-decade-bar release-decade-bar-comp")
         .attr("x", bar_start_x)
         .attr("y", y + 4)
-        .attr("width", bar_widthPre)
+        .attr("width", bar_width_pre)
         .attr("height", row_height - 8)
         .attr("fill", "#1db954");
 
       // Post-2010 total bar
-      svg
+      release_decade_svg
         .append("rect")
-        .attr("class", "rd-bar rd-bar-comp")
-        .attr("x", bar_start_x + bar_widthPre)
+        .attr("class", "release-decade-bar release-decade-bar-comp")
+        .attr("x", bar_start_x + bar_width_pre)
         .attr("y", y + 4)
-        .attr("width", bar_widthPost)
+        .attr("width", bar_width_post)
         .attr("height", row_height - 8)
         .attr("fill", "#9df7bd");
 
-      svg
+      release_decade_svg
         .append("text")
-        .attr("class", "rd-comp-label")
+        .attr("class", "release-decade-comp-label")
         .attr("x", bar_start_x)
-        .attr("y", row_height - 12)
+        .attr("y", row_height * 0.75)
         .attr("text-anchor", "start")
         .attr("fill", "#1db954")
-        .text(Number(preTotal).toFixed(1) + "%");
+        .text(Number(pre_total).toFixed(1) + "%");
 
-      svg
+      release_decade_svg
         .append("text")
-        .attr("class", "rd-comp-label")
+        .attr("class", "release-decade-comp-label")
         .attr("x", bar_start_x + bar_width)
-        .attr("y", row_height - 12)
+        .attr("y", row_height * 0.75)
         .attr("text-anchor", "end")
         .attr("fill", "#a9a9a9")
-        .text(Number(postTotal).toFixed(1) + "%");
+        .text(Number(post_total).toFixed(1) + "%");
     }
 
     if (value > 0) {
@@ -245,9 +264,9 @@ data.forEach((yearData, index) => {
       const bar_width_ = (value / 100) * bar_width;
 
       // Color based on
-      svg
+      release_decade_svg
         .append("rect")
-        .attr("class", "rd-bar")
+        .attr("class", "release-decade-bar")
         .attr("x", barX)
         .attr("y", y + 4)
         .attr("width", bar_width_)
