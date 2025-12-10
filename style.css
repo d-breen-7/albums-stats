@@ -17,8 +17,9 @@ body {
 }
 
 section {
-  width: 95%;
-  background-color: white;
+  /* width: 95%; */
+  width: 1080px;
+  background-color: #ffffff;
   margin: 5px;
 }
 
@@ -37,26 +38,26 @@ section {
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   justify-content: center;
   align-items: center;
   margin: auto;
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 1000;
   color: #191414;
   margin: 5px;
-  border-bottom: #1db954 solid 2px;
+  margin-bottom: 2.5px;
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   color: #191414;
-  border-bottom: #1db954 solid 1px;
   margin: 5px;
+  margin-top: 0px;
 }
 
 .stats {
@@ -65,57 +66,59 @@ h2 {
   background-color: #1db954;
 }
 
-.stats-tile-4r {
-  display: grid;
-  grid-template-rows: auto auto auto 1fr;
-  height: 600px;
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  height: 1080px;
   margin: 5px;
 }
 
-.stats-tile-4r::before {
-  content: "";
-  width: 0;
-  grid-row: 1 / 1;
-  grid-column: 1 / 1;
+.item {
+  padding: 1px;
+  /* background-color: #f0f0f0; */
 }
 
-.stats-tile-4r > *:first-child {
-  grid-row: 1 / 1;
-  grid-column: 1 / 1;
+.last-item {
+  flex-grow: 1;
+  /* background-color: #f0f0f0; */
 }
 
 .stats-title {
-  display: flex;
-  margin: 5px;
+  width: 100%;
+  height: 40px;
+  border-bottom: #1db954 solid 2px;
 }
 
-/* .stats-tile-4r > .stats-title {
-  border-bottom: #1db954 solid 2px;
-} */
+.stats-text {
+  width: 100%;
+  height: 95px;
+  border-bottom: #1db954 solid 1px;
+}
 
 .stats-text {
   display: block;
-  margin: 5px;
+  width: 100%;
+  height: 95px;
 }
 
 .stats-image {
-  display: flex;
-  margin: 5px;
+  width: 100%;
+  height: auto;
 }
 
-.ca-line-all {
+.overview-line-all {
   fill: none;
   stroke: #1db954;
   stroke-width: 3px;
 }
 
-.ca-line-current {
+.overview-line-current {
   fill: none;
   stroke: #1db954;
   stroke-width: 3px;
 }
 
-.ca-line-old {
+.overview-line-old {
   fill: none;
   stroke: #a9a9a9;
   stroke-width: 1px;
@@ -129,7 +132,7 @@ h2 {
   stroke-width: 3px;
 }
 
-.ca-area {
+.overview-area {
   fill: #edfcf2;
 }
 
@@ -137,19 +140,19 @@ h2 {
   fill: #aaf0c2;
 }
 
-.ca-x-axis {
+.overview-x-axis {
   opacity: 1;
 }
 
-.ca-x-axis line {
+.overview-x-axis line {
   stroke: #a9a9a9;
 }
 
-.ca-x-axis path {
+.overview-x-axis path {
   stroke: #a9a9a9;
 }
 
-.ca-x-axis text {
+.overview-x-axis text {
   fill: #191414;
   font-weight: 400;
   font-size: 20px;
@@ -173,20 +176,20 @@ h2 {
   text-anchor: start;
 }
 
-.ca-today-text {
+.overview-today-text {
   fill: #1db954;
   font-weight: 1000;
   font-size: 20px;
   text-anchor: end;
 }
 
-.ca-ytd-text {
+.overview-ytd-text {
   fill: #1db954;
   font-weight: 1000;
   font-size: 20px;
 }
 
-.ca-ytd-text-old {
+.overview-ytd-text-old {
   fill: #9df7bd;
   font-weight: 1000;
   font-size: 20px;
@@ -374,6 +377,7 @@ h2 {
   justify-content: space-around;
   margin: 5px;
 }
+
 .radio-container input[type="radio"] {
   display: none;
 }
@@ -392,30 +396,30 @@ h2 {
   font-weight: bold;
 }
 
-.radio-container-years {
+.radio-options {
   display: flex;
   flex-wrap: wrap;
-  margin: 5px;
+  height: fit-content;
 }
 
-.radio-container-years input[type="radio"] {
+.radio-options input[type="radio"] {
   display: none;
 }
 
-.radio-container-years input[type="radio"]:checked + label {
+.radio-options input[type="radio"]:checked + label {
   background-color: #aaf0c2;
   color: #191414;
   font-weight: bold;
 }
 
-.radio-container-years > div {
+.radio-options > div {
   flex: 0 1 25px;
   display: flex;
   align-items: center;
   margin: 5px;
 }
 
-.radio-container-years label {
+.radio-options label {
   padding: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
@@ -423,6 +427,7 @@ h2 {
   border: 1px solid #1db954;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 18px;
 }
 
 .ca-tooltip {
