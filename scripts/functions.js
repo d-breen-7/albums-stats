@@ -20,6 +20,8 @@ const {
   tally,
   mutateWithSummary,
   rowNumber,
+  sliceHead,
+  unnest,
 } = Tidy;
 
 function group_by_year(data) {
