@@ -232,21 +232,21 @@ h2 {
 .release-text {
   fill: #191414;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   text-anchor: end;
 }
 
 .release-legend-text {
   fill: #191414;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   text-anchor: start;
 }
 
 .release-grid-label {
   fill: #a9a9a9;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   text-anchor: middle;
   alignment-baseline: middle;
 }
