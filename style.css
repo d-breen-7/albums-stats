@@ -50,14 +50,12 @@ h1 {
   color: #191414;
   margin: 5px;
   margin-bottom: 2.5px;
-  border-bottom: #1db954 solid 2px;
 }
 
 h2 {
   font-size: 20px;
   font-weight: 500;
   color: #191414;
-  border-bottom: #1db954 solid 1px;
   margin: 5px;
   margin-top: 0px;
 }
@@ -92,9 +90,15 @@ h2 {
   margin: 5px;
 }
 
-/* .stats-tile-3r > .artist-title {
-  border-bottom: #1db954 solid 2px;
-} */
+.item {
+  padding: 1px;
+  background-color: #f0f0f0;
+}
+
+.last-item {
+  flex-grow: 1;
+  background-color: #f0f0f0;
+}
 
 .stats-container {
   display: flex;
@@ -103,14 +107,30 @@ h2 {
   margin: 5px;
 }
 
+.stats-title {
+  width: 100%;
+  height: 40px;
+  border-bottom: #1db954 solid 2px;
+}
+
 .stats-text {
-  display: block;
-  margin: 5px;
+  width: 100%;
+  height: 95px;
+  border-bottom: #1db954 solid 1px;
 }
 
 .stats-image {
-  display: flex;
-  margin: 5px;
+  width: 100%;
+  height: auto;
+}
+
+.artists-tile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 150px;
+  grid-auto-rows: 150px;
+  /* margin-top: 15px; */
+  gap: 15px;
 }
 
 .ca-line-all {
@@ -162,7 +182,7 @@ h2 {
 .ca-x-axis text {
   fill: #121212;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 18px;
   text-anchor: start;
 }
 
@@ -405,7 +425,7 @@ h2 {
 .search-container {
   display: flex;
   flex-wrap: wrap;
-  margin: 5px;
+  /* margin: 5px; */
 }
 
 .search-container input[type="radio"] {
@@ -535,6 +555,7 @@ button:disabled {
   width: 300px;
   box-sizing: border-box;
   margin-left: 10px;
+  margin-top: 10px;
   margin-bottom: 7.5px;
   /* border-bottom: 2px solid #1db954; */
   background-color: white;
@@ -551,53 +572,69 @@ button:disabled {
 }
 
 .legend-container {
-  justify-items: center;
-  align-items: center;
+  /* justify-items: center; */
+  /* align-items: center; */
   justify-content: space-around;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  border-bottom: 10px;
-  margin-bottom: 10px;
+  gap: 15px;
+  /* margin-top: 10px; */
+  /* border-bottom: 10px; */
+  /* margin-bottom: 10px; */
 }
 
-.artist-tile {
-  flex: 0 0 48%;
-  height: 125px;
-  border: 1px solid #a9a9a9;
-  border-radius: 12px;
-  padding: 5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+.artists-tile {
+  width: 100%;
+  height: 150px;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
+  border: 10px;
+  background: #ffffff;
+  border: 1px solid #a9a9a9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /* box-sizing: border-box; */
 }
 
-.artist-tile-none {
+.legends-tile {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 10px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #ffffff;
+  /* box-sizing: border-box; */
+}
+
+.artists-tile-none {
   border: 1px solid #a9a9a9;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   opacity: 0.4;
 }
 
-.artist-tile-data {
+.artists-tile-data {
   border: 1px solid #1db954;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.tile-title {
-  display: flex;
+.artist-year-svg {
   width: 100%;
-  font-weight: bold;
-  font-size: 20px;
-  /* background-color: #1db954; */
-  justify-content: center;
 }
 
-.tile-main {
-  flex-grow: 1;
+.tile-title {
   width: 100%;
-  /* background-color: #9df7bd; */
+  height: auto;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0px;
+  font-size: 22px;
 }
 
 .tile-bottom {
@@ -644,11 +681,16 @@ button:disabled {
 .album-info-tiles {
   width: 600x;
   height: 150px;
-  padding: 5px;
+  /* padding: 5px; */
   display: grid;
   grid-template-columns: 300px 150px 1fr;
   grid-template-rows: auto auto 1fr;
   /* margin-bottom: 10px; */
+}
+
+.album-container {
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .album-container-hide {
@@ -657,11 +699,13 @@ button:disabled {
 
 .album-container-show {
   display: block;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .legend-show {
   display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .legend-hide {
@@ -732,9 +776,10 @@ button:disabled {
   grid-area: 1 / 2 / 5 / 3;
 }
 
-.overview-legend {
-  flex: 0 0 48%;
-  height: 150px;
+/* .overview-legend { */
+/* flex: 0 0 48%; */
+/* height: 150px; */
+/* width: 90%;
   border: 1px solid #ffffff;
   border-radius: 12px;
   box-shadow: 0 2px 8px #ffffff;
@@ -742,16 +787,17 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 5px;
-}
+  padding: 5px; */
+/* } */
 
 .overview-legend-div {
   flex-grow: 1;
   width: 100%;
+  height: 150px;
 }
 
 .legend-text {
-  font-size: 16px;
+  font-size: 18px;
   font-family: "Roboto";
   font-weight: 500;
 }
@@ -765,6 +811,6 @@ button:disabled {
 
 .month-grid text {
   color: #121212;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
 }
