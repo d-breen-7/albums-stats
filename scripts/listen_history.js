@@ -68,17 +68,17 @@ d3.json("data/artist_level.json", function (data) {
   specific album. The album image can also be clicked to open the album in Spotify.
   <br><span style='color: #a9a9a9'>Album meta data is sourced from Spotify.</span>`;
 
-  d3.select("#stats-title")
+  d3.select("#artist-title")
     .append("h1")
-    .attr("id", "stats-title-text")
+    .attr("id", "artist-title-text")
     .html("Average Albums Per Day by Artist Status");
 
-  d3.select("#stats-text-1")
+  d3.select("#artist-text")
     .append("h2")
-    .attr("id", "stats-sub-text-1")
+    .attr("id", "artist-text-desc")
     .html(overview_text);
 
-  const dashboard = d3.select("#dash");
+  const dashboard = d3.select("#artist-image");
 
   function drawOverview() {
     years_in_data
@@ -482,10 +482,10 @@ d3.json("data/artist_level.json", function (data) {
   function drawArtist(artist) {
     if (artist === "0") {
       // Update text
-      d3.select("#stats-title-text").html(
+      d3.select("#artist-title-text").html(
         "Average Albums Per Day by Artist Status"
       );
-      d3.select("#stats-sub-text-1").html(overview_text);
+      d3.select("#artist-text-desc").html(overview_text);
 
       // Show overview
       d3.selectAll("#overview").attr("class", "overview-show");
@@ -522,8 +522,8 @@ d3.json("data/artist_level.json", function (data) {
 
       // Update summary text
       // Update text
-      d3.select("#stats-title-text").html("Artist Listen History");
-      d3.select("#stats-sub-text-1").html(artist_overview_text);
+      d3.select("#artist-title-text").html("Artist Listen History");
+      d3.select("#artist-text-desc").html(artist_overview_text);
 
       // Remove other artist elements
       d3.selectAll(".album-play").remove();

@@ -145,7 +145,7 @@ d3.json(
 
   d3.select("#stats-text-1")
     .append("h2")
-    .attr("id", "stats-sub-text-1")
+    .attr("id", "artist-text-desc")
     .html(overview_text);
 
   // Text for total
@@ -161,7 +161,7 @@ d3.json(
   function transition_period(period) {
     // Remove existing elements
     d3.select("#stats-title-text-1").remove();
-    d3.select("#stats-sub-text-1").remove();
+    d3.select("#artist-text-desc").remove();
     d3.select("#ca-today-text").remove();
     d3.selectAll("#ca-ytd-text").remove();
     d3.selectAll("#ca-year-lines").remove();
@@ -326,7 +326,7 @@ d3.json(
 
       d3.select("#stats-text-1")
         .append("h2")
-        .attr("id", "stats-sub-text-1")
+        .attr("id", "artist-text-desc")
         .html(summary_text);
 
       // Update total text
@@ -549,7 +549,7 @@ d3.json(
 
       d3.select("#stats-text-1")
         .append("h2")
-        .attr("id", "stats-sub-text-1")
+        .attr("id", "artist-text-desc")
         .html(summary_text);
     }
   }
