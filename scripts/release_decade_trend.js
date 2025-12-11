@@ -132,8 +132,8 @@ data.forEach((yearData, index) => {
 
   console.log(decades.length + 2);
 
-  let bar_start_x = 62.5,
-    bar_width = tile_width - bar_start_x - (bar_start_x - 20),
+  let bar_start_x = 70,
+    bar_width = tile_width - bar_start_x - (bar_start_x - bar_start_x / 2),
     row_height = release_decade_svg_height / (decades.length + 2);
 
   // console.log(
@@ -175,7 +175,7 @@ data.forEach((yearData, index) => {
       .attr("class", "release-decalde-label")
       .attr("x", bar_start_x - 10)
       .attr("y", y + row_height / 2 + 4)
-      .attr("fill", decade == "" ? "#191414" : "#a9a9a9")
+      .attr("fill", "#121212") //decade == "" ? "#121212" : "#a9a9a9")
       .attr("font-weight", decade == "" ? "bolder" : "normal")
       .text(decade == "" ? "Overall" : decade + "s");
   });

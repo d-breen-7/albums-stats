@@ -144,7 +144,7 @@ h2 {
 }
 
 .release-decalde-label {
-  font-size: 16px;
+  font-size: 18px;
   text-anchor: end;
 }
 
@@ -155,8 +155,8 @@ h2 {
 }
 
 .release-decade-grid-label {
-  font-size: 16px;
-  fill: #a9a9a9;
+  font-size: 18px;
+  fill: #121212;
 }
 
 .release-decade-comp-label {
