@@ -128,9 +128,6 @@ data.forEach((yearData, index) => {
   const release_decade_svg_height = parseFloat(
     release_decade_svg.style("height")
   );
-  //   decades.length * row_height + row_height + 5;
-
-  console.log(decades.length + 2);
 
   let bar_start_x = 70,
     bar_width = tile_width - bar_start_x - (bar_start_x - bar_start_x / 2),
@@ -177,7 +174,7 @@ data.forEach((yearData, index) => {
       .attr("y", y + row_height / 2 + 4)
       .attr("fill", "#121212") //decade == "" ? "#121212" : "#a9a9a9")
       .attr("font-weight", decade == "" ? "bolder" : "normal")
-      .text(decade == "" ? "Overall" : decade + "s");
+      .text(decade == "" ? "Overall" : index === 0 ? decade + "s" : "");
   });
 
   // Vertical grid lines
