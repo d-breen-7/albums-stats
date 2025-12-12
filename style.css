@@ -60,12 +60,6 @@ h2 {
   margin-top: 0px;
 }
 
-.stats {
-  display: flex;
-  height: 600px;
-  background-color: #1db954;
-}
-
 .stats-container {
   display: flex;
   flex-direction: column;
@@ -135,7 +129,6 @@ h2 {
 .overview-area {
   fill: #edfcf2;
 }
-
 .cy-area-new {
   fill: #aaf0c2;
 }
@@ -226,8 +219,8 @@ h2 {
   background-color: #191414;
 } */
 
-.dy-grid {
-  stroke: none;
+.release-grid {
+  stroke: 0px;
 }
 
 .dy-line {
@@ -236,24 +229,26 @@ h2 {
   opacity: 1;
 }
 
-.dy-text {
+.release-text {
   fill: #191414;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   text-anchor: end;
 }
 
-.dy-text-legend {
+.release-legend-text {
   fill: #191414;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   text-anchor: start;
 }
 
-.dy-arrow {
-  fill: #191414;
-  stroke: #191414;
-  stroke-width: 2px;
+.release-grid-label {
+  fill: #a9a9a9;
+  font-weight: 400;
+  font-size: 18px;
+  text-anchor: middle;
+  alignment-baseline: middle;
 }
 
 .ra-rect {
@@ -372,30 +367,6 @@ h2 {
   animation-name: normal;
 }
 
-.radio-container {
-  display: inline-flex;
-  justify-content: space-around;
-  margin: 5px;
-}
-
-.radio-container input[type="radio"] {
-  display: none;
-}
-
-.radio-container label {
-  padding: 5px;
-  background-color: #ffffff;
-  border: 1px solid #1db954;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.radio-container input[type="radio"]:checked + label {
-  background-color: #81f8ab;
-  color: #191414;
-  font-weight: bold;
-}
-
 .radio-options {
   display: flex;
   flex-wrap: wrap;
@@ -414,7 +385,7 @@ h2 {
 }
 
 .radio-options > div {
-  flex: 0 1 25px;
+  flex: 0 1 1;
   display: flex;
   align-items: center;
   margin: 5px;
