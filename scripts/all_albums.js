@@ -24,8 +24,8 @@ d3.json(
   var unique_albums = Number(response.unique).toLocaleString();
 
   const overview_summary_text = `
-  An overview of my cumulative album listens since the start of 2019. During 2019, I mostly 
-  just listened to new releases before starting to consciously listen to more albums in 2020.
+  An overview of my album listens since the start of 2019. During 2019, I mostly listened
+  to new releases before starting to consciously listen to more albums in 2020. 
   After excluding relistens, which are included below, I have listened to 
   <span style='color: #1db954; font-weight: 1000'>~${unique_albums}</span> unique albums.
   <br><span style='color: #a9a9a9'>2019 starts at 116 to account for some albums where I 
