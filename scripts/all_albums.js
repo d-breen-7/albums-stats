@@ -568,7 +568,9 @@ d3.json(
       var summary_text = `My album listening peaked in 2021 and has been declining ever since. 
         This reflects a change in my listening habits as I spend more time discovering new music.
         I mostly listen to albums while working and listen to things like internet radio shows 
-        and mixes while exercising, reading etc.`;
+        and mixes while exercising, reading etc.
+        <br><span style='color: #a9a9a9'>This visual is dynamic, with the data for each year
+        added in sequence before the next line is added and highlighted in green.</span>`;
 
       // `The <span style='color: #1db954; font-weight: 1000';>${ytd_total}</span> albums so far this year ranks<span style='color: #1db954; font-weight: 1000';>
       //  #${rank_num}</span> when compared to previous years.`;
