@@ -50,3 +50,39 @@ function group_by_year(data) {
 
   return result;
 }
+
+function release_year_range(rawData) {
+  // Map each decade -> decade_num from input
+  const decadeNumMap = {};
+  for (const item of rawData) {
+    if (!(item.decade in decadeNumMap)) {
+      decadeNumMap[item.decade] = item.decade_num;
+    }
+  }
+
+  // Get sorted list of decades from input
+  const decadesInInput = [...new Set(rawData.map((d) => d.decade))].sort();
+
+  const result = [];
+
+  for (const decade of decadesInInput) {
+    const decade_num = decadeNumMap[decade];
+
+    // Full decade: 0–9
+    const startYear = parseInt(decade) * 10;
+    const endYear = startYear + 9;
+
+    for (let y = startYear; y <= endYear; y++) {
+      const year_num = String(y % 10);
+
+      result.push({
+        decade,
+        year_num,
+        year: y,
+        decade_num,
+      });
+    }
+  }
+
+  return result;
+}
