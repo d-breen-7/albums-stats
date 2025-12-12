@@ -63,9 +63,9 @@ d3.json("data/artist_level.json", function (data) {
   // Add overview text
   const overview_text = `Despite the number of albums I have listened to, I am still consistently finding new artists 
   to listen to. The overview below shows the 7-day rolling average for all albums and albums by new artists. The first 
-  time I listen to an artist they will be shown in the new data, with any subsequent albums shown as part of the total.
-  <br><span style='color: #a9a9a9'>Within this visual, an artist can to be selected, instead of the 'Overview', to get
-  album listens for a specific artist.</span>`;
+  time I listen to an album by an artist it will be shown in the new data, with any subsequent albums shown as part of the total.
+  <br><span style='color: #a9a9a9'>Within this visual, an artist can be selected, instead of the 'Overview', to get album 
+  listens for a specific artist.</span>`;
 
   const artist_overview_text = `After selecting an artist, all album listens related to the artist are shown. This data includes
   albums by the artist, and albums that the artist features on. Each listen can be selected to get more details about the 
@@ -258,6 +258,18 @@ d3.json("data/artist_level.json", function (data) {
             },
           ];
 
+          const svg_overview = d3.selectAll("#overview-legend-div");
+
+          var svg_width = svg_overview.node().offsetWidth,
+            svg_height = svg_overview.node().offsetHeight - 20,
+            album_radius = svg_height / 5 / 2,
+            scale_x = scale_x_history(
+              year,
+              album_radius + 2,
+              svg_width - (album_radius + 2)
+            ),
+            scale_y_total = scale_y_history(max_total, svg_height, 0);
+
           // Add overview legend
           // Create SVG
           const legend_svg = d3
@@ -265,13 +277,7 @@ d3.json("data/artist_level.json", function (data) {
             .append("svg")
             .attr("id", "overview-legend-svg")
             .attr("width", svg_width)
-            .attr("height", svg_height + 20);
-
-          d3.select("#overview-legend-div-1")
-            .append("svg")
-            .attr("id", "overview-legend-svg-1")
-            .attr("width", svg_width)
-            .attr("height", svg_height + 20);
+            .attr("height", svg_height + 22);
 
           // Create ticks from 0 to max_total every 2 units
           // Grid lines every 2
@@ -307,7 +313,6 @@ d3.json("data/artist_level.json", function (data) {
             .enter()
             .append("text")
             .attr("class", "ca-x-axis")
-            // .attr("x", 2)
             .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-07-22")))
             .attr("y", (d) => scale_y_total(d) + 5)
             .text((d) => d);
@@ -322,7 +327,7 @@ d3.json("data/artist_level.json", function (data) {
             .append("g")
             .attr("class", "ca-x-axis")
             .style("text-anchor", "start")
-            .attr("transform", "translate(0," + (svg_height - 7.5) + ")")
+            .attr("transform", "translate(0," + (svg_height - 8) + ")")
             .call(x_axis);
 
           // Grid lines for months
@@ -343,15 +348,15 @@ d3.json("data/artist_level.json", function (data) {
             .attr("y1", 0)
             .attr("y2", svg_height);
 
-          var svg_width = parseInt(svg_overview.style("width")),
-            svg_height = parseInt(svg_overview.style("height")) - 10,
-            album_radius = svg_height / 5 / 2,
-            scale_x = scale_x_history(
-              year,
-              album_radius + 2,
-              svg_width - (album_radius + 2)
-            ),
-            scale_y_total = scale_y_history(max_total, svg_height, 0);
+          // var svg_width = parseInt(svg_overview.style("width")),
+          //   svg_height = parseInt(svg_overview.style("height")) - 10,
+          //   album_radius = svg_height / 5 / 2,
+          //   scale_x = scale_x_history(
+          //     year,
+          //     album_radius + 2,
+          //     svg_width - (album_radius + 2)
+          //   ),
+          //   scale_y_total = scale_y_history(max_total, svg_height, 0);
 
           svg_overview
             .append("g")
@@ -436,67 +441,51 @@ d3.json("data/artist_level.json", function (data) {
           legend_svg
             .append("rect")
             .attr("id", "overview")
-            .attr("fill", "white")
-            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-08-01")))
-            .attr("y", 0)
-            .attr("width", "250px")
-            .attr("height", svg_height + 20);
-
-          legend_svg
-            .append("rect")
-            .attr("id", "overview")
-            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-05-09")))
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-05-10")))
             .attr("y", 15)
-            .attr("width", 87.5)
+            .attr("width", 88)
             .attr("height", 20)
             .attr("fill", "white");
 
           legend_svg
             .append("text")
             .attr("id", "overview")
-            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-05-10")))
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-07-12")))
             .attr("y", 30)
             .text("All albums")
             .attr("fill", "#1db954")
             .attr("font-weight", 1000)
-            .attr("font-size", "18px");
+            .attr("font-size", "18px")
+            .attr("text-anchor", "end");
 
           legend_svg
             .append("rect")
             .attr("id", "overview")
-            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-04-22")))
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-04-21")))
             .attr("y", 75)
-            .attr("width", 115)
+            .attr("width", 114)
             .attr("height", 20)
             .attr("fill", "white");
 
           legend_svg
             .append("text")
             .attr("id", "overview")
-            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-04-24")))
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-07-12")))
             .attr("y", 90)
             .text("By new artists")
             .attr("fill", "#1db954")
             .attr("font-weight", 1000)
-            .attr("font-size", "18px");
+            .attr("font-size", "18px")
+            .attr("text-anchor", "end");
 
-          // legend_svg
-          //   .append("text")
-          //   .attr("id", "overview")
-          //   .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-07-15")))
-          //   .attr("y", 90)
-          //   .text("*X and Y gridlines")
-          //   .attr("fill", "#121212")
-          //   .attr("font-size", "14px");
-
-          // legend_svg
-          //   .append("text")
-          //   .attr("id", "overview")
-          //   .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-07-19")))
-          //   .attr("y", 105)
-          //   .text("mirror the tiles below")
-          //   .attr("fill", "#121212")
-          //   .attr("font-size", "14px");
+            legend_svg
+            .append("rect")
+            .attr("id", "overview")
+            .attr("fill", "#ffffff")
+            .attr("x", scale_x(d3.timeParse("%Y-%m-%d")("2019-08-01")))
+            .attr("y", 0)
+            .attr("width", "250px")
+            .attr("height", svg_height + 50);
         }
       });
   }
@@ -544,7 +533,7 @@ d3.json("data/artist_level.json", function (data) {
 
       // Update summary text
       // Update text
-      d3.select("#artist-title-text").html("Artist Listen History");
+      d3.select("#artist-title-text").html(`Artist Listen History - ${artist}`);
       d3.select("#artist-text-desc").html(artist_overview_text);
 
       // Remove other artist elements
