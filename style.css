@@ -115,15 +115,15 @@ h2 {
 .overview-line-current {
   fill: none;
   stroke: #1db954;
-  stroke-width: 3px;
+  stroke-width: 4px;
 }
 
 .overview-line-old {
   fill: none;
   stroke: #a9a9a9;
-  stroke-width: 1px;
+  stroke-width: 2px;
   stroke-dasharray: 10 5;
-  opacity: 0.75;
+  opacity: 1;
 }
 
 .cy-line-new {
@@ -140,36 +140,36 @@ h2 {
   fill: #aaf0c2;
 }
 
-.overview-x-axis {
-  opacity: 1;
-}
-
-.overview-x-axis line {
+.x-axis line {
   stroke: #a9a9a9;
+  stroke-width: 1px;
+  opacity: 0.5;
+  stroke-dasharray: 5 5;
 }
 
-.overview-x-axis path {
-  stroke: #a9a9a9;
+.x-axis path {
+  stroke: none
 }
 
-.overview-x-axis text {
+.x-axis text {
   fill: #191414;
   font-weight: 400;
   font-size: 18px;
   text-anchor: start;
 }
 
-.ca-y-axis line {
+.y-axis line {
   stroke: #a9a9a9;
   stroke-width: 1px;
-  opacity: 0.25;
+  opacity: 0.5;
+  stroke-dasharray: 5 5;
 }
 
-.ca-y-axis path {
+.y-axis path {
   stroke: none;
 }
 
-.ca-y-axis text {
+.y-axis text {
   fill: #191414;
   font-weight: 400;
   font-size: 18px;
@@ -190,7 +190,7 @@ h2 {
 }
 
 .overview-ytd-text-old {
-  fill: #9df7bd;
+  fill: #a9a9a9;
   font-weight: 1000;
   font-size: 20px;
 }
@@ -400,6 +400,7 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   height: fit-content;
+  margin: 5px 0px 5px 10px;
 }
 
 .radio-options input[type="radio"] {

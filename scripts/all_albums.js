@@ -101,11 +101,14 @@ d3.json(
       overview_img_width - overview_margins.right,
     ]);
 
-  var overview_x_axis = d3.axisBottom(overview_x).ticks(d3.timeYear);
+  var overview_x_axis = d3
+    .axisBottom(overview_x)
+    .ticks(d3.timeYear)
+    .tickSize(-overview_img_height);
 
   overview_svg
     .append("g")
-    .attr("class", "overview-x-axis")
+    .attr("class", "x-axis")
     .attr(
       "transform",
       "translate(0," + (overview_img_height - overview_margins.bottom) + ")"
@@ -132,7 +135,7 @@ d3.json(
 
   overview_svg
     .append("g")
-    .attr("class", "ca-y-axis")
+    .attr("class", "y-axis")
     .attr("transform", "translate(" + overview_margins.left + ", 0)")
     .call(overview_y_axis);
 
@@ -204,14 +207,18 @@ d3.json(
 
       var overview_x_axis =
         period === "all-time"
-          ? d3.axisBottom(overview_x).ticks(d3.timeYear)
+          ? d3
+              .axisBottom(overview_x)
+              .ticks(d3.timeYear)
+              .tickSize(-overview_img_height)
           : d3
               .axisBottom(overview_x)
+              .tickSize(-overview_img_height)
               .ticks(d3.timeMonth)
               .tickFormat(d3.timeFormat("%b"));
 
       overview_svg
-        .select(".overview-x-axis")
+        .select(".x-axis")
         .transition()
         .duration(1000)
         .attr(
@@ -255,7 +262,7 @@ d3.json(
         .tickFormat((d) => Number(d).toLocaleString());
 
       overview_svg
-        .select(".ca-y-axis")
+        .select(".y-axis")
         .transition()
         .duration(1000)
         .attr("transform", "translate(" + overview_margins.left + ", 0)")
@@ -392,10 +399,11 @@ d3.json(
       var overview_x_axis = d3
         .axisBottom(overview_x)
         .ticks(d3.timeMonth)
+        .tickSize(-overview_img_height)
         .tickFormat(d3.timeFormat("%b"));
 
       overview_svg
-        .select(".overview-x-axis")
+        .select(".x-axis")
         .transition()
         .duration(1000)
         .attr(
@@ -447,7 +455,7 @@ d3.json(
         .tickFormat((d) => (d == 0 ? "" : Number(d).toLocaleString()));
 
       overview_svg
-        .select(".ca-y-axis")
+        .select(".y-axis")
         .transition()
         .duration(1000)
         .attr(
