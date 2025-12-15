@@ -69,10 +69,11 @@ h2 {
   flex-direction: column;
   height: 1080px;
   margin: 5px;
-  justify-content: center;
-  align-items: center;
-  /* padding-bottom: 20px;
-  border-bottom: 4px solid #121212; */
+}
+
+.artist-title {
+  display: flex;
+  margin: 5px;
 }
 
 .item {
@@ -92,7 +93,6 @@ h2 {
 }
 
 .stats-text {
-  /* display: block; */
   width: 100%;
   height: 100px;
   border-bottom: #1db954 solid 1px;
@@ -498,7 +498,7 @@ h2 {
 
 .radio-options input[type="radio"]:checked + label {
   background-color: #aaf0c2;
-  color: #191414;
+  color: #121212;
   font-weight: bold;
 }
 
@@ -518,6 +518,40 @@ h2 {
   border-radius: 4px;
   cursor: pointer;
   font-size: 18px;
+}
+
+.search-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0px auto 0px 0px;
+  /* margin: 5px; */
+}
+
+.search-container input[type="radio"] {
+  display: none;
+}
+
+.search-container input[type="radio"]:checked + label {
+  background-color: #aaf0c2;
+  color: #121212;
+  font-weight: bold;
+}
+
+.search-container > div {
+  flex: 0 1 25px;
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  border: 1px;
+}
+
+.search-container label {
+  padding: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .ca-tooltip {

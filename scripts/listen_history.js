@@ -1,3 +1,5 @@
+const parseDate = d3.timeParse("%Y-%m-%d");
+
 d3.json("data/artist_level.json")
   .then(function (data) {
     let _overview_data = data.overview,
@@ -114,8 +116,8 @@ d3.json("data/artist_level.json")
             scale_y_total = scale_y_history(max_total, svg_height, 0);
 
           let months = d3.timeMonths(
-            d3.timeParse("%Y-%m-%d")(year + "-01-01"),
-            d3.timeParse("%Y-%m-%d")(+year + 1 + "-01-01")
+            parseDate(year + "-01-01"),
+            parseDate(+year + 1 + "-01-01")
           );
 
           svg_overview
@@ -151,14 +153,14 @@ d3.json("data/artist_level.json")
 
           const area_total_avg = d3
             .area()
-            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .x((d) => scale_x(parseDate(d.listen_date)))
             .y0(scale_y_total(0))
             .y1((d) => scale_y_total(+d.avg_total))
             .curve(d3.curveMonotoneX);
 
           const line_total_avg = d3
             .line()
-            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .x((d) => scale_x(parseDate(d.listen_date)))
             .y((d) => scale_y_total(+d.avg_total))
             .curve(d3.curveMonotoneX);
 
@@ -180,14 +182,14 @@ d3.json("data/artist_level.json")
 
           const area_existing_avg = d3
             .area()
-            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .x((d) => scale_x(parseDate(d.listen_date)))
             .y0(scale_y_total(0))
             .y1((d) => scale_y_total(+d.avg_new))
             .curve(d3.curveMonotoneX);
 
           const line_existing_avg = d3
             .line()
-            .x((d) => scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date)))
+            .x((d) => scale_x(parseDate(d.listen_date)))
             .y((d) => scale_y_total(+d.avg_new))
             .curve(d3.curveMonotoneX);
 
@@ -208,6 +210,230 @@ d3.json("data/artist_level.json")
             .attr("stroke", "#1db954")
             .attr("stroke-width", 1)
             .attr("d", line_existing_avg);
+
+          if (index === 0) {
+            const legend_data = [
+              { listen_date: "2019-01-01", avg_new: 1, avg_total: 2.75 },
+              { listen_date: "2019-02-01", avg_new: 1.7, avg_total: 4.2 },
+              { listen_date: "2019-03-01", avg_new: 2.575, avg_total: 4.75 },
+              { listen_date: "2019-04-01", avg_new: 2.725, avg_total: 6.125 },
+              { listen_date: "2019-05-01", avg_new: 4.725, avg_total: 8 },
+              { listen_date: "2019-06-01", avg_new: 5.225, avg_total: 8.5 },
+              { listen_date: "2019-07-20", avg_new: 5.7, avg_total: 8.7 },
+            ];
+
+            const svg_overview = d3.selectAll("#overview-legend-div");
+
+            const svg_width = svg_overview.node().offsetWidth;
+            const svg_height = svg_overview.node().offsetHeight - 20;
+            const album_radius = svg_height / 5 / 2;
+
+            const scale_x = scale_x_history(
+              year,
+              album_radius + 2,
+              svg_width - (album_radius + 2)
+            );
+
+            const scale_y_total = scale_y_history(max_total, svg_height, 0);
+
+            // Create SVG
+            const legend_svg = d3
+              .select("#overview-legend-div")
+              .append("svg")
+              .attr("id", "overview-legend-svg")
+              .attr("width", svg_width)
+              .attr("height", svg_height + 22);
+
+            // Grid ticks
+            const horizontalTicks = d3.range(
+              0,
+              Math.ceil(max_total / 2) * 2 + 1,
+              2
+            );
+
+            const hGrid = legend_svg.append("g").attr("class", "month-grid");
+
+            hGrid
+              .selectAll("line")
+              .data(horizontalTicks)
+              .enter()
+              .append("line")
+              .attr("x1", album_radius + 2)
+              .attr("x2", scale_x(parseDate("2019-07-20")))
+              .attr("y1", (d) => scale_y_total(d))
+              .attr("y2", (d) => scale_y_total(d));
+
+            hGrid
+              .selectAll("text")
+              .data(horizontalTicks)
+              .enter()
+              .append("text")
+              .attr("class", "x-axis")
+              .attr("x", scale_x(parseDate("2019-07-22")))
+              .attr("y", (d) => scale_y_total(d) + 5)
+              .text((d) => d);
+
+            // X axis
+            const x_axis = d3
+              .axisBottom(scale_x)
+              .ticks(12)
+              .tickFormat(d3.timeFormat("%b"));
+
+            legend_svg
+              .append("g")
+              .attr("class", "x-axis")
+              .style("text-anchor", "start")
+              .attr("transform", `translate(0,${svg_height - 8})`)
+              .call(x_axis);
+
+            // Month grid
+            const months = d3.timeMonths(
+              parseDate(`${year}-01-01`),
+              parseDate(`${year}-08-01`)
+            );
+
+            legend_svg
+              .append("g")
+              .attr("class", "month-grid")
+              .selectAll("line")
+              .data(months)
+              .enter()
+              .append("line")
+              .attr("x1", (d) => scale_x(d))
+              .attr("x2", (d) => scale_x(d))
+              .attr("y1", 0)
+              .attr("y2", svg_height);
+
+            svg_overview
+              .append("g")
+              .attr("class", "month-grid")
+              .selectAll("line")
+              .data(months)
+              .enter()
+              .append("line")
+              .attr("x1", (d) => scale_x(d))
+              .attr("x2", (d) => scale_x(d))
+              .attr("y1", 0)
+              .attr("y2", svg_height);
+
+            legend_svg.call(existing_artists_texture);
+
+            // Area + line generators
+            const areaTotal = d3
+              .area()
+              .x((d) => scale_x(parseDate(d.listen_date)))
+              .y0(scale_y_total(0))
+              .y1((d) => scale_y_total(+d.avg_total))
+              .curve(d3.curveMonotoneX);
+
+            const lineTotal = d3
+              .line()
+              .x((d) => scale_x(parseDate(d.listen_date)))
+              .y((d) => scale_y_total(+d.avg_total))
+              .curve(d3.curveMonotoneX);
+
+            legend_svg
+              .append("g")
+              .append("path")
+              .attr("id", "overview")
+              .datum(legend_data)
+              .attr("fill", "#9df7bd")
+              .attr("opacity", 1)
+              .attr("d", areaTotal);
+
+            legend_svg
+              .append("path")
+              .attr("id", "overview")
+              .datum(legend_data)
+              .attr("fill", "none")
+              .attr("stroke", "#1db954")
+              .attr("stroke-width", 1)
+              .attr("d", lineTotal);
+
+            // Existing artists
+            const areaExisting = d3
+              .area()
+              .x((d) => scale_x(parseDate(d.listen_date)))
+              .y0(scale_y_total(0))
+              .y1((d) => scale_y_total(+d.avg_new))
+              .curve(d3.curveMonotoneX);
+
+            const lineExisting = d3
+              .line()
+              .x((d) => scale_x(parseDate(d.listen_date)))
+              .y((d) => scale_y_total(+d.avg_new))
+              .curve(d3.curveMonotoneX);
+
+            legend_svg.call(existing_artists_texture);
+
+            legend_svg
+              .append("g")
+              .append("path")
+              .attr("id", "overview")
+              .datum(legend_data)
+              .attr("fill", existing_artists_texture.url())
+              .attr("opacity", 1)
+              .attr("d", areaExisting);
+
+            legend_svg
+              .append("path")
+              .attr("id", "overview")
+              .datum(legend_data)
+              .attr("fill", "none")
+              .attr("stroke", "#1db954")
+              .attr("stroke-width", 1)
+              .attr("d", lineExisting);
+
+            // Labels
+            legend_svg
+              .append("rect")
+              .attr("id", "overview")
+              .attr("x", scale_x(parseDate("2019-05-10")))
+              .attr("y", 15)
+              .attr("width", 88)
+              .attr("height", 20)
+              .attr("fill", "white");
+
+            legend_svg
+              .append("text")
+              .attr("id", "overview")
+              .attr("x", scale_x(parseDate("2019-07-12")))
+              .attr("y", 30)
+              .text("All albums")
+              .attr("fill", "#1db954")
+              .attr("font-weight", 1000)
+              .attr("font-size", "18px")
+              .attr("text-anchor", "end");
+
+            legend_svg
+              .append("rect")
+              .attr("id", "overview")
+              .attr("x", scale_x(parseDate("2019-04-21")))
+              .attr("y", 75)
+              .attr("width", 114)
+              .attr("height", 20)
+              .attr("fill", "white");
+
+            legend_svg
+              .append("text")
+              .attr("id", "overview")
+              .attr("x", scale_x(parseDate("2019-07-12")))
+              .attr("y", 90)
+              .text("By new artists")
+              .attr("fill", "#1db954")
+              .attr("font-weight", 1000)
+              .attr("font-size", "18px")
+              .attr("text-anchor", "end");
+
+            legend_svg
+              .append("rect")
+              .attr("id", "overview")
+              .attr("fill", "#ffffff")
+              .attr("x", scale_x(parseDate("2019-08-01")))
+              .attr("y", 0)
+              .attr("width", "250px")
+              .attr("height", svg_height + 50);
+          }
         });
     }
 
@@ -363,9 +589,7 @@ d3.json("data/artist_level.json")
               .attr("id", "album-release")
               .attr(
                 "x",
-                (d) =>
-                  scale_x(d3.timeParse("%Y-%m-%d")(d.album_release)) -
-                  day_width / 2
+                (d) => scale_x(parseDate(d.album_release)) - day_width / 2
               )
               .attr("y", 0)
               .attr("width", day_width)
@@ -381,9 +605,7 @@ d3.json("data/artist_level.json")
               .append("circle")
               .attr("class", (d) => "album-play album-play-" + d.play_code)
               .attr("id", (d) => d.album_id)
-              .attr("cx", (d) =>
-                scale_x(d3.timeParse("%Y-%m-%d")(d.listen_date))
-              )
+              .attr("cx", (d) => scale_x(parseDate(d.listen_date)))
               .attr(
                 "cy",
                 (d) =>
@@ -441,7 +663,7 @@ d3.json("data/artist_level.json")
                 );
                 // Info
                 release_date = d3.timeFormat("%-d %b %y")(
-                  d3.timeParse("%Y-%m-%d")(album_data.album_release)
+                  parseDate(album_data.album_release)
                 );
                 d3.select(".album-artist-info").html(
                   `${album_data.album_tracks} tracks <span style='font-weight:1000;'>|</span> ${release_date}`
