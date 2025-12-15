@@ -26,11 +26,11 @@ section {
 }
 
 .inverse {
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 .full-bleed {
-  box-shadow: 0 0 0 100vmax #f0f0f0;
+  box-shadow: 0 0 0 100vmax #ffffff;
   clip-path: inset(0 -100vmax);
 }
 
@@ -71,17 +71,18 @@ h2 {
   margin: 5px;
   justify-content: center;
   align-items: center;
+  /* padding-bottom: 20px;
+  border-bottom: 4px solid #121212; */
 }
 
 .item {
   padding: 1px;
-  /* flex: none; */
-  /* background-color: #f0f0f0; */
+  /* background-color: #ffffff; */
 }
 
 .last-item {
   flex-grow: 1;
-  /* background-color: #f0f0f0; */
+  /* background-color: #ffffff; */
 }
 
 .stats-title {
@@ -91,22 +92,15 @@ h2 {
 }
 
 .stats-text {
+  /* display: block; */
   width: 100%;
   height: 100px;
   border-bottom: #1db954 solid 1px;
 }
 
-.stats-text {
-  display: block;
-  width: 100%;
-  height: 100px;
-}
-
 .stats-image {
   width: 100%;
   height: auto;
-}
-.stats-image {
   display: flex;
   margin: 5px;
 }
@@ -191,6 +185,31 @@ h2 {
   stroke-width: 0.5px;
   opacity: 0.25;
   /* stroke-dasharray: 5 5; */
+}
+
+.artists-tile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  box-sizing: border-box;
+  grid-template-rows: 170px;
+  grid-auto-rows: 170px;
+  /* overflow-y: scroll; */
+  /* scrollbar-color: #1db954 #ffffff;
+  scrollbar-width: thin; */
+}
+
+.artists-tile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 10px;
+  background: #ffffff;
+  border: 1px solid #a9a9a9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .overview-line-all {
@@ -592,4 +611,290 @@ button:disabled {
 
 .column-album-cover {
   width: 0%;
+}
+
+.artist-dropdown {
+  display: block;
+  font-size: 16px;
+  color: #121212;
+  width: 300px;
+  box-sizing: border-box;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 7.5px;
+  /* border-bottom: 2px solid #1db954; */
+  background-color: white;
+}
+
+.stats-image-tiles {
+  justify-items: center;
+  align-items: center;
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 10px;
+}
+
+.legend-container {
+  /* justify-items: center; */
+  /* align-items: center; */
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  /* margin-top: 10px; */
+  /* border-bottom: 10px; */
+  /* margin-bottom: 10px; */
+}
+
+.artists-tile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 10px;
+  background: #ffffff;
+  border: 1px solid #a9a9a9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.legends-tile {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 10px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #ffffff;
+  /* box-sizing: border-box; */
+}
+
+.artists-tile-none {
+  border: 1px solid #a9a9a9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  opacity: 0.4;
+}
+
+.artists-tile-data {
+  border: 1px solid #1db954;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.artist-year-svg {
+  width: 100%;
+}
+
+.tile-title {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0px;
+  font-size: 22px;
+}
+
+.tile-bottom {
+  flex: 1;
+  background-color: #1db954;
+}
+.album-play-0 {
+  fill: #ffffff;
+  stroke: #121212;
+  stroke-width: 1px;
+}
+
+.ablum-type-legend {
+  stroke-width: 2px;
+}
+
+.album-play-1 {
+  fill: #76e99f;
+  stroke: #121212;
+  stroke-width: 1px;
+}
+
+.album-play-2 {
+  fill: #1db954;
+  stroke: #121212;
+  stroke-width: 1px;
+}
+
+.album-play-5 {
+  fill: #f1f1f1;
+  stroke: #121212;
+  stroke-width: 1px;
+  stroke-dasharray: 2, 2, 2;
+}
+
+.overview-hide {
+  display: none;
+}
+
+.overview-show {
+  display: block;
+}
+
+.album-info-tiles {
+  width: 600x;
+  height: 170px;
+  display: grid;
+  grid-template-columns: 300px 150px 1fr;
+  grid-template-rows: auto auto 1fr;
+}
+
+.album-container {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.album-container-hide {
+  display: none;
+}
+
+.album-container-show {
+  display: block;
+}
+
+.legend-show {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.legend-hide {
+  display: none;
+}
+
+.album-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.album-info-legend {
+  grid-area: 1 / 1 / 5 / 2;
+}
+
+.album-artist-title {
+  font-size: 20px;
+  font-weight: bold;
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.album-artist-info {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.album-artist-plays {
+  grid-area: 3 / 3 / 4 / 4;
+}
+
+.album-artist-plays {
+  grid-area: 3 / 3 / 4 / 4;
+}
+
+.album-src {
+  grid-area: 4 / 3 / 5 / 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 0;
+}
+
+.album-src-image {
+  width: 150px;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.album-src-hide {
+  display: none;
+}
+
+.album-src-show {
+  display: block;
+}
+
+.card-src a {
+  display: contents;
+}
+
+.album-artist-image {
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+  width: 140px;
+  grid-area: 1 / 2 / 5 / 3;
+}
+
+/* .overview-legend { */
+/* flex: 0 0 48%; */
+/* height: 150px; */
+/* width: 90%;
+  border: 1px solid #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px; */
+/* } */
+
+.overview-legend-div {
+  width: 100%;
+  height: 150px;
+}
+
+.legend-text {
+  font-size: 18px;
+  font-family: "Roboto";
+  font-weight: 500;
+}
+
+.month-grid line {
+  stroke: #a9a9a9;
+  stroke-width: 1;
+  stroke-dasharray: 5 5;
+  opacity: 0.75;
+}
+
+.month-grid text {
+  color: #121212;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* width */
+::-webkit-scrollbar {
+  /* display: block; */
+  width: 5px;
+  /* height: 5px; */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  height: 0px;
+  background-color: #1db954;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1db954;
+  border-radius: 10px;
 }
