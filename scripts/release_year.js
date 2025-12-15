@@ -229,7 +229,7 @@ d3.json(
       .data(years)
       .enter()
       .append("line")
-      .attr("class", "dy-line")
+      .attr("class", "release-line")
       .attr("x1", (d) => release_rect_width + d.year_num * release_rect_width)
       .attr("x2", (d) => release_rect_width + d.year_num * release_rect_width)
       .attr("y1", release_rect_height * 2 - 10)
@@ -244,7 +244,7 @@ d3.json(
       .data(decades)
       .enter()
       .append("line")
-      .attr("class", "dy-line")
+      .attr("class", "release-line")
       .attr("x1", release_rect_width - 10)
       .attr("x2", release_rect_width * 11)
       .attr(

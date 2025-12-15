@@ -2,326 +2,90 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Breakdown of Release Decade by Listen Year</title>
-
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <link rel="stylesheet" href="style.css" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fixed Dimensions Split Screen Text Near Middle</title>
     <style>
+      /* 
+          Body acts as the alignment container for the main content card, 
+          centering it on the page.
+        */
       body {
-        font-family: sans-serif;
-        margin: 20px;
-        background: #f7f7f7;
-      }
-
-      #dashboard {
         display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        min-height: 100vh;
+        margin: 0;
+        background-color: #ffffff; /* Grey background to show the boundaries */
+        font-family: sans-serif;
+        overflow: hidden; /* Prevents scrolling if content is larger than viewport */
       }
 
-      .tile {
-        background: white;
-        border: 1px solid #a9a9a9;
-        border-radius: 12px;
-        padding: 10px;
-        max-width: 400px;
-        min-width: 200px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      /* 
+          Main Container: Fixed width of 800px and height of 400px.
+        */
+      .main-container {
+        display: flex;
+        flex-direction: column;
+        width: 800px; /* Updated width */
+        /* height: 80  0px;     Updated height */
+        /* box-shadow: 0 4px 15px #121212; */
+        /* border: 10px solid #1db954; */
+        border-radius: 8px;
+        overflow: hidden;
       }
 
-      .title {
+      /* 
+          General styles for both top and bottom halves (internal to the main container)
+        */
+      .half-screen {
+        flex: 1; /* Makes each div take up exactly 50% of the 400px container height */
+        display: flex;
+        justify-content: center; /* Centers text horizontally */
         text-align: center;
-        font-weight: bold;
-        margin-bottom: 0px;
-        font-size: 24px;
+        box-sizing: border-box;
+        padding: 10px;
       }
 
-      .decade-label {
-        font-size: 12px;
-        fill: #444;
+      .top-half {
+        background-color: #ffffff;
+        color: #1db954;
+        align-items: flex-end; /* Pushes text near the center divide */
+        border-top: 10px solid #1db954;
+        border-left: 10px solid #1db954;
+        border-right: 10px solid #1db954;
       }
 
-      .gridline {
-        stroke: #a9a9a9;
-        stroke-width: 1;
-        stroke-dasharray: 1 3;
+      .bottom-half {
+        background-color: #1db954;
+        color: #ffffff;
+        align-items: flex-start;
       }
 
-      .grid-label {
-        font-size: 11px;
-        fill: #555;
-      }
-
-      .comp-label {
-        font-size: 16px;
+      .milestone-text {
+        font-size: 4em; /* Slightly larger font size that fits 800px width well */
         font-weight: bolder;
+        margin: 0 0 5px 0; /* Margin keeps text slightly above the center line */
+        line-height: 1.2;
+        stroke: #121212;
+        stroke-width: 5px;
       }
 
-      .bar {
-        rx: 5;
-        ry: 5;
-        stroke: #191414;
-        stroke-width: 0.5px;
-      }
-
-      .bar-comp {
-        rx: 5;
-        ry: 5;
-        stroke: #191414;
-        stroke-width: 1.5px;
-      }
-
-      .bar-bg {
-        fill: #edfcf2;
-        stroke: #191414;
-        stroke-width: 0.5px;
-        opacity: 0.2;
+      .bottom-half .milestone-text {
+        margin: 5px 0 0 0; /* Margin keeps text slightly below the center line */
+        text-transform: uppercase;
       }
     </style>
   </head>
-
   <body>
-    <h1>Breakdown of Release Decade by Listen Year</h1>
-    <div id="dashboard"></div>
+    <!-- Main content area with fixed dimensions -->
+    <div class="main-container">
+      <div class="top-half half-screen">
+        <p class="milestone-text">7 YEARS</p>
+      </div>
 
-    <script>
-      const data = [
-        {
-          listen_year: 2020,
-          d1950: 0,
-          d1960: 0,
-          d1970: 0,
-          d1980: 0.051,
-          d1990: 0.758,
-          d2000: 6.515,
-          d2010: 56.465,
-          d2020: 36.212,
-        },
-        {
-          listen_year: 2021,
-          d1950: 0,
-          d1960: 0.047,
-          d1970: 0.142,
-          d1980: 0.189,
-          d1990: 2.459,
-          d2000: 7.896,
-          d2010: 37.967,
-          d2020: 51.3,
-        },
-        {
-          listen_year: 2022,
-          d1950: 0.064,
-          d1960: 0.318,
-          d1970: 0.318,
-          d1980: 1.462,
-          d1990: 5.404,
-          d2000: 12.842,
-          d2010: 35.728,
-          d2020: 43.865,
-        },
-        {
-          listen_year: 2023,
-          d1950: 0,
-          d1960: 1.022,
-          d1970: 1.789,
-          d1980: 2.875,
-          d1990: 6.581,
-          d2000: 11.693,
-          d2010: 22.62,
-          d2020: 53.419,
-        },
-        {
-          listen_year: 2024,
-          d1950: 0.148,
-          d1960: 1.108,
-          d1970: 3.767,
-          d1980: 6.721,
-          d1990: 15.288,
-          d2000: 15.583,
-          d2010: 20.384,
-          d2020: 37.001,
-        },
-        {
-          listen_year: 2025,
-          d1950: 0.111,
-          d1960: 1.332,
-          d1970: 4.661,
-          d1980: 6.77,
-          d1990: 11.21,
-          d2000: 13.43,
-          d2010: 20.866,
-          d2020: 41.62,
-        },
-      ];
-      const decades = [
-        "",
-        "1950",
-        "1960",
-        "1970",
-        "1980",
-        "1990",
-        "2000",
-        "2010",
-        "2020",
-      ];
-
-      // Define constants for layout
-      const tileWidth = 400;
-      const barAreaX = 50;
-      const barAreaWidth = 380 - barAreaX;
-      const rowHeight = 30;
-
-      // Create tiles for each listen year
-      const dashboard = d3.select("#dashboard");
-
-      data.forEach((yearData, index) => {
-        const tile = dashboard.append("div").attr("class", "tile");
-
-        tile.append("div").attr("class", "title").text(yearData.listen_year);
-
-        const svgHeight = decades.length * rowHeight + rowHeight + 5;
-
-        const svg = tile
-          .append("svg")
-          .attr("width", tileWidth)
-          .attr("height", svgHeight);
-
-        // Calculate total listens
-        let preTotal = 0;
-        let postTotal = 0;
-
-        Object.keys(yearData).forEach((key) => {
-          if (key.startsWith("d")) {
-            const decade = Number(key.slice(1)); // extract the number e.g. "d2010" -> 2010
-
-            if (decade < 2010) {
-              preTotal += yearData[key];
-            } else {
-              postTotal += yearData[key];
-            }
-          }
-        });
-
-        // Add decade backgrounds and labels
-        decades.forEach((decade, i) => {
-          const y = i * rowHeight + 20;
-
-          // Decade background
-          svg
-            .append("rect")
-            .attr("class", "bar-bg")
-            .attr("x", barAreaX)
-            .attr("y", y + 4)
-            .attr("width", barAreaWidth)
-            .attr("height", rowHeight - 8);
-
-          svg
-            .append("text")
-            .attr("class", "decade-label")
-            .attr("x", barAreaX - 10)
-            .attr("y", y + rowHeight / 2 + 4)
-            .attr("text-anchor", "end")
-            .text(decade == "" ? "Overall" : decade + "s");
-        });
-
-        // Vertical grid lines
-        const gridPercents = d3.range(0, 120, 20);
-
-        gridPercents.forEach((p) => {
-          const x = barAreaX + (p / 100) * barAreaWidth;
-
-          svg
-            .append("line")
-            .attr("class", "gridline")
-            .attr("x1", x)
-            .attr("x2", x)
-            .attr("y1", 25)
-            .attr("y2", decades.length * rowHeight + 20);
-        });
-
-        // Add labels
-        gridPercents.forEach((p) => {
-          const x = barAreaX + (p / 100) * barAreaWidth;
-
-          svg
-            .append("text")
-            .attr("class", "grid-label")
-            .attr("x", x)
-            .attr("y", svgHeight - 5)
-            .attr("text-anchor", "middle")
-            .text(p + "%");
-        });
-        // }
-
-        // Add data bars
-        let cumulative = 0;
-
-        decades.forEach((decade, i) => {
-          const value = yearData["d" + decade];
-          const y = i * rowHeight + 20;
-
-          if (decade === "") {
-            const barWidthPre = (preTotal / 100) * barAreaWidth;
-            const barWidthPost = (postTotal / 100) * barAreaWidth;
-
-            // Pre-2010 total bar
-            svg
-              .append("rect")
-              .attr("class", "bar bar-comp")
-              .attr("x", barAreaX)
-              .attr("y", y + 4)
-              .attr("width", barWidthPre)
-              .attr("height", rowHeight - 8)
-              .attr("fill", "#1db954");
-
-            // Post-2010 total bar
-            svg
-              .append("rect")
-              .attr("class", "bar bar-comp")
-              .attr("x", barAreaX + barWidthPre)
-              .attr("y", y + 4)
-              .attr("width", barWidthPost)
-              .attr("height", rowHeight - 8)
-              .attr("fill", "#9df7bd");
-
-            svg
-              .append("text")
-              .attr("class", "comp-label")
-              .attr("x", barAreaX)
-              .attr("y", rowHeight - 12)
-              .attr("text-anchor", "start")
-              .attr("fill", "#1db954")
-              .text(Number(preTotal).toFixed(1) + "%");
-
-            svg
-              .append("text")
-              .attr("class", "comp-label")
-              .attr("x", barAreaX + barAreaWidth)
-              .attr("y", rowHeight - 12)
-              .attr("text-anchor", "end")
-              .attr("fill", "#a9a9a9")
-              .text(Number(postTotal).toFixed(1) + "%");
-          }
-
-          if (value > 0) {
-            const barX = barAreaX + (cumulative / 100) * barAreaWidth;
-            const barWidth = (value / 100) * barAreaWidth;
-
-            // Color based on
-            svg
-              .append("rect")
-              .attr("class", "bar")
-              .attr("x", barX)
-              .attr("y", y + 4)
-              .attr("width", barWidth)
-              .attr("height", rowHeight - 8)
-              .attr("fill", decade.slice(0, 3) > 200 ? "#9df7bd" : "#1db954");
-
-            cumulative += value;
-          }
-        });
-      });
-    </script>
+      <div class="bottom-half half-screen">
+        <p class="milestone-text">10,000 ALBUM LISTENS</p>
+      </div>
+    </div>
   </body>
 </html>
