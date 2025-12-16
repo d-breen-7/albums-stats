@@ -327,20 +327,13 @@ d3.json(
         .attr("stroke-dashoffset", 0);
 
       // Update heading sub text
+      let total_num = Number(period_total).toLocaleString();
       var summary_text =
         period == "all-time"
-          ? "I've listened to <span style='color: #1db954; font-weight: 1000';>" +
-            Number(period_total).toLocaleString() +
-            "</span> albums since I started tracking in 2019."
+          ? `I've listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums since I started tracking in 2019.`
           : period == current_year
-          ? "So far this year I've listened to <span style='color: #1db954; font-weight: 1000';>" +
-            Number(period_total).toLocaleString() +
-            "</span> albums."
-          : "In " +
-            period +
-            " I listened to <span style='color: #1db954; font-weight: 1000';>" +
-            Number(period_total).toLocaleString() +
-            "</span> albums.";
+          ? `So far this year I've listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums.`
+          : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums.`;
 
       // Add h1, h2 title
       d3.select("#overview-title")
