@@ -4,199 +4,145 @@
     <meta charset="UTF-8" />
     <title>Album Tracker</title>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
     <script
       src="https://code.jquery.com/jquery-latest.min.js"
       type="text/javascript"
     ></script>
     <script src="https://d3js.org/d3-array.v2.min.js"></script>
     <script src="https://www.unpkg.com/@tidyjs/tidy/dist/umd/tidy.min.js"></script>
-    <script src="https://unpkg.com/d3-arrow@0.0.25/dist/d3-arrow.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
     <script src="scripts/functions.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
   </head>
-
   <body>
-    <div class="loader">
-      <div class="wave wave1"></div>
-      <div class="wave wave2"></div>
-      <div class="wave wave3"></div>
-      <div class="wave wave4"></div>
-      <div class="wave wave5"></div>
-      <div class="space"></div>
-      <div>LOADING...</div>
-      <div class="space"></div>
-      <div class="wave wave5"></div>
-      <div class="wave wave4"></div>
-      <div class="wave wave3"></div>
-      <div class="wave wave2"></div>
-      <div class="wave wave1"></div>
-    </div>
     <main class="container">
       <section>
-        <div id="stats-1" class="stats-tile">
-          <div class="stats-title">
-            <h1>Albums</h1>
-          </div>
-          <div id="stats-1-text" class="stats-text">
-            <div class="radio-container-years">
-              <div>
-                <input
-                  type="radio"
-                  id="all-time"
-                  name="albums-year"
-                  value="all-time"
-                  checked
-                />
-                <label for="all-time">All Time</label>
-              </div>
-              <div>
-                <input type="radio" id="2026" name="albums-year" value="2026" />
-                <label for="2026">2026</label>
-              </div>
-              <div>
-                <input type="radio" id="2025" name="albums-year" value="2025" />
-                <label for="2025">2025</label>
-              </div>
-              <div>
-                <input type="radio" id="2024" name="albums-year" value="2024" />
-                <label for="2024">2024</label>
-              </div>
-              <div>
-                <input type="radio" id="2023" name="albums-year" value="2023" />
-                <label for="2023">2023</label>
-              </div>
-              <div>
-                <input type="radio" id="2022" name="albums-year" value="2022" />
-                <label for="2022">2022</label>
-              </div>
-              <div>
-                <input type="radio" id="2021" name="albums-year" value="2021" />
-                <label for="2021">2021</label>
-              </div>
-              <div>
-                <input type="radio" id="2020" name="albums-year" value="2020" />
-                <label for="2020">2020</label>
-              </div>
-              <div>
-                <input type="radio" id="2019" name="albums-year" value="2019" />
-                <label for="2019">2019</label>
-              </div>
-              <div>
-                <input type="radio" id="ytd" name="albums-year" value="ytd" />
-                <label for="ytd">Year to Date Comparison</label>
-              </div>
-            </div>
-          </div>
-          <div id="stats-image-1" class="stats-image">
+        <div id="overview" class="stats-container">
+          <div id="overview-title" class="item stats-title"></div>
+          <div id="overview-text" class="item stats-text"></div>
+          <div id="overview-listen-years" class="item radio-options"></div>
+          <div id="overview-image" class="stats-image last-item">
             <script src="scripts/all_albums.js"></script>
           </div>
         </div>
       </section>
 
-      <!-- <section>
-      <div id="stats-2" class="stats-tile">
-        <div id="stats-2-title" class="stats-title"></div>
-        <div id="stats-2-text" class="stats-text"></div>
-        <div id="stats-image-2" class="stats-image">
-          <script src="scripts/current_year.js"></script>
-        </div>
-      </div>
-    </section> -->
-
       <section>
-        <div id="stats-3" class="stats-tile">
-          <div class="stats-title">
+        <div id="recent" class="stats-container" style="max-height: 750px">
+          <div id="recent-title" class="item stats-title">
             <h1>Recent Albums</h1>
           </div>
-          <div id="stats-3-text" class="stats-text"></div>
-          <div id="stats-image-3" class="stats-image">
+          <div
+            id="recent-text"
+            class="item stats-text"
+            style="height: auto"
+          ></div>
+          <div id="recent-image" class="last-item stats-image">
             <script src="scripts/recent.js"></script>
           </div>
         </div>
       </section>
 
       <section>
-        <div id="stats-4" class="stats-tile">
-          <div id="stats-4-title" class="stats-title">
-            <h1>Release Year of Albums</h1>
+        <div
+          id="release-year"
+          class="stats-container"
+          style="max-height: 800px"
+        >
+          <div id="release-title" class="item stats-title">
+            <h1>Albums by Release Year</h1>
           </div>
-          <div id="stats-4-text" class="stats-text">
-            <div class="radio-container">
-              <div>
-                <input
-                  type="radio"
-                  id="all"
-                  name="listen-period"
-                  value="all"
-                  checked
-                />
-                <label for="all">All Time</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="year"
-                  name="listen-period"
-                  value="year"
-                />
-                <label for="year">Last Year</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="month"
-                  name="listen-period"
-                  value="month"
-                />
-                <label for="month">Last Month</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="week"
-                  name="listen-period"
-                  value="week"
-                />
-                <label for="week">Last Week</label>
-              </div>
+          <div id="release-text" class="item stats-text"></div>
+          <div id="release-listen-years" class="item radio-options">
+            <div>
+              <input
+                type="radio"
+                id="all"
+                name="listen-period"
+                value="all"
+                checked
+              />
+              <label for="all">All Time</label>
+            </div>
+            <div>
+              <input type="radio" id="year" name="listen-period" value="year" />
+              <label for="year">Last Year</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="month"
+                name="listen-period"
+                value="month"
+              />
+              <label for="month">Last Month</label>
+            </div>
+            <div>
+              <input type="radio" id="week" name="listen-period" value="week" />
+              <label for="week">Last Week</label>
             </div>
           </div>
 
-          <div id="stats-image-4" class="stats-image">
+          <div id="release-image" class="last-item stats-image">
             <script src="scripts/release_year.js"></script>
           </div>
         </div>
       </section>
-      
-      <section>
-        <div id="stats-5-title" class="stats-title">
-          <h1>All Albums</h1>
-        </div>
-        <input type="text" id="searchInput" placeholder="Search...">
-        <!-- Pagination controls -->
-        <table id="dataTable">
-          <thead>
-            <tr id="tableHeader">
-              <!-- Table headers will be populated here -->
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <!-- Table data will be populated here -->
-          </tbody>
-        </table>
-        
-        <div id="pagination">
-          <button id="prevButton">Previous</button>
-          <span id="pageInfo"></span>
-          <button id="nextButton">Next</button>
-        </div>
-        
-        
 
-          <div id="stats-image-5" class="stats-image">
-            <script src="scripts/albums_list.js"></script>
+      <!-- <section>
+        <div id="release-decade" class="stats-container">
+          <div id="release-decade-title" class="item stats-title">
+            <h1>Release Decade of Albums by Listen Year</h1>
+          </div>
+          <div id="release-decade-text" class="item stats-text"></div>
+          <div
+            id="release-decade-image"
+            class="last-item release-decade-tile-container"
+          >
+            <script src="scripts/release_decade_trend.js"></script>
+          </div>
+        </div>
+      </section> -->
+
+      <section>
+        <div id="artist" class="stats-container">
+          <div id="artist-title" class="stats-title"></div>
+          <div id="artist-text" class="stats-text"></div>
+
+          <div id="legend" class="legend-show">
+            <div class="artists-tile-container">
+              <div class="legends-tile" id="overview-legend-div"></div>
+            </div>
+          </div>
+
+          <div
+            id="album-container"
+            class="item album-container album-container-hide"
+          >
+            <div class="album-info-tiles">
+              <div class="album-info-legend" id="album-info-legend"></div>
+              <div class="album-artist-image"></div>
+              <div class="album-artist-title"></div>
+              <div class="album-artist-info"></div>
+              <div class="album-artist-plays"></div>
+              <div class="album-src">
+                <img
+                  src="images\Spotify_Full_Logo_RGB_Green.png"
+                  id="album-src"
+                  class="album-src-image album-src-hide"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div id="artist-image" class="artists-tile-container">
+            <script src="scripts/listen_history.js"></script>
           </div>
         </div>
       </section>
