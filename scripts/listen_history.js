@@ -1,32 +1,35 @@
 const parseDate = d3.timeParse("%Y-%m-%d");
 
-d3.json("data/artist_level.json")
+d3.json(
+  // "data/artist_level.json"
+  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/artist-stats"
+)
   .then(function (data) {
-    let _overview_data = data.overview,
-      albums_data = data.data,
-      dropdown = data.dropdown;
+    let _overview_data = data.data;
+    //   albums_data = data.data,
+    //   dropdown = data.dropdown;
 
-    // Get artists in the dropdown
-    let dropdown_names = d3
-      .map(dropdown, function (d) {
-        return d.artist_name;
-      })
-      .sort(function (a, b) {
-        return a.toLowerCase().localeCompare(b.toLowerCase());
-      });
+    // // Get artists in the dropdown
+    // let dropdown_names = d3
+    //   .map(dropdown, function (d) {
+    //     return d.artist_name;
+    //   })
+    //   .sort(function (a, b) {
+    //     return a.toLowerCase().localeCompare(b.toLowerCase());
+    //   });
 
-    // Populate the dropdown list
-    d3.select("#select-artist")
-      .selectAll("option")
-      .data(dropdown_names)
-      .enter()
-      .append("option")
-      .text(function (d) {
-        return d;
-      })
-      .attr("value", function (d) {
-        return d;
-      });
+    // // Populate the dropdown list
+    // d3.select("#select-artist")
+    //   .selectAll("option")
+    //   .data(dropdown_names)
+    //   .enter()
+    //   .append("option")
+    //   .text(function (d) {
+    //     return d;
+    //   })
+    //   .attr("value", function (d) {
+    //     return d;
+    //   });
 
     // Overview of all listens
     let overview_data = tidy(

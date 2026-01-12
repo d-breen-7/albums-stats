@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
+  <head>
     <meta charset="UTF-8" />
     <title>Album Tracker</title>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
@@ -15,7 +15,7 @@
     <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
     <script src="scripts/functions.js"></script>
     <link rel="stylesheet" href="style.css" />
-        <link
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
     />
@@ -33,12 +33,16 @@
         </div>
       </section>
 
-       <section>
-        <div id="recent" class="stats-container" style="max-height: 750px;">
+      <section>
+        <div id="recent" class="stats-container" style="max-height: 750px">
           <div id="recent-title" class="item stats-title">
             <h1>Recent Albums</h1>
           </div>
-          <div id="recent-text" class="item stats-text" style="height: auto;"></div>
+          <div
+            id="recent-text"
+            class="item stats-text"
+            style="height: auto"
+          ></div>
           <div id="recent-image" class="last-item stats-image">
             <script src="scripts/recent.js"></script>
           </div>
@@ -46,7 +50,11 @@
       </section>
 
       <section>
-        <div id="release-year" class="stats-container">
+        <div
+          id="release-year"
+          class="stats-container"
+          style="max-height: 800px"
+        >
           <div id="release-title" class="item stats-title">
             <h1>Albums by Release Year</h1>
           </div>
@@ -107,11 +115,6 @@
           <div id="artist-title" class="stats-title"></div>
           <div id="artist-text" class="stats-text"></div>
 
-          <div class="search-container">
-            <select id="select-artist" class="artist-dropdown">
-              <option value="0">Overview</option>
-            </select>
-          </div>
           <div id="legend" class="legend-show">
             <div class="artists-tile-container">
               <div class="legends-tile" id="overview-legend-div"></div>

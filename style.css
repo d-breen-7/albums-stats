@@ -194,6 +194,7 @@ h2 {
   box-sizing: border-box;
   grid-template-rows: 170px;
   grid-auto-rows: 170px;
+  margin-top: 5px;
   /* overflow-y: scroll; */
   /* scrollbar-color: #1db954 #ffffff;
   scrollbar-width: thin; */
@@ -798,8 +799,8 @@ button:disabled {
 
 .legend-show {
   display: block;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 .legend-hide {

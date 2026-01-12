@@ -7,14 +7,7 @@ d3.json(
   // "data/release_year.json"
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
 ).then(function (response) {
-  var raw = response.data;
-
-  var data = Object.fromEntries(
-    Object.entries(raw).map(([key, value]) => [
-      key,
-      Array.isArray(value) ? value.filter((d) => d.decade !== "190") : value,
-    ])
-  );
+  var data = response.data;
 
   // Define years in a decade 0 - 9
   let years = Array.from({ length: 10 }, (_, i) => ({ year_num: String(i) }));
@@ -77,7 +70,7 @@ d3.json(
     .attr("x", release_rect_width - 5)
     .attr(
       "y",
-      (d) => release_rect_height * 1.5 + d.decade_num * release_rect_height
+      (d) => release_rect_height * 2.5 + d.decade_num * release_rect_height
     )
     .text((d) => d.decade + "0s")
     .attr("alignment-baseline", "middle");
@@ -85,7 +78,6 @@ d3.json(
   // Legend text
   release_svg
     .append("text")
-    // .attr("class", "release-legend-text-main")
     .attr("class", "release-legend-text")
     .attr("x", release_rect_width)
     .attr("y", release_rect_height + 2)
@@ -169,7 +161,7 @@ d3.json(
     )
     .attr(
       "y",
-      (d) => release_rect_height * 1.5 + release_rect_height * d.decade_num
+      (d) => release_rect_height * 2.5 + release_rect_height * d.decade_num
     )
     .text((d) => d.decade + d.year_num);
 
@@ -214,7 +206,7 @@ d3.json(
       .attr("x", (d) => release_rect_width + release_rect_width * d.year_num)
       .attr(
         "y",
-        (d) => release_rect_height + release_rect_height * d.decade_num
+        (d) => release_rect_height * 2 + release_rect_height * d.decade_num
       )
       .attr("width", release_rect_width)
       .attr("height", release_rect_height)

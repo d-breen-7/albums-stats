@@ -167,9 +167,9 @@ d3.json(
     .attr("height", recent_rect_height)
     .attr("stroke", (d) => (d.album_status === 1 ? "#191414" : "#1db954"))
     .attr("fill", (d) =>
-      d.album_status === 1
+      d.album_status === "1"
         ? "#1db954"
-        : d.artist_status === 1
+        : d.artist_status === "1"
         ? "#ffffff"
         : "#dcf9e6"
     );

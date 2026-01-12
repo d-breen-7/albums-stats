@@ -42,7 +42,7 @@ function group_by_year(data) {
   for (const year in groupedData) {
     let cumulativeSum = 0;
     groupedData[year].forEach((row) => {
-      cumulativeSum += row.day_count_all;
+      cumulativeSum += row.day_albums;
       const newRow = { ...row, cum_sum: cumulativeSum };
       result.push(newRow);
     });

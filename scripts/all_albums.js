@@ -1,7 +1,7 @@
 var overview_margins = { top: 20, right: 60, bottom: 30, left: 10 },
   current_year = new Date().getFullYear(),
-  norm_year = 2020, // Should be current_year for YTD
-  parse_date = d3.timeParse("%Y-%m-%d");
+  norm_year = current_year;
+parse_date = d3.timeParse("%Y-%m-%d");
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/albums"
@@ -45,10 +45,12 @@ d3.json(
     .html(overview_summary_text);
 
   // TODO: update logic backend
-  res_data[0].day_count_all = 0;
+  res_data[0].day_albums = 0;
 
   var data = group_by_year(res_data),
-    total_albums = Number(d3.max(data, (d) => d.total_all)).toLocaleString();
+    total_albums = Number(
+      d3.max(data, (d) => d.cumulative_albums)
+    ).toLocaleString();
 
   // Dynamically radio buttons for each year + all time + ytd
   const years = Array.from(new Set(data.map((d) => +d.year))).sort(
@@ -118,7 +120,7 @@ d3.json(
   // Define Y axis
   var overview_y = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => +d.total_all + 5)])
+    .domain([0, d3.max(data, (d) => +d.cumulative_albums + 5)])
     .range([
       overview_img_height - overview_margins.bottom,
       overview_margins.top,
@@ -127,7 +129,7 @@ d3.json(
   var overview_y_axis = d3
     .axisRight()
     .scale(overview_y)
-    .ticks(d3.max(data, (d) => +d.total_all) / 1000)
+    .ticks(d3.max(data, (d) => +d.cumulative_albums) / 1000)
     .tickSize(
       overview_img_width - overview_margins.left - overview_margins.right
     )
@@ -144,7 +146,7 @@ d3.json(
     .area()
     .x((d) => overview_x(parse_date(d.date)))
     .y0(overview_y(0))
-    .y1((d) => overview_y(d.total_all));
+    .y1((d) => overview_y(d.cumulative_albums));
 
   overview_svg
     .append("path")
@@ -156,7 +158,7 @@ d3.json(
   var overview_line = d3
     .line()
     .x((d) => overview_x(parse_date(d.date)))
-    .y((d) => overview_y(d.total_all));
+    .y((d) => overview_y(d.cumulative_albums));
 
   overview_svg
     .append("path")
@@ -165,14 +167,14 @@ d3.json(
     .attr("d", overview_line);
 
   // Text for total
-  // overview_svg
-  //   .append("text")
-  //   .attr("class", "overview-today-text")
-  //   .attr("id", "overview-today-text")
-  //   .attr("x", overview_x(d3.max(data, (d) => parse_date(d.date))))
-  //   .attr("y", overview_y(d3.max(data, (d) => d.total_all)) - 7.5)
-  //   .text(Number(d3.max(data, (d) => d.total_all)).toLocaleString())
-  //   .attr("alignment-baseline", "middle");
+  overview_svg
+    .append("text")
+    .attr("class", "overview-today-text")
+    .attr("id", "overview-today-text")
+    .attr("x", overview_x(d3.max(data, (d) => parse_date(d.date))))
+    .attr("y", overview_y(d3.max(data, (d) => d.cumulative_albums)) - 7.5)
+    .text(Number(d3.max(data, (d) => d.cumulative_albums)).toLocaleString())
+    .attr("alignment-baseline", "middle");
 
   function transition_period(period) {
     // Remove existing elements
@@ -193,7 +195,7 @@ d3.json(
           period === "all-time" ? data : data.filter((d) => d.year == period),
         period_total =
           period === "all-time"
-            ? d3.max(period_data, (d) => +d.total_all)
+            ? d3.max(period_data, (d) => +d.cumulative_albums)
             : d3.max(period_data, (d) => +d.cum_sum);
 
       // Update X axis
@@ -275,7 +277,7 @@ d3.json(
               .area()
               .x((d) => overview_x(parse_date(d.date)))
               .y0(overview_y(0))
-              .y1((d) => overview_y(d.total_all))
+              .y1((d) => overview_y(d.cumulative_albums))
           : d3
               .area()
               .x((d) => overview_x(parse_date(d.date)))
@@ -308,7 +310,9 @@ d3.json(
       var overview_line = d3
         .line()
         .x((d) => overview_x(parse_date(d.date)))
-        .y((d) => overview_y(period === "all-time" ? d.total_all : d.cum_sum));
+        .y((d) =>
+          overview_y(period === "all-time" ? d.cumulative_albums : d.cum_sum)
+        );
 
       var new_line = overview_svg
         .append("path")
@@ -330,10 +334,10 @@ d3.json(
       let total_num = Number(period_total).toLocaleString();
       var summary_text =
         period == "all-time"
-          ? `I've listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums since I started tracking in 2019.`
+          ? overview_summary_text
           : period == current_year
-          ? `So far this year I've listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums.`
-          : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums.`;
+          ? `So far this year, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`
+          : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`;
 
       // Add h1, h2 title
       d3.select("#overview-title")
@@ -561,9 +565,7 @@ d3.json(
       var summary_text = `My album listening peaked in 2021 and has been declining ever since. 
         This reflects a change in my listening habits as I spend more time discovering new music.
         I mostly listen to albums while working and listen to things like internet radio shows 
-        and mixes while exercising, reading etc.
-        <br><span style='color: #a9a9a9'>This visual is dynamic, with the data for each year
-        added in sequence before the next line is added and highlighted in green.</span>`;
+        and mixes while exercising, reading etc.`;
 
       // `The <span style='color: #1db954; font-weight: 1000';>${ytd_total}</span> albums so far this year ranks<span style='color: #1db954; font-weight: 1000';>
       //  #${rank_num}</span> when compared to previous years.`;
