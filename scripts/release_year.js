@@ -173,21 +173,23 @@ d3.json(
 
     d3.select("#release-text.h2").remove();
 
+    let overview_text = `<span style='color: #1db954; font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954; font-weight: 1000'>${num_decades}</span> decades.`;
+
     var release_text_desc =
       period === "all"
-        ? `I've listened to albums from ${num_years} years spread across ${num_decades} decades.`
+        ? `Since the start of 2019, I've listened to albums from ${overview_text}`
         : period === "year"
-        ? `Over the past year, I've listened to albums from ${num_years} years spread across ${num_decades} decades.`
+        ? `Over the past year, I've listened to albums from ${overview_text}`
         : period === "month"
-        ? `Over the past month, I've listened to albums from ${num_years} years spread across ${num_decades} decades.`
-        : `Over the past week, I've listened to albums from ${num_years} years spread across ${num_decades} decades`;
+        ? `Over the past month, I've listened to albums from ${overview_text}`
+        : `Over the past week, I've listened to albums from ${overview_text}`;
 
-    var release_text_desc = `I've listened to albums from <span style='color: #1db954; 
-    font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954; 
-    font-weight: 1000'>${num_decades}</span> decades, with at least one album from each
-    year since 1957. I've listened to albums released between 2019 and 2021 most frequently. Some 
-    of this is due to my listening habits in 2020 and 2021, and the fact it is easier to find recent 
-    releases on Spotify. This has changed over time as I try to listen to more older albums.`;
+    // var release_text_desc = `I've listened to albums from <span style='color: #1db954;
+    // font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954;
+    // font-weight: 1000'>${num_decades}</span> decades, with at least one album from each
+    // year since 1957. I've listened to albums released between 2019 and 2021 most frequently. Some
+    // of this is due to my listening habits in 2020 and 2021, and the fact it is easier to find recent
+    // releases on Spotify. This has changed over time as I try to listen to more older albums.`;
 
     sub_text.html(release_text_desc);
 

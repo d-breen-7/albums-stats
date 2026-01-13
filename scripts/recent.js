@@ -20,12 +20,20 @@ d3.json(
     )
   );
 
-  var num_albums = data.filter((d) => d.album_id !== "").length;
+  var num_albums = data.filter((d) => d.album_id !== "").length,
+    new_artist = data.filter((d) => d.artist_status === "1").length,
+    num_relistens = data.filter((d) => d.album_status === "1").length,
+    relistens_txt =
+      num_relistens === 0
+        ? "I didn't relisten to any albums during this period."
+        : `I relistned to <span style='color: #1db954; font-weight: 1000';>${num_relistens}</span> albums during this period.`;
 
   d3.select("#recent-text")
     .append("h2")
     .html(
-      `Over the past 28 days, I've listened to <span style='color: #1db954; font-weight: 1000';>${num_albums}</span> albums`
+      `Over the past 28 days, I've listened to <span style='color: #1db954; font-weight: 1000';>${num_albums}</span> albums.
+      <span style='color: #1db954; font-weight: 1000';>${new_artist}</span> albums were by artists I had not listened to previously. 
+      ${relistens_txt}`
     );
 
   var recent_width = d3.select("#recent-image").node().offsetWidth,
