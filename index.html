@@ -25,24 +25,28 @@
       <section>
         <div id="overview" class="stats-container">
           <div id="overview-title" class="item stats-title"></div>
-          <div id="overview-text" class="item stats-text"></div>
+          <div
+            id="overview-text"
+            class="item stats-text"
+            style="height: 100px"
+          ></div>
           <div id="overview-listen-years" class="item radio-options"></div>
-          <div id="overview-image" class="stats-image last-item">
+          <div
+            id="overview-image"
+            class="stats-image last-item"
+            style="height: 600px"
+          >
             <script src="scripts/all_albums.js"></script>
           </div>
         </div>
       </section>
 
       <section>
-        <div id="recent" class="stats-container" style="max-height: 750px">
+        <div id="recent" class="stats-container" style="height: 600px">
           <div id="recent-title" class="item stats-title">
             <h1>Recent Albums</h1>
           </div>
-          <div
-            id="recent-text"
-            class="item stats-text"
-            style="height: auto"
-          ></div>
+          <div id="recent-text" class="item stats-text"></div>
           <div id="recent-image" class="last-item stats-image">
             <script src="scripts/recent.js"></script>
           </div>
@@ -50,15 +54,15 @@
       </section>
 
       <section>
-        <div
-          id="release-year"
-          class="stats-container"
-          style="max-height: 800px"
-        >
+        <div id="release-year" class="stats-container" style="height: 700px">
           <div id="release-title" class="item stats-title">
             <h1>Albums by Release Year</h1>
           </div>
-          <div id="release-text" class="item stats-text"></div>
+          <div
+            id="release-text"
+            class="item stats-text"
+            style="height: 50px"
+          ></div>
           <div id="release-listen-years" class="item radio-options">
             <div>
               <input
@@ -95,12 +99,16 @@
         </div>
       </section>
 
-      <!-- <section>
-        <div id="release-decade" class="stats-container">
+      <section>
+        <div id="release-decade" class="stats-container" style="height: 900px">
           <div id="release-decade-title" class="item stats-title">
             <h1>Release Decade of Albums by Listen Year</h1>
           </div>
-          <div id="release-decade-text" class="item stats-text"></div>
+          <div
+            id="release-decade-text"
+            class="item stats-text"
+            style="height: 120px"
+          ></div>
           <div
             id="release-decade-image"
             class="last-item release-decade-tile-container"
@@ -108,12 +116,12 @@
             <script src="scripts/release_decade_trend.js"></script>
           </div>
         </div>
-      </section> -->
+      </section>
 
       <section>
-        <div id="artist" class="stats-container">
+        <div id="artist" class="stats-container" style="height: 900px">
           <div id="artist-title" class="stats-title"></div>
-          <div id="artist-text" class="stats-text"></div>
+          <div id="artist-text" class="stats-text" style="height: 100px"></div>
 
           <div id="legend" class="legend-show">
             <div class="artists-tile-container">
@@ -141,7 +149,11 @@
             </div>
           </div>
 
-          <div id="artist-image" class="artists-tile-container">
+          <div
+            id="artist-image"
+            class="artists-tile-container"
+            style="border-top: solid #a9a9a9 1px; padding-top: 5px"
+          >
             <script src="scripts/listen_history.js"></script>
           </div>
         </div>

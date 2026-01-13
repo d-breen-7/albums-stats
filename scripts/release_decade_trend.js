@@ -1,6 +1,6 @@
 var dy_margins = { top: 0, right: 0, bottom: 0, left: 75 };
 
-var sub_text = d3.select("#release-decade-text").append("h2");
+var sub_text_rd = d3.select("#release-decade-text").append("h2");
 
 var dy_sub_heading = `Over time, albums released <span style='color: #ffffff; font-weight: 1000; 
 background-color: #1db954;border-radius: 5px;'> &nbsp&nbsp pre-2010 &nbsp&nbsp</span> have been making up a higher proportion of my total 
@@ -10,7 +10,7 @@ albums I listen to are still those which were released from <span style=' color:
 #9df7bd; border-radius: 5px;'> &nbsp&nbsp 2010 onwards &nbsp&nbsp</span>. Given that I am now listening to less albums, and trying to listen to more older 
 albums, the changes in proportions are not surprising.`;
 
-sub_text.html(dy_sub_heading);
+sub_text_rd.html(dy_sub_heading);
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-decade"
@@ -55,14 +55,9 @@ d3.json(
       release_decade_svg.style("height")
     );
 
-    let bar_start_x = 70,
+    let bar_start_x = 60,
       bar_width = tile_width - bar_start_x - (bar_start_x - bar_start_x / 2),
       row_height = release_decade_svg_height / (decades.length + 2);
-
-    // console.log(
-    //   // yearData.length
-    //   release_decade_svg.style("height")
-    // );
 
     // Calculate total listens
     let pre_total = 0;
@@ -82,7 +77,7 @@ d3.json(
 
     // Add decade backgrounds and labels
     decades.forEach((decade, i) => {
-      const y = i * row_height + 20;
+      const y = i * row_height;
 
       // Decade background
       release_decade_svg
@@ -96,7 +91,7 @@ d3.json(
       release_decade_svg
         .append("text")
         .attr("class", "release-decalde-label")
-        .attr("x", bar_start_x - 10)
+        .attr("x", bar_start_x - bar_start_x)
         .attr("y", y + row_height / 2 + 4)
         .attr("fill", "#121212") //decade == "" ? "#121212" : "#a9a9a9")
         .attr("font-weight", decade == "" ? "bolder" : "normal")
@@ -137,7 +132,7 @@ d3.json(
 
     decades.forEach((decade, i) => {
       const value = yearData["d" + decade];
-      const y = i * row_height + 20;
+      const y = i * row_height;
 
       if (decade === "") {
         const bar_width_pre = (pre_total / 100) * bar_width;
@@ -163,23 +158,23 @@ d3.json(
           .attr("height", row_height - 8)
           .attr("fill", "#9df7bd");
 
-        release_decade_svg
-          .append("text")
-          .attr("class", "release-decade-comp-label")
-          .attr("x", bar_start_x)
-          .attr("y", row_height * 0.75)
-          .attr("text-anchor", "start")
-          .attr("fill", "#1db954")
-          .text(Number(pre_total).toFixed(1) + "%");
+        // release_decade_svg
+        //   .append("text")
+        //   .attr("class", "release-decade-comp-label")
+        //   .attr("x", bar_start_x)
+        //   .attr("y", row_height * 0.75)
+        //   .attr("text-anchor", "start")
+        //   .attr("fill", "#1db954")
+        //   .text(Number(pre_total).toFixed(1) + "%");
 
-        release_decade_svg
-          .append("text")
-          .attr("class", "release-decade-comp-label")
-          .attr("x", bar_start_x + bar_width)
-          .attr("y", row_height * 0.75)
-          .attr("text-anchor", "end")
-          .attr("fill", "#a9a9a9")
-          .text(Number(post_total).toFixed(1) + "%");
+        // release_decade_svg
+        //   .append("text")
+        //   .attr("class", "release-decade-comp-label")
+        //   .attr("x", bar_start_x + bar_width)
+        //   .attr("y", row_height * 0.75)
+        //   .attr("text-anchor", "end")
+        //   .attr("fill", "#a9a9a9")
+        //   .text(Number(post_total).toFixed(1) + "%");
       }
 
       if (value > 0) {

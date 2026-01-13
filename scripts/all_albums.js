@@ -106,6 +106,7 @@ d3.json(
   var overview_x_axis = d3
     .axisBottom(overview_x)
     .ticks(d3.timeYear)
+    .tickPadding(10)
     .tickSize(-overview_img_height);
 
   overview_svg
@@ -213,10 +214,12 @@ d3.json(
               .axisBottom(overview_x)
               .ticks(d3.timeYear)
               .tickSize(-overview_img_height)
+              .tickPadding(10)
           : d3
               .axisBottom(overview_x)
               .tickSize(-overview_img_height)
               .ticks(d3.timeMonth)
+              .tickPadding(10)
               .tickFormat(d3.timeFormat("%b"));
 
       overview_svg
@@ -336,7 +339,7 @@ d3.json(
         period == "all-time"
           ? overview_summary_text
           : period == current_year
-          ? `So far this year, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`
+          ? `So far this year, I have listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`
           : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`;
 
       // Add h1, h2 title
@@ -397,6 +400,7 @@ d3.json(
         .axisBottom(overview_x)
         .ticks(d3.timeMonth)
         .tickSize(-overview_img_height)
+        .tickPadding(10)
         .tickFormat(d3.timeFormat("%b"));
 
       overview_svg
@@ -565,16 +569,15 @@ d3.json(
       var summary_text = `My album listening peaked in 2021 and has been declining ever since. 
         This reflects a change in my listening habits as I spend more time discovering new music.
         I mostly listen to albums while working and listen to things like internet radio shows 
-        and mixes while exercising, reading etc.`;
-
-      // `The <span style='color: #1db954; font-weight: 1000';>${ytd_total}</span> albums so far this year ranks<span style='color: #1db954; font-weight: 1000';>
-      //  #${rank_num}</span> when compared to previous years.`;
+        and mixes while exercising, reading etc.
+        The <span style='color: #1db954; font-weight: 1000';>${ytd_total}</span> albums so far this year ranks
+        <span style='color: #1db954; font-weight: 1000';>#${rank_num}</span> compared to previous years.`;
 
       // Update h1, h2 text
       d3.select("#overview-title")
         .append("h1")
         .attr("id", "overview-title-text")
-        .html("Cumulative Album Listens by Year");
+        .html("Cumulative Album Listens Year-to-Date");
 
       d3.select("#overview-text")
         .append("h2")

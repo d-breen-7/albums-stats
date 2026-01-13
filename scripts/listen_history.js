@@ -67,9 +67,7 @@ d3.json(
 
     const overview_text = `Despite the number of albums I have listened to, I am still consistently finding new artists 
     to listen to. The overview below shows the 7-day rolling average for all albums and albums by new artists. The first 
-    time I listen to an album by an artist it will be shown in the new data, with any subsequent albums shown as part of the total.
-    <br><span style='color: #a9a9a9'>Within this visual, an artist can be selected, instead of the 'Overview', to get album 
-    listens for a specific artist.</span>`;
+    time I listen to an album by an artist it will be shown in the new data, with any subsequent albums shown as part of the total.`;
 
     const artist_overview_text = `After selecting an artist, all album listens related to the artist are shown. This data includes
     albums by the artist, and albums that the artist features on. Each listen can be selected to get more details about the 
@@ -180,7 +178,7 @@ d3.json(
             .attr("id", "overview")
             .attr("fill", "none")
             .attr("stroke", "#1db954")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 2)
             .attr("d", line_total_avg);
 
           const area_existing_avg = d3
@@ -211,7 +209,7 @@ d3.json(
             .attr("id", "overview")
             .attr("fill", "none")
             .attr("stroke", "#1db954")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 2)
             .attr("d", line_existing_avg);
 
           if (index === 0) {
@@ -272,7 +270,7 @@ d3.json(
               .enter()
               .append("text")
               .attr("class", "x-axis")
-              .attr("x", scale_x(parseDate("2019-07-22")))
+              .attr("x", scale_x(parseDate("2019-01-01")) - 15)
               .attr("y", (d) => scale_y_total(d) + 5)
               .text((d) => d);
 
@@ -350,7 +348,7 @@ d3.json(
               .datum(legend_data)
               .attr("fill", "none")
               .attr("stroke", "#1db954")
-              .attr("stroke-width", 1)
+              .attr("stroke-width", 2)
               .attr("d", lineTotal);
 
             // Existing artists
@@ -384,49 +382,8 @@ d3.json(
               .datum(legend_data)
               .attr("fill", "none")
               .attr("stroke", "#1db954")
-              .attr("stroke-width", 1)
+              .attr("stroke-width", 2)
               .attr("d", lineExisting);
-
-            // Labels
-            legend_svg
-              .append("rect")
-              .attr("id", "overview")
-              .attr("x", scale_x(parseDate("2019-05-10")))
-              .attr("y", 15)
-              .attr("width", 88)
-              .attr("height", 20)
-              .attr("fill", "white");
-
-            legend_svg
-              .append("text")
-              .attr("id", "overview")
-              .attr("x", scale_x(parseDate("2019-07-12")))
-              .attr("y", 30)
-              .text("All albums")
-              .attr("fill", "#1db954")
-              .attr("font-weight", 1000)
-              .attr("font-size", "18px")
-              .attr("text-anchor", "end");
-
-            legend_svg
-              .append("rect")
-              .attr("id", "overview")
-              .attr("x", scale_x(parseDate("2019-04-21")))
-              .attr("y", 75)
-              .attr("width", 114)
-              .attr("height", 20)
-              .attr("fill", "white");
-
-            legend_svg
-              .append("text")
-              .attr("id", "overview")
-              .attr("x", scale_x(parseDate("2019-07-12")))
-              .attr("y", 90)
-              .text("By new artists")
-              .attr("fill", "#1db954")
-              .attr("font-weight", 1000)
-              .attr("font-size", "18px")
-              .attr("text-anchor", "end");
 
             legend_svg
               .append("rect")
@@ -436,6 +393,29 @@ d3.json(
               .attr("y", 0)
               .attr("width", "250px")
               .attr("height", svg_height + 50);
+
+            // Labels
+            legend_svg
+              .append("text")
+              .attr("id", "overview")
+              .attr("x", scale_x(parseDate("2019-07-22")))
+              .attr("y", 35)
+              .text("All albums")
+              .attr("fill", "#1db954")
+              .attr("font-weight", 1000)
+              .attr("font-size", "18px")
+              .attr("text-anchor", "start");
+
+            legend_svg
+              .append("text")
+              .attr("id", "overview")
+              .attr("x", scale_x(parseDate("2019-07-22")))
+              .attr("y", 120)
+              .text("By new artists")
+              .attr("fill", "#1db954")
+              .attr("font-weight", 1000)
+              .attr("font-size", "18px")
+              .attr("text-anchor", "start");
           }
         });
     }
