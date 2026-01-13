@@ -107,7 +107,8 @@ d3.json(
     .axisBottom(overview_x)
     .ticks(d3.timeYear)
     .tickPadding(10)
-    .tickSize(-overview_img_height);
+    .tickSize(-overview_img_height)
+    .tickPadding(10);
 
   overview_svg
     .append("g")
