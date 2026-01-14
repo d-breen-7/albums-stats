@@ -346,3 +346,22 @@ function release_year_range(rawData) {
 
   return result;
 }
+
+const sumByYear = (dataset, yearToFilter) => {
+  return dataset
+    .filter((d) => d.listen_year === yearToFilter)
+    .reduce((total, currentItem) => {
+      const rowSum = Object.entries(currentItem).reduce((acc, [key, value]) => {
+        if (key.startsWith("d")) {
+          const decadeYear = Number(key.replace("d", ""));
+
+          if (!isNaN(decadeYear) && decadeYear <= 2000) {
+            return acc + (value || 0);
+          }
+        }
+        return acc;
+      }, 0);
+
+      return total + rowSum;
+    }, 0);
+};

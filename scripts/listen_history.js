@@ -59,7 +59,7 @@ d3.json(
       existing_artists_texture = textures
         .lines()
         .orientation("diagonal")
-        .size(3)
+        .size(20)
         .strokeWidth(1)
         .shapeRendering("crispEdges")
         .background("#1db954")

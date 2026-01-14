@@ -55,18 +55,12 @@
 
       <section>
         <div id="release-year" class="stats-container" style="height: 700px">
-        <div
-          id="release-year"
-          class="stats-container"
-          style="height: 700px"
-        >
           <div id="release-title" class="item stats-title">
             <h1>Albums by Release Year</h1>
           </div>
           <div
             id="release-text"
             class="item stats-text"
-            style="height: 50px"
           ></div>
           <div id="release-listen-years" class="item radio-options">
             <div>
@@ -105,7 +99,11 @@
       </section>
 
       <section>
-        <div id="release-decade" class="stats-container" style="height: 900px">
+        <div
+          id="release-decade"
+          class="stats-container"
+          style="height: 600px; min-height: 1000px; overflow: auto"
+        >
           <div id="release-decade-title" class="item stats-title">
             <h1>Release Decade of Albums by Listen Year</h1>
           </div>
@@ -124,14 +122,18 @@
       </section>
 
       <section>
-        <div id="artist" class="stats-container" style="height: 900px">
+        <div
+          id="artist"
+          class="stats-container"
+          style="height: 600px; min-height: 1000px; overflow: auto"
+        >
           <div id="artist-title" class="stats-title"></div>
           <div id="artist-text" class="stats-text" style="height: 100px"></div>
 
           <div id="legend" class="legend-show">
             <div
               class="artists-tile-container"
-              style="height: 175px; overflow-y: hidden"
+              style="height: 200px; overflow-y: hidden; margin-bottom: 10px"
             >
               <div class="legends-tile" id="overview-legend-div"></div>
             </div>
@@ -160,7 +162,11 @@
           <div
             id="artist-image"
             class="artists-tile-container"
-            style="border-top: solid #a9a9a9 1px; padding-top: 5px"
+            style="
+              border-top: solid #a9a9a9 1px;
+              padding-top: 10px;
+              padding-bottom: 10px;
+            "
           >
             <script src="scripts/listen_history.js"></script>
           </div>

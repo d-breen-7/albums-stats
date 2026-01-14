@@ -18,7 +18,7 @@ body {
 
 section {
   max-width: 1080px;
-  max-height: 1000px;
+  /* max-height: 1000px;  */
   background-color: #ffffff;
   margin-bottom: 50px;
   padding-bottom: 20px;
@@ -69,13 +69,11 @@ h2 {
 .stats-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centers horizontally */
+  justify-content: center;
   align-items: center;
   margin-top: 5px;
   margin-bottom: 5px;
   width: 100%;
-  max-height: 1000px;
-  /* overflow-y: scroll; */
 }
 
 .artist-title {
@@ -116,8 +114,8 @@ h2 {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   box-sizing: border-box;
-  grid-template-rows: 200px;
-  grid-auto-rows: 200px;
+  grid-template-rows: 300px;
+  grid-auto-rows: 300px;
   margin-top: 5px;
   overflow-y: scroll;
   width: 100%;
@@ -168,7 +166,7 @@ h2 {
 
 .release-decade-comp-label {
   font-size: 18px;
-  font-weight: 1000;
+  font-weight: 800;
 }
 
 .release-decade-bar {
@@ -197,8 +195,6 @@ h2 {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   box-sizing: border-box;
-  grid-template-rows: 200px;
-  grid-auto-rows: 200px;
   grid-template-rows: 200px;
   grid-auto-rows: 200px;
   margin-top: 5px;
@@ -269,6 +265,25 @@ h2 {
 }
 
 .x-axis text {
+  fill: #121212;
+  font-weight: 400;
+  font-size: 18px;
+  text-anchor: start;
+}
+
+.x-axis-hidden {
+  opacity: 1;
+}
+
+.x-axis-hidden line {
+  stroke: none;
+}
+
+.x-axis-hidden path {
+  stroke: none;
+}
+
+.x-axis-hidden text {
   fill: #121212;
   font-weight: 400;
   font-size: 18px;

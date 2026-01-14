@@ -25,14 +25,14 @@ d3.json(
     num_relistens = data.filter((d) => d.album_status === "1").length,
     relistens_txt =
       num_relistens === 0
-        ? "I didn't relisten to any albums during this period."
-        : `I relistned to <span style='color: #1db954; font-weight: 1000';>${num_relistens}</span> albums during this period.`;
+        ? "I relistened to no albums during this period."
+        : `I relistened to <span style='color: #1db954; font-weight: 1000';>${num_relistens}</span> album(s) during this period.`;
 
   d3.select("#recent-text")
     .append("h2")
     .html(
       `Over the past 28 days, I've listened to <span style='color: #1db954; font-weight: 1000';>${num_albums}</span> albums.
-      <span style='color: #1db954; font-weight: 1000';>${new_artist}</span> albums were by artists I had not listened to previously. 
+      <span style='color: #1db954; font-weight: 1000';>${new_artist}</span> of these albums were by artists I had not listned to previously (not including features). 
       ${relistens_txt}`
     );
 
@@ -184,7 +184,7 @@ d3.json(
 
   recent_svg
     .append("g")
-    .attr("class", "x-axis")
+    .attr("class", "x-axis-hidden")
     .attr(
       "transform",
       "translate(0," + (recent_height - recent_margins.bottom - 2.5) + ")"
