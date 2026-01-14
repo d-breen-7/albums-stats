@@ -21,6 +21,22 @@
     />
   </head>
   <body>
+    <div id="loader" class="loader">
+      <div class="wave wave1"></div>
+      <div class="wave wave2"></div>
+      <div class="wave wave3"></div>
+      <div class="wave wave4"></div>
+      <div class="wave wave5"></div>
+      <div class="space"></div>
+      <div>LOADING...</div>
+      <div class="space"></div>
+      <div class="wave wave5"></div>
+      <div class="wave wave4"></div>
+      <div class="wave wave3"></div>
+      <div class="wave wave2"></div>
+      <div class="wave wave1"></div>
+    </div>
+
     <main class="container">
       <section>
         <div id="overview" class="stats-container">
@@ -36,7 +52,7 @@
             class="stats-image last-item"
             style="height: 600px"
           >
-            <script src="scripts/all_albums.js"></script>
+            <script src="scripts/cumulative_albums.js"></script>
           </div>
         </div>
       </section>
@@ -48,7 +64,7 @@
           </div>
           <div id="recent-text" class="item stats-text"></div>
           <div id="recent-image" class="last-item stats-image">
-            <script src="scripts/recent.js"></script>
+            <script src="scripts/recent_albums.js"></script>
           </div>
         </div>
       </section>
@@ -58,10 +74,7 @@
           <div id="release-title" class="item stats-title">
             <h1>Albums by Release Year</h1>
           </div>
-          <div
-            id="release-text"
-            class="item stats-text"
-          ></div>
+          <div id="release-text" class="item stats-text"></div>
           <div id="release-listen-years" class="item radio-options">
             <div>
               <input
@@ -110,13 +123,13 @@
           <div
             id="release-decade-text"
             class="item stats-text"
-            style="height: 120px"
+            style="height: 150px"
           ></div>
           <div
             id="release-decade-image"
             class="last-item release-decade-tile-container"
           >
-            <script src="scripts/release_decade_trend.js"></script>
+            <script src="scripts/release_decade.js"></script>
           </div>
         </div>
       </section>
@@ -127,7 +140,7 @@
           class="stats-container"
           style="height: 600px; min-height: 1000px; overflow: auto"
         >
-          <div id="artist-title" class="stats-title"></div>
+          <div id="artist-title" class="item stats-title"></div>
           <div id="artist-text" class="stats-text" style="height: 100px"></div>
 
           <div id="legend" class="legend-show">
@@ -149,13 +162,13 @@
               <div class="album-artist-title"></div>
               <div class="album-artist-info"></div>
               <div class="album-artist-plays"></div>
-              <div class="album-src">
+              <!-- <div class="album-src">
                 <img
                   src="images\Spotify_Full_Logo_RGB_Green.png"
                   id="album-src"
                   class="album-src-image album-src-hide"
                 />
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -168,10 +181,20 @@
               padding-bottom: 10px;
             "
           >
-            <script src="scripts/listen_history.js"></script>
+            <script src="scripts/artist_status.js"></script>
           </div>
         </div>
       </section>
     </main>
+
+    <!-- Remove loading screen -->
+    <script>
+      window.addEventListener("load", function () {
+        const loader = document.getElementById("loader");
+        setTimeout(() => {
+          loader.classList.add("loader-hidden");
+        }, 2500);
+      });
+    </script>
   </body>
 </html>

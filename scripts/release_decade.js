@@ -37,29 +37,26 @@ d3.json(
 
   sub_text_rd.html(dy_sub_heading);
 
-  console.log(Number(pre_2000_2025).toFixed(1));
-
   data.forEach((yearData, index) => {
-    const tile = d3.select("#release-decade-tile-" + index);
+    let release_decade_svg_id = "release-decade-svg-" + yearData.listen_year;
 
-    // Define layout dimensions
-    let tile_width = d3.select("#release-decade-tile-0").node().offsetWidth;
+    const tile = d3.select("#release-decade-tile-" + index);
 
     tile.append("div").attr("class", "tile-title").text(yearData.listen_year);
 
-    let release_decade_svg_id = "release-decade-svg-" + yearData.listen_year;
-    const release_decade_svg = tile
+    tile
       .append("svg")
-      .attr("class", "release-decade-svg")
       .attr("id", release_decade_svg_id)
-      .attr("width", tile_width - 10);
-    const release_decade_svg_height = parseFloat(
-      release_decade_svg.style("height")
-    );
+      .attr("class", "release-decade-svg");
+
+    const rd_svg = d3.select("#" + release_decade_svg_id);
+
+    const rd_svg_width = parseFloat(rd_svg.style("width")),
+      rd_svg_height = parseFloat(rd_svg.style("height"));
 
     let bar_start_x = 60,
-      bar_width = tile_width - bar_start_x - (bar_start_x - bar_start_x / 2),
-      row_height = release_decade_svg_height / (decades.length + 1);
+      bar_width = rd_svg_width - bar_start_x - (bar_start_x - bar_start_x / 2),
+      row_height = rd_svg_height / (decades.length + 1);
 
     // Calculate total listens
     let pre_total = 0;
@@ -82,7 +79,7 @@ d3.json(
       const y = i * row_height;
 
       // Decade background
-      release_decade_svg
+      rd_svg
         .append("rect")
         .attr("class", "release-decade-bar-bg")
         .attr("x", bar_start_x)
@@ -90,10 +87,10 @@ d3.json(
         .attr("width", bar_width)
         .attr("height", row_height - 8);
 
-      release_decade_svg
+      rd_svg
         .append("text")
         .attr("class", "release-decalde-label")
-        .attr("x", bar_start_x - bar_start_x)
+        .attr("x", 4)
         .attr("y", y + row_height / 2 + 4)
         .attr("fill", "#121212")
         .attr("font-weight", decade == "" ? "bolder" : "normal")
@@ -106,7 +103,7 @@ d3.json(
     gridPercents.forEach((p) => {
       const x = bar_start_x + (p / 100) * bar_width;
 
-      release_decade_svg
+      rd_svg
         .append("line")
         .attr("class", "release-decade-gridline")
         .attr("x1", x)
@@ -119,11 +116,11 @@ d3.json(
     gridPercents.forEach((p) => {
       const x = bar_start_x + (p / 100) * bar_width;
 
-      release_decade_svg
+      rd_svg
         .append("text")
         .attr("class", "release-decade-grid-label")
         .attr("x", x)
-        .attr("y", release_decade_svg_height - row_height / 2)
+        .attr("y", rd_svg_height - row_height / 2)
         .attr("text-anchor", "middle")
         .text(p + "%");
     });
@@ -141,7 +138,7 @@ d3.json(
         const bar_width_post = (post_total / 100) * bar_width;
 
         // Pre-2010 total bar
-        release_decade_svg
+        rd_svg
           .append("rect")
           .attr("class", "release-decade-bar release-decade-bar-comp")
           .attr("x", bar_start_x)
@@ -151,7 +148,7 @@ d3.json(
           .attr("fill", "#1db954");
 
         // Post-2010 total bar
-        release_decade_svg
+        rd_svg
           .append("rect")
           .attr("class", "release-decade-bar release-decade-bar-comp")
           .attr("x", bar_start_x + bar_width_pre)
@@ -160,7 +157,7 @@ d3.json(
           .attr("height", row_height - 8)
           .attr("fill", "#9df7bd");
 
-        release_decade_svg
+        rd_svg
           .append("text")
           .attr("class", "release-decade-comp-label")
           .attr("x", bar_start_x + 2)
@@ -169,7 +166,7 @@ d3.json(
           .attr("fill", "#121212")
           .text(pre_total > 15 ? Number(pre_total).toFixed(1) + "%" : "");
 
-        release_decade_svg
+        rd_svg
           .append("text")
           .attr("class", "release-decade-comp-label")
           .attr("x", bar_start_x + bar_width - 2)
@@ -184,7 +181,7 @@ d3.json(
         const bar_width_ = (value / 100) * bar_width;
 
         // Color based on
-        release_decade_svg
+        rd_svg
           .append("rect")
           .attr("class", "release-decade-bar")
           .attr("x", barX)

@@ -6,30 +6,6 @@ d3.json(
 )
   .then(function (data) {
     let _overview_data = data.data;
-    //   albums_data = data.data,
-    //   dropdown = data.dropdown;
-
-    // // Get artists in the dropdown
-    // let dropdown_names = d3
-    //   .map(dropdown, function (d) {
-    //     return d.artist_name;
-    //   })
-    //   .sort(function (a, b) {
-    //     return a.toLowerCase().localeCompare(b.toLowerCase());
-    //   });
-
-    // // Populate the dropdown list
-    // d3.select("#select-artist")
-    //   .selectAll("option")
-    //   .data(dropdown_names)
-    //   .enter()
-    //   .append("option")
-    //   .text(function (d) {
-    //     return d;
-    //   })
-    //   .attr("value", function (d) {
-    //     return d;
-    //   });
 
     // Overview of all listens
     let overview_data = tidy(
@@ -40,8 +16,7 @@ d3.json(
       arrange((d) => d.listen_date)
     );
 
-    var max_total = tidy(overview_data, max("avg_total")),
-      albums = [];
+    var max_total = tidy(overview_data, max("avg_total"));
 
     let _years_in_data = tidy(
       overview_data,
@@ -67,7 +42,8 @@ d3.json(
 
     const overview_text = `Despite the number of albums I have listened to, I am still consistently finding new artists 
     to listen to. The overview below shows the 7-day rolling average for all albums and albums by new artists. The first 
-    time I listen to an album by an artist it will be shown in the new data, with any subsequent albums shown as part of the total.`;
+    time I listen to an artist (first album by an artist, features are not considered) the album will be shown in the new data, 
+    any subsequent albums by the artist are shown as part of the total.`;
 
     const artist_overview_text = `After selecting an artist, all album listens related to the artist are shown. This data includes
     albums by the artist, and albums that the artist features on. Each listen can be selected to get more details about the 
@@ -411,7 +387,7 @@ d3.json(
               .attr("id", "overview")
               .attr("x", scale_x(parseDate("2019-07-22")))
               .attr("y", 120)
-              .text("By new artists")
+              .text("By new artist")
               .attr("fill", "#1db954")
               .attr("font-weight", 1000)
               .attr("font-size", "18px")

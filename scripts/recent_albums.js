@@ -32,7 +32,7 @@ d3.json(
     .append("h2")
     .html(
       `Over the past 28 days, I've listened to <span style='color: #1db954; font-weight: 1000';>${num_albums}</span> albums.
-      <span style='color: #1db954; font-weight: 1000';>${new_artist}</span> of these albums were by artists I had not listned to previously (not including features). 
+      <span style='color: #1db954; font-weight: 1000';>${new_artist}</span> of these albums were by artists I had not listened to previously (not including features). 
       ${relistens_txt}`
     );
 
