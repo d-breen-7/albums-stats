@@ -31,7 +31,7 @@ d3.json(
         .stroke("#76e99f")
         .background("#1db954")
         .thicker(),
-      existing_artists_texture = textures
+      new_artists_texture = textures
         .lines()
         .orientation("diagonal")
         .size(20)
@@ -115,6 +115,7 @@ d3.json(
             2
           );
 
+          // Gridlines
           svg_overview
             .append("g")
             .attr("class", "month-grid")
@@ -154,13 +155,13 @@ d3.json(
             .attr("id", "overview")
             .attr("fill", "none")
             .attr("stroke", "#1db954")
-            .attr("stroke-width", 2)
+            .attr("stroke-width", 1.5)
             .attr("d", line_total_avg);
 
           const area_existing_avg = d3
             .area()
             .x((d) => scale_x(parseDate(d.listen_date)))
-            .y0(scale_y_total(0))
+            .y0(scale_y_total(-0.05))
             .y1((d) => scale_y_total(+d.avg_new))
             .curve(d3.curveMonotoneX);
 
@@ -170,13 +171,13 @@ d3.json(
             .y((d) => scale_y_total(+d.avg_new))
             .curve(d3.curveMonotoneX);
 
-          svg_overview.call(existing_artists_texture);
+          svg_overview.call(new_artists_texture);
 
           svg_overview
             .append("path")
             .datum(year_data)
             .attr("id", "overview")
-            .attr("fill", existing_artists_texture.url())
+            .attr("fill", new_artists_texture.url())
             .attr("d", area_existing_avg);
 
           svg_overview
@@ -184,8 +185,9 @@ d3.json(
             .datum(year_data)
             .attr("id", "overview")
             .attr("fill", "none")
-            .attr("stroke", "#1db954")
-            .attr("stroke-width", 2)
+            .attr("stroke", "#ffffff")
+            .attr("stroke-width", 1.5)
+            .attr("opacity", 0.75)
             .attr("d", line_existing_avg);
 
           if (index === 0) {
@@ -202,8 +204,9 @@ d3.json(
             const svg_overview = d3.selectAll("#overview-legend-div");
 
             const svg_width = svg_overview.node().offsetWidth;
-            const svg_height = svg_overview.node().offsetHeight - 20;
-            const album_radius = svg_height / 5 / 2;
+            const svg_height = (svg_overview.node().offsetHeight - 20) / 1.5;
+            const album_radius =
+              (svg_overview.node().offsetHeight - 20) / 5 / 2;
 
             const scale_x = scale_x_history(
               year,
@@ -293,7 +296,7 @@ d3.json(
               .attr("y1", 0)
               .attr("y2", svg_height);
 
-            legend_svg.call(existing_artists_texture);
+            legend_svg.call(new_artists_texture);
 
             // Area + line generators
             const areaTotal = d3
@@ -324,42 +327,43 @@ d3.json(
               .datum(legend_data)
               .attr("fill", "none")
               .attr("stroke", "#1db954")
-              .attr("stroke-width", 2)
+              .attr("stroke-width", 1.5)
               .attr("d", lineTotal);
 
-            // Existing artists
-            const areaExisting = d3
+            // New artists
+            const areaNew = d3
               .area()
               .x((d) => scale_x(parseDate(d.listen_date)))
-              .y0(scale_y_total(0))
+              .y0(scale_y_total(-0.05))
               .y1((d) => scale_y_total(+d.avg_new))
               .curve(d3.curveMonotoneX);
 
-            const lineExisting = d3
+            const lineNew = d3
               .line()
               .x((d) => scale_x(parseDate(d.listen_date)))
               .y((d) => scale_y_total(+d.avg_new))
               .curve(d3.curveMonotoneX);
 
-            legend_svg.call(existing_artists_texture);
+            legend_svg.call(new_artists_texture);
 
             legend_svg
               .append("g")
               .append("path")
               .attr("id", "overview")
               .datum(legend_data)
-              .attr("fill", existing_artists_texture.url())
+              .attr("fill", new_artists_texture.url())
               .attr("opacity", 1)
-              .attr("d", areaExisting);
+              .attr("d", areaNew);
 
             legend_svg
               .append("path")
               .attr("id", "overview")
               .datum(legend_data)
               .attr("fill", "none")
-              .attr("stroke", "#1db954")
-              .attr("stroke-width", 2)
-              .attr("d", lineExisting);
+              .attr("stroke", "#ffffff")
+              .attr("stroke-width", 1.5)
+              .attr("opacity", 0.75)
+              .attr("d", lineNew);
 
             legend_svg
               .append("rect")
@@ -375,7 +379,7 @@ d3.json(
               .append("text")
               .attr("id", "overview")
               .attr("x", scale_x(parseDate("2019-07-22")))
-              .attr("y", 35)
+              .attr("y", 30)
               .text("All albums")
               .attr("fill", "#1db954")
               .attr("font-weight", 1000)
@@ -386,7 +390,7 @@ d3.json(
               .append("text")
               .attr("id", "overview")
               .attr("x", scale_x(parseDate("2019-07-22")))
-              .attr("y", 120)
+              .attr("y", 85)
               .text("By new artist")
               .attr("fill", "#1db954")
               .attr("font-weight", 1000)

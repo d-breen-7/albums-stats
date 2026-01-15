@@ -4,7 +4,6 @@ var release_margins = { top: 0, right: 0, bottom: 0, left: 75 };
 var sub_text = d3.select("#release-text").append("h2");
 
 d3.json(
-  // "data/release_year.json"
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
 ).then(function (response) {
   var data = response.data;
@@ -20,11 +19,6 @@ d3.json(
     arrange("decade_num"),
     groupBy("decade_num", slice(0, 1))
   );
-
-  // var release_rect_width = release_width / 12,
-  //   release_rect_height = release_height / (total_decades + 3);
-  // release_height /
-  // ([...new Set(data["all"].map((d) => d.decade_num))].length + 2);
 
   var release_width = d3.select("#release-image").node().offsetWidth,
     release_height = d3.select("#release-image").node().offsetHeight,

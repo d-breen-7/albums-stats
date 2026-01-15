@@ -23,14 +23,17 @@ d3.json(
   });
 
   const pre_2000_2020 = Number(sumByYear(data, "2020")).toFixed(1),
-    pre_2000_2025 = Number(sumByYear(data, "2025")).toFixed(1);
+    current_year = new Date().getFullYear(),
+    pre_2000_current = Number(sumByYear(data, current_year.toString())).toFixed(
+      1
+    );
 
   var sub_text_rd = d3.select("#release-decade-text").append("h2");
 
   var dy_sub_heading = `Over time, albums released <span style='color: #ffffff; font-weight: 1000; 
   background-color: #1db954;border-radius: 5px;'> &nbsp&nbsp pre-2010 &nbsp&nbsp</span> have been making up a higher proportion of my total 
   album listens. In 2020, these albums made up just <span style='color: #1db954; font-weight:1000'>${pre_2000_2020}%</span> of my album listens. 
-  In 2025, this number increased to <span style='color: #1db954; font-weight:1000'>${pre_2000_2025}%</span>. A big proportion of the
+  So far this year, <span style='color: #1db954; font-weight:1000'>${pre_2000_current}%</span> of the albums I have listened to were released pre-2010. A big proportion of the
   albums I listen to are still those which were released from <span style=' color: #121212; font-weight: 1000; background-color:
   #9df7bd; border-radius: 5px;'> &nbsp&nbsp 2010 onwards &nbsp&nbsp</span>. Given that I am now listening to less albums, and trying to listen to more older 
   albums, the changes in proportions are not surprising.`;
@@ -90,11 +93,18 @@ d3.json(
       rd_svg
         .append("text")
         .attr("class", "release-decalde-label")
-        .attr("x", 4)
+        .attr("x", bar_start_x - 5)
         .attr("y", y + row_height / 2 + 4)
         .attr("fill", "#121212")
         .attr("font-weight", decade == "" ? "bolder" : "normal")
-        .text(decade == "" ? "Overall" : index === 0 ? decade + "s" : "");
+        .attr("text-anchor", "end")
+        .text(
+          decade == ""
+            ? "Overall"
+            : index === 0
+            ? decade + "s"
+            : decade.slice(2, 4) + "s"
+        );
     });
 
     // Vertical grid lines

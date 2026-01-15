@@ -18,7 +18,6 @@ body {
 
 section {
   max-width: 1080px;
-  /* max-height: 1000px;  */
   background-color: #ffffff;
   margin-bottom: 50px;
   padding-bottom: 20px;
@@ -26,7 +25,7 @@ section {
   width: 100%;
   align-items: center;
   justify-content: space-around;
-  overflow-y: hidden;
+  overflow-y: visible;
 }
 
 .inverse {
@@ -69,11 +68,10 @@ h2 {
 .stats-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  margin-top: 5px;
-  margin-bottom: 5px;
   width: 100%;
+  height: auto;
+  position: relative;
 }
 
 .artist-title {
@@ -83,23 +81,42 @@ h2 {
 
 .item {
   padding: 0px 0px 0px 0px;
-  /* background-color: #ffffff; */
 }
 
 .last-item {
   flex-grow: 1;
-  /* background-color: #ffffff; */
 }
 
 .stats-title {
   width: 100%;
-  height: 40px;
   border-bottom: #1db954 solid 2px;
+  z-index: 11;
+  background: #ffffff;
 }
 
 .stats-text {
   width: 100%;
   border-bottom: #1db954 solid 1px;
+  z-index: 10;
+  background: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* Logic for when the container is tall enough */
+.is-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+/* Offset the text so it doesn't overlap the title */
+.stats-title.is-sticky {
+  top: 0;
+  z-index: 11;
+}
+
+.stats-text.is-sticky {
+  top: 40px; /* Height of your title */
+  z-index: 10;
 }
 
 .stats-image {

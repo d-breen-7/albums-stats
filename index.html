@@ -39,7 +39,7 @@
 
     <main class="container">
       <section>
-        <div id="overview" class="stats-container">
+        <div id="overview" class="stats-container" style="height: 700px">
           <div id="overview-title" class="item stats-title"></div>
           <div
             id="overview-text"
@@ -47,11 +47,7 @@
             style="height: 100px"
           ></div>
           <div id="overview-listen-years" class="item radio-options"></div>
-          <div
-            id="overview-image"
-            class="stats-image last-item"
-            style="height: 600px"
-          >
+          <div id="overview-image" class="stats-image last-item">
             <script src="scripts/cumulative_albums.js"></script>
           </div>
         </div>
@@ -112,19 +108,11 @@
       </section>
 
       <section>
-        <div
-          id="release-decade"
-          class="stats-container"
-          style="height: 600px; min-height: 1000px; overflow: auto"
-        >
+        <div id="release-decade" class="stats-container">
           <div id="release-decade-title" class="item stats-title">
             <h1>Release Decade of Albums by Listen Year</h1>
           </div>
-          <div
-            id="release-decade-text"
-            class="item stats-text"
-            style="height: 150px"
-          ></div>
+          <div id="release-decade-text" class="item stats-text"></div>
           <div
             id="release-decade-image"
             class="last-item release-decade-tile-container"
@@ -135,18 +123,14 @@
       </section>
 
       <section>
-        <div
-          id="artist"
-          class="stats-container"
-          style="height: 600px; min-height: 1000px; overflow: auto"
-        >
+        <div id="artist" class="stats-container">
           <div id="artist-title" class="item stats-title"></div>
-          <div id="artist-text" class="stats-text" style="height: 100px"></div>
+          <div id="artist-text" class="stats-text"></div>
 
           <div id="legend" class="legend-show">
             <div
               class="artists-tile-container"
-              style="height: 200px; overflow-y: hidden; margin-bottom: 10px"
+              style="height: 150px; overflow-y: hidden; margin-bottom: 10px"
             >
               <div class="legends-tile" id="overview-legend-div"></div>
             </div>
@@ -162,13 +146,7 @@
               <div class="album-artist-title"></div>
               <div class="album-artist-info"></div>
               <div class="album-artist-plays"></div>
-              <!-- <div class="album-src">
-                <img
-                  src="images\Spotify_Full_Logo_RGB_Green.png"
-                  id="album-src"
-                  class="album-src-image album-src-hide"
-                />
-              </div> -->
+              <div class="album-src"></div>
             </div>
           </div>
 
@@ -187,9 +165,52 @@
       </section>
     </main>
 
+    <script>
+      function applyStickyToAllTallContainers() {
+        // Stick title and text for if larger than screen height
+        const containers = document.querySelectorAll(".stats-container");
+        const viewportHeight = window.innerHeight;
+
+        containers.forEach((container) => {
+          // Find the specific title and text inside THIS container
+          const title = container.querySelector(".stats-title");
+          const text = container.querySelector(".stats-text");
+
+          if (!title || !text) return; // Skip if elements are missing
+
+          // If the container is taller than the screen, make items sticky
+          if (container.scrollHeight > viewportHeight) {
+            title.classList.add("is-sticky");
+            text.classList.add("is-sticky");
+          } else {
+            title.classList.remove("is-sticky");
+            text.classList.remove("is-sticky");
+          }
+        });
+      }
+
+      // Initialize on load and refresh on window resize
+      window.addEventListener("load", applyStickyToAllTallContainers);
+      window.addEventListener("resize", applyStickyToAllTallContainers);
+
+      const stickyObserver = new ResizeObserver((entries) => {
+        // This runs every time a container's size changes
+        applyStickyToAllTallContainers();
+      });
+
+      window.addEventListener("load", () => {
+        const containers = document.querySelectorAll(".stats-container");
+        containers.forEach((container) => {
+          // Start observing each container for height changes
+          stickyObserver.observe(container);
+        });
+      });
+    </script>
+
     <!-- Remove loading screen -->
     <script>
       window.addEventListener("load", function () {
+        const flag = document.getElementById("overview-legend-svg");
         const loader = document.getElementById("loader");
         setTimeout(() => {
           loader.classList.add("loader-hidden");

@@ -139,10 +139,14 @@ d3.json(
     )
     .enter()
     .append("text")
-    .attr("x", (d) => recent_x(d3.timeParse("%Y-%m-%d")(d.date)) - 5)
+    .attr(
+      "x",
+      (d) => recent_x(d3.timeParse("%Y-%m-%d")(d.date)) + recent_rect_width / 2
+    )
     .attr("y", recent_y(day_max))
     .text("Today")
     .attr("font-size", "18px")
+    .attr("text-anchor", "middle")
     .attr("font-weight", 1000)
     .attr("opacity", 1);
 
@@ -173,7 +177,7 @@ d3.json(
     .attr("ry", 10)
     .attr("width", recent_rect_width * 0.75)
     .attr("height", recent_rect_height)
-    .attr("stroke", (d) => (d.album_status === 1 ? "#191414" : "#1db954"))
+    .attr("stroke", (d) => (d.album_status === "1" ? "#191414" : "#1db954"))
     .attr("fill", (d) =>
       d.album_status === "1"
         ? "#1db954"
