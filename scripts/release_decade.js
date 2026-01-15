@@ -173,7 +173,7 @@ d3.json(
           .attr("x", bar_start_x + 2)
           .attr("y", row_height * 0.7)
           .attr("text-anchor", "start")
-          .attr("fill", "#121212")
+          .attr("fill", "#ffffff")
           .text(pre_total > 15 ? Number(pre_total).toFixed(1) + "%" : "");
 
         rd_svg
@@ -190,7 +190,7 @@ d3.json(
         const barX = bar_start_x + (cumulative / 100) * bar_width;
         const bar_width_ = (value / 100) * bar_width;
 
-        // Color based on
+        // Color based on pre/post
         rd_svg
           .append("rect")
           .attr("class", "release-decade-bar")
