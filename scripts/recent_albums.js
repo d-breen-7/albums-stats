@@ -1,7 +1,7 @@
 var recent_margins = { top: 90, right: 70, bottom: 25, left: 10 };
 
 d3.json(
-  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/recent"
+  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/recent",
 ).then(function (response) {
   const today = new Date();
   const period_start = new Date(new Date().setDate(today.getDate() - 28));
@@ -16,8 +16,8 @@ d3.json(
     filter(
       (d) =>
         d3.timeParse("%Y-%m-%d")(d.date) <= today &&
-        d3.timeParse("%Y-%m-%d")(d.date) > period_start
-    )
+        d3.timeParse("%Y-%m-%d")(d.date) > period_start,
+    ),
   );
 
   var num_albums = data.filter((d) => d.album_id !== "").length,
@@ -33,7 +33,7 @@ d3.json(
     .html(
       `Over the past 28 days, I've listened to <span style='color: #1db954; font-weight: 1000';>${num_albums}</span> albums.
       <span style='color: #1db954; font-weight: 1000';>${new_artist}</span> of these albums were by artists I had not listened to previously (not including features). 
-      ${relistens_txt}`
+      ${relistens_txt}`,
     );
 
   var recent_width = d3.select("#recent-image").node().offsetWidth,
@@ -67,7 +67,7 @@ d3.json(
     next_day = new Date(
       first_date.getFullYear(),
       first_date.getMonth(),
-      first_date.getDate() + 1
+      first_date.getDate() + 1,
     ),
     recent_rect_width = recent_x(next_day) - recent_x(first_date);
 
@@ -91,8 +91,8 @@ d3.json(
           (d.listen_date.getDate() === today.getDate()) &
           (d.listen_date.getMonth() === today.getMonth()) &
           (d.listen_date.getFullYear() === today.getFullYear()) &
-          (d.day_rn === 1)
-      )
+          (d.day_rn === 1),
+      ),
     )
     .enter()
     .append("rect")
@@ -112,8 +112,8 @@ d3.json(
       data.filter(
         (d) =>
           ((d.listen_date.getDay() === 6) | (d.listen_date.getDay() === 0)) &
-          (d.day_rn === 1)
-      )
+          (d.day_rn === 1),
+      ),
     )
     .enter()
     .append("rect")
@@ -134,14 +134,14 @@ d3.json(
           (d.listen_date.getDate() === today.getDate()) &
           (d.listen_date.getMonth() === today.getMonth()) &
           (d.listen_date.getFullYear() === today.getFullYear()) &
-          (d.day_rn === 1)
-      )
+          (d.day_rn === 1),
+      ),
     )
     .enter()
     .append("text")
     .attr(
       "x",
-      (d) => recent_x(d3.timeParse("%Y-%m-%d")(d.date)) + recent_rect_width / 2
+      (d) => recent_x(d3.timeParse("%Y-%m-%d")(d.date)) + recent_rect_width / 2,
     )
     .attr("y", recent_y(day_max))
     .text("Today")
@@ -161,14 +161,14 @@ d3.json(
     .attr(
       "x",
       (d) =>
-        recent_x(d3.timeParse("%Y-%m-%d")(d.date)) + recent_rect_width * 0.125
+        recent_x(d3.timeParse("%Y-%m-%d")(d.date)) + recent_rect_width * 0.125,
     )
     .attr("rx", 10)
     .attr("y", function (d, i) {
       let day_total = tidy(
         data,
         filter((e) => e.day === d.day && e.month === d.month),
-        max("day_rn")
+        max("day_rn"),
       );
 
       diff = day_max - day_total;
@@ -182,8 +182,8 @@ d3.json(
       d.album_status === "1"
         ? "#1db954"
         : d.artist_status === "1"
-        ? "#ffffff"
-        : "#dcf9e6"
+          ? "#ffffff"
+          : "#dcf9e6",
     );
 
   recent_svg
@@ -191,7 +191,7 @@ d3.json(
     .attr("class", "x-axis-hidden")
     .attr(
       "transform",
-      "translate(0," + (recent_height - recent_margins.bottom - 2.5) + ")"
+      "translate(0," + (recent_height - recent_margins.bottom - 2.5) + ")",
     )
     .call(recent_x_axis);
 
@@ -281,4 +281,6 @@ d3.json(
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "hanging")
     .attr("font-size", "18px");
+
+  hideLoader("recent");
 });

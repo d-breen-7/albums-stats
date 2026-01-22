@@ -1,7 +1,7 @@
 var dy_margins = { top: 0, right: 0, bottom: 0, left: 75 };
 
 d3.json(
-  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-decade"
+  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-decade",
 ).then(function (response) {
   let data = response.data;
 
@@ -25,7 +25,7 @@ d3.json(
   const pre_2000_2020 = Number(sumByYear(data, "2020")).toFixed(1),
     current_year = new Date().getFullYear(),
     pre_2000_current = Number(sumByYear(data, current_year.toString())).toFixed(
-      1
+      1,
     );
 
   var sub_text_rd = d3.select("#release-decade-text").append("h2");
@@ -102,8 +102,8 @@ d3.json(
           decade == ""
             ? "Overall"
             : index === 0
-            ? decade + "s"
-            : decade.slice(2, 4) + "s"
+              ? decade + "s"
+              : decade.slice(2, 4) + "s",
         );
     });
 
@@ -204,4 +204,5 @@ d3.json(
       }
     });
   });
+  hideLoader("release-decade");
 });

@@ -4,7 +4,7 @@ var overview_margins = { top: 20, right: 60, bottom: 30, left: 10 },
 parse_date = d3.timeParse("%Y-%m-%d");
 
 d3.json(
-  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/albums"
+  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/albums",
 ).then(function (response) {
   var res_data = tidy(
     response.data,
@@ -16,9 +16,9 @@ d3.json(
         new Date(
           norm_year,
           parse_date(d.date).getMonth(),
-          parse_date(d.date).getDate()
+          parse_date(d.date).getDate(),
         ),
-    })
+    }),
   );
 
   var unique_albums = Number(response.unique).toLocaleString();
@@ -30,14 +30,6 @@ d3.json(
   <span style='color: #1db954; font-weight: 1000'>~${unique_albums}</span> unique albums.
   <br><span style='color: #a9a9a9'>2019 starts at 116 to account for some albums where I 
   don't have the exact listen date.</span>`;
-  // An overview of all the albums I have listened to since the start of 2019. \
-  // I started to consciously listen to more albums at the start of 2020. \
-
-  // Add heading sub text
-  d3.select("#overview-title")
-    .append("h1")
-    .attr("id", "overview-title-text")
-    .html("Cumulative Album Listens Since 2019");
 
   d3.select("#overview-text")
     .append("h2")
@@ -49,12 +41,12 @@ d3.json(
 
   var data = group_by_year(res_data),
     total_albums = Number(
-      d3.max(data, (d) => d.cumulative_albums)
+      d3.max(data, (d) => d.cumulative_albums),
     ).toLocaleString();
 
   // Dynamically radio buttons for each year + all time + ytd
   const years = Array.from(new Set(data.map((d) => +d.year))).sort(
-    (a, b) => b - a
+    (a, b) => b - a,
   );
 
   const radio_options = [
@@ -92,7 +84,8 @@ d3.json(
     .select("#overview-image")
     .append("svg")
     .attr("id", "overview-svg")
-    .attr("viewBox", [0, 0, overview_img_width, overview_img_height]);
+    .attr("width", overview_img_width)
+    .attr("height", overview_img_height);
 
   // Define X axis
   var overview_x = d3
@@ -115,7 +108,7 @@ d3.json(
     .attr("class", "x-axis")
     .attr(
       "transform",
-      "translate(0," + (overview_img_height - overview_margins.bottom) + ")"
+      "translate(0," + (overview_img_height - overview_margins.bottom) + ")",
     )
     .call(overview_x_axis);
 
@@ -133,7 +126,7 @@ d3.json(
     .scale(overview_y)
     .ticks(d3.max(data, (d) => +d.cumulative_albums) / 1000)
     .tickSize(
-      overview_img_width - overview_margins.left - overview_margins.right
+      overview_img_width - overview_margins.left - overview_margins.right,
     )
     .tickFormat((d) => Number(d).toLocaleString());
 
@@ -229,7 +222,9 @@ d3.json(
         .duration(1000)
         .attr(
           "transform",
-          "translate(0," + (overview_img_height - overview_margins.bottom) + ")"
+          "translate(0," +
+            (overview_img_height - overview_margins.bottom) +
+            ")",
         )
         .call(overview_x_axis);
 
@@ -249,21 +244,21 @@ d3.json(
           period_total < 10
             ? period_total / 1
             : period_total < 50
-            ? period_total / 5
-            : period_total < 100
-            ? period_total / 10
-            : period_total < 200
-            ? period_total / 25
-            : period_total < 600
-            ? period_total / 100
-            : period_total < 1000
-            ? period_total / 200
-            : period_total < 2500
-            ? period_total / 250
-            : period_total / 1000
+              ? period_total / 5
+              : period_total < 100
+                ? period_total / 10
+                : period_total < 200
+                  ? period_total / 25
+                  : period_total < 600
+                    ? period_total / 100
+                    : period_total < 1000
+                      ? period_total / 200
+                      : period_total < 2500
+                        ? period_total / 250
+                        : period_total / 1000,
         )
         .tickSize(
-          overview_img_width - overview_margins.left - overview_margins.right
+          overview_img_width - overview_margins.left - overview_margins.right,
         )
         .tickFormat((d) => Number(d).toLocaleString());
 
@@ -315,7 +310,7 @@ d3.json(
         .line()
         .x((d) => overview_x(parse_date(d.date)))
         .y((d) =>
-          overview_y(period === "all-time" ? d.cumulative_albums : d.cum_sum)
+          overview_y(period === "all-time" ? d.cumulative_albums : d.cum_sum),
         );
 
       var new_line = overview_svg
@@ -340,8 +335,8 @@ d3.json(
         period == "all-time"
           ? overview_summary_text
           : period == current_year
-          ? `So far this year, I have listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`
-          : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`;
+            ? `So far this year, I have listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`
+            : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`;
 
       // Add h1, h2 title
       d3.select("#overview-title")
@@ -350,7 +345,7 @@ d3.json(
         .html(
           period === "all-time"
             ? "Cumulative Album Listens Since 2019"
-            : "All Album Listens During " + period
+            : "All Album Listens During " + period,
         );
 
       d3.select("#overview-text")
@@ -374,7 +369,7 @@ d3.json(
       // Logic for when ytd selected
       var ytd = d3.max(
         data.filter((d) => d.year == norm_year),
-        (d) => d.norm_date
+        (d) => d.norm_date,
       );
 
       ytd_data = data.filter((d) => d.norm_date <= ytd);
@@ -389,8 +384,8 @@ d3.json(
         .domain(
           d3.extent(
             ytd_data.filter((d) => d.year == norm_year),
-            (d) => d.norm_date
-          )
+            (d) => d.norm_date,
+          ),
         )
         .range([
           overview_margins.left,
@@ -410,7 +405,9 @@ d3.json(
         .duration(1000)
         .attr(
           "transform",
-          "translate(0," + (overview_img_height - overview_margins.bottom) + ")"
+          "translate(0," +
+            (overview_img_height - overview_margins.bottom) +
+            ")",
         )
         .call(overview_x_axis);
 
@@ -434,24 +431,24 @@ d3.json(
           period_total < 10
             ? period_total / 1
             : period_total < 50
-            ? period_total / 5
-            : period_total < 100
-            ? period_total / 10
-            : period_total < 200
-            ? period_total / 25
-            : period_total < 600
-            ? period_total / 100
-            : period_total < 1000
-            ? period_total / 200
-            : period_total < 2500
-            ? period_total / 250
-            : period_total / 1000
+              ? period_total / 5
+              : period_total < 100
+                ? period_total / 10
+                : period_total < 200
+                  ? period_total / 25
+                  : period_total < 600
+                    ? period_total / 100
+                    : period_total < 1000
+                      ? period_total / 200
+                      : period_total < 2500
+                        ? period_total / 250
+                        : period_total / 1000,
         )
         .tickSize(
           -overview_img_width +
             overview_margins.left +
             overview_margins.right +
-            axis_shift
+            axis_shift,
         )
         .tickPadding(axis_shift)
         .tickFormat((d) => (d == 0 ? "" : Number(d).toLocaleString()));
@@ -462,7 +459,7 @@ d3.json(
         .duration(1000)
         .attr(
           "transform",
-          "translate(" + (overview_margins.left + axis_shift) + ", 0)"
+          "translate(" + (overview_margins.left + axis_shift) + ", 0)",
         )
         .call(overview_y_axis);
 
@@ -523,7 +520,7 @@ d3.json(
               "class",
               year == current_year
                 ? "overview-line-current"
-                : "overview-line-old"
+                : "overview-line-old",
             );
 
           // Year label
@@ -536,9 +533,9 @@ d3.json(
               overview_y(
                 d3.max(
                   ytd_data.filter((d) => d.year == year),
-                  (d) => d.cum_sum
-                )
-              )
+                  (d) => d.cum_sum,
+                ),
+              ),
             )
             .attr("x", overview_x(d3.max(ytd_data, (d) => d.norm_date)))
             .text("")
@@ -554,15 +551,15 @@ d3.json(
               "class",
               year == current_year
                 ? "overview-ytd-text"
-                : "overview-ytd-text-old"
+                : "overview-ytd-text-old",
             );
         });
 
       ytd_total = Number(
         d3.max(
           ytd_data.filter((d) => d.year == current_year),
-          (d) => d.cum_sum
-        )
+          (d) => d.cum_sum,
+        ),
       ).toLocaleString();
 
       var rank_num = rank.filter((d) => d.year === current_year)[0]["ytd_rank"];
@@ -593,4 +590,6 @@ d3.json(
       transition_period(this.value);
     }
   });
+
+  hideLoader("overview");
 });

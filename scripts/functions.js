@@ -130,13 +130,13 @@ function last_listen_days(last_listen) {
   let today_UTC = Date.UTC(
     today.getFullYear(),
     today.getMonth(),
-    today.getDate()
+    today.getDate(),
   );
 
   let last_UTC = Date.UTC(
     last_listen.getFullYear(),
     last_listen.getMonth(),
-    last_listen.getDate()
+    last_listen.getDate(),
   );
 
   let gap = Math.floor(today_UTC - last_UTC) / (1000 * 3600 * 24);
@@ -151,7 +151,7 @@ function album_cy(plays_data, album_id, date) {
     distinct(["album_id", "listen_date"]),
     mutateWithSummary({
       album_y: rowNumber(),
-    })
+    }),
   );
 
   let y = row_index
@@ -174,16 +174,16 @@ function overview_stats(overview, all_years) {
           total: sum("albums"),
           max: max("albums"),
           days: tally("albums"),
-        })
+        }),
       )[0];
 
       let daily_average = (year_summary.total / year_summary.days[0].n).toFixed(
-        1
+        1,
       );
 
       let max_times = tidy(
         year_data,
-        filter((d) => d.albums === year_summary.max)
+        filter((d) => d.albums === year_summary.max),
       ).length;
 
       let max_info =
@@ -193,7 +193,7 @@ function overview_stats(overview, all_years) {
 
       let zero_days = tidy(
         year_data,
-        filter((d) => d.albums === 0)
+        filter((d) => d.albums === 0),
       ).length;
 
       d3.select(year_selector)
@@ -231,7 +231,7 @@ function album_slider(selector, data) {
     .text((d) =>
       d.album_name.length > 30
         ? d.album_name.substring(0, 27) + " ..."
-        : d.album_name
+        : d.album_name,
     );
 
   d3.select(selector)
@@ -365,3 +365,49 @@ const sumByYear = (dataset, yearToFilter) => {
       return total + rowSum;
     }, 0);
 };
+
+function hideLoader(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+
+  const loader = section.querySelector(".loader");
+  const wrapper = section.querySelector("#loading-content-wrapper");
+
+  if (loader) {
+    loader.classList.add("loader-hidden");
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 500); // Matches CSS transition time
+  }
+
+  if (wrapper) {
+    wrapper.classList.remove("is-loading");
+    wrapper.style.visibility = "visible";
+    wrapper.style.opacity = "1";
+  }
+}
+
+class ChartLoader extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+      <div class="loader">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+        <div class="wave wave4"></div>
+        <div class="wave wave5"></div>
+        <div class="space"></div>
+        <div>LOADING...</div>
+        <div class="space"></div>
+        <div class="wave wave5"></div>
+        <div class="wave wave4"></div>
+        <div class="wave wave3"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave1"></div>
+      </div>
+    `;
+  }
+}
+
+// Register the custom tag name
+customElements.define('chart-loader', ChartLoader);

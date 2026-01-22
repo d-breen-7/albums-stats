@@ -1,10 +1,7 @@
 var release_margins = { top: 0, right: 0, bottom: 0, left: 75 };
 
-// Add sub-title text
-var sub_text = d3.select("#release-text").append("h2");
-
 d3.json(
-  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year"
+  "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/release-year",
 ).then(function (response) {
   var data = response.data;
 
@@ -17,7 +14,7 @@ d3.json(
   let decades = tidy(
     data["all"],
     arrange("decade_num"),
-    groupBy("decade_num", slice(0, 1))
+    groupBy("decade_num", slice(0, 1)),
   );
 
   var release_width = d3.select("#release-image").node().offsetWidth,
@@ -25,12 +22,16 @@ d3.json(
     release_rect_width = release_width / 12,
     release_rect_height = release_height / (total_decades + 3);
 
+  // Add sub-title text
+  var sub_text = d3.select("#release-text").append("h2");
+
   // Add SVG
   var release_svg = d3
     .select("#release-image")
     .append("svg")
     .attr("id", "release-svg")
-    .attr("viewBox", [0, 0, release_width, release_height]);
+    .attr("width", release_width)
+    .attr("height", release_height);
 
   // Define textures for years with no albums
   no_albums = textures
@@ -60,11 +61,11 @@ d3.json(
     .data(decades)
     .enter()
     .append("text")
-    .attr("class", "release-text")
+    .attr("class", "release-text-leg")
     .attr("x", release_rect_width - 5)
     .attr(
       "y",
-      (d) => release_rect_height * 2.5 + d.decade_num * release_rect_height
+      (d) => release_rect_height * 2.5 + d.decade_num * release_rect_height,
     )
     .text((d) => d.decade + "0s")
     .attr("alignment-baseline", "middle");
@@ -101,7 +102,8 @@ d3.json(
     .attr("class", "release-legend-text")
     .attr(
       "x",
-      (d, i) => release_rect_width * 2 + (i * legend_width) / legend_data.length
+      (d, i) =>
+        release_rect_width * 2 + (i * legend_width) / legend_data.length,
     )
     .attr("y", release_rect_height + 2)
     .text((d) => (d == 1 ? "Less albums" : d == 451 ? "More" : ""))
@@ -128,7 +130,7 @@ d3.json(
     .attr(
       "x",
       (d, i) =>
-        release_rect_width * 2 + (i * legend_width - 0.1) / legend_data.length
+        release_rect_width * 2 + (i * legend_width - 0.1) / legend_data.length,
     )
     .attr("y", release_rect_height / 2)
     .attr("width", legend_width / legend_data.length)
@@ -151,11 +153,11 @@ d3.json(
       (d) =>
         release_rect_width +
         release_rect_width * d.year_num +
-        release_rect_width / 2
+        release_rect_width / 2,
     )
     .attr(
       "y",
-      (d) => release_rect_height * 2.5 + release_rect_height * d.decade_num
+      (d) => release_rect_height * 2.5 + release_rect_height * d.decade_num,
     )
     .text((d) => d.decade + d.year_num);
 
@@ -173,10 +175,10 @@ d3.json(
       period === "all"
         ? `Since the start of 2019, I've listened to albums from ${overview_text}`
         : period === "year"
-        ? `Over the past year, I've listened to albums from ${overview_text}`
-        : period === "month"
-        ? `Over the past month, I've listened to albums from ${overview_text}`
-        : `Over the past week, I've listened to albums from ${overview_text}`;
+          ? `Over the past year, I've listened to albums from ${overview_text}`
+          : period === "month"
+            ? `Over the past month, I've listened to albums from ${overview_text}`
+            : `Over the past week, I've listened to albums from ${overview_text}`;
 
     // var release_text_desc = `I've listened to albums from <span style='color: #1db954;
     // font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954;
@@ -202,7 +204,7 @@ d3.json(
       .attr("x", (d) => release_rect_width + release_rect_width * d.year_num)
       .attr(
         "y",
-        (d) => release_rect_height * 2 + release_rect_height * d.decade_num
+        (d) => release_rect_height * 2 + release_rect_height * d.decade_num,
       )
       .attr("width", release_rect_width)
       .attr("height", release_rect_height)
@@ -223,7 +225,7 @@ d3.json(
       .attr("y1", release_rect_height * 2 - 10)
       .attr(
         "y2",
-        release_rect_height * 2 + release_rect_height * total_decades + 10
+        release_rect_height * 2 + release_rect_height * total_decades + 10,
       );
 
     // Horizontal grid lines
@@ -237,11 +239,11 @@ d3.json(
       .attr("x2", release_rect_width * 11)
       .attr(
         "y1",
-        (d) => release_rect_height * 2 + d.decade_num * release_rect_height
+        (d) => release_rect_height * 2 + d.decade_num * release_rect_height,
       )
       .attr(
         "y2",
-        (d) => release_rect_height * 2 + d.decade_num * release_rect_height
+        (d) => release_rect_height * 2 + d.decade_num * release_rect_height,
       );
   }
 
@@ -253,8 +255,5 @@ d3.json(
     }
   });
 
-  // // Remove loading screen
-  // setTimeout(() => {
-  //   d3.select(".loader").node().classList.add("hidden");
-  // }, 1000);
+  hideLoader("release-year");
 });

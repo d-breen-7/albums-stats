@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -21,33 +21,37 @@
     />
   </head>
   <body>
-    <div id="loader" class="loader">
-      <div class="wave wave1"></div>
-      <div class="wave wave2"></div>
-      <div class="wave wave3"></div>
-      <div class="wave wave4"></div>
-      <div class="wave wave5"></div>
-      <div class="space"></div>
-      <div>LOADING...</div>
-      <div class="space"></div>
-      <div class="wave wave5"></div>
-      <div class="wave wave4"></div>
-      <div class="wave wave3"></div>
-      <div class="wave wave2"></div>
-      <div class="wave wave1"></div>
-    </div>
-
     <main class="container">
       <section>
         <div id="overview" class="stats-container" style="height: 700px">
-          <div id="overview-title" class="item stats-title"></div>
           <div
-            id="overview-text"
-            class="item stats-text"
-            style="height: 100px"
-          ></div>
-          <div id="overview-listen-years" class="item radio-options"></div>
-          <div id="overview-image" class="stats-image last-item">
+            id="overview-title"
+            class="item stats-title"
+            style="height: 35px"
+          >
+            <h1 id="overview-title-text">
+              Cumulative Album Listens Since 2019
+            </h1>
+          </div>
+
+          <chart-loader></chart-loader>
+
+          <div
+            id="loading-content-wrapper"
+            class="is-loading"
+            style="height: 520px"
+          >
+            <div
+              id="overview-text"
+              class="item stats-text"
+              style="height: 100px"
+            ></div>
+            <div
+              id="overview-listen-years"
+              class="item radio-options"
+              style="height: 40px"
+            ></div>
+            <div id="overview-image" class="stats-image last-item"></div>
             <script src="scripts/cumulative_albums.js"></script>
           </div>
         </div>
@@ -55,11 +59,22 @@
 
       <section>
         <div id="recent" class="stats-container" style="height: 600px">
-          <div id="recent-title" class="item stats-title">
+          <div id="recent-title" class="item stats-title" style="height: 35px">
             <h1>Recent Albums</h1>
           </div>
-          <div id="recent-text" class="item stats-text"></div>
-          <div id="recent-image" class="last-item stats-image">
+
+          <chart-loader></chart-loader>
+          <div
+            id="loading-content-wrapper"
+            class="is-loading"
+            style="height: 505px"
+          >
+            <div
+              id="recent-text"
+              class="item stats-text"
+              style="height: 55px"
+            ></div>
+            <div id="recent-image" class="last-item stats-image"></div>
             <script src="scripts/recent_albums.js"></script>
           </div>
         </div>
@@ -67,41 +82,67 @@
 
       <section>
         <div id="release-year" class="stats-container" style="height: 700px">
-          <div id="release-title" class="item stats-title">
+          <div id="release-title" class="item stats-title" style="height: 35px">
             <h1>Albums by Release Year</h1>
           </div>
-          <div id="release-text" class="item stats-text"></div>
-          <div id="release-listen-years" class="item radio-options">
-            <div>
-              <input
-                type="radio"
-                id="all"
-                name="listen-period"
-                value="all"
-                checked
-              />
-              <label for="all">All Time</label>
-            </div>
-            <div>
-              <input type="radio" id="year" name="listen-period" value="year" />
-              <label for="year">Last Year</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="month"
-                name="listen-period"
-                value="month"
-              />
-              <label for="month">Last Month</label>
-            </div>
-            <div>
-              <input type="radio" id="week" name="listen-period" value="week" />
-              <label for="week">Last Week</label>
-            </div>
-          </div>
 
-          <div id="release-image" class="last-item stats-image">
+          <chart-loader></chart-loader>
+          <div
+            id="loading-content-wrapper"
+            class="is-loading"
+            style="height: 570px"
+          >
+            <div
+              id="release-text"
+              class="item stats-text"
+              style="height: 50px"
+            ></div>
+
+            <div
+              id="release-listen-years"
+              class="item radio-options"
+              style="height: 40px"
+            >
+              <div>
+                <input
+                  type="radio"
+                  id="all"
+                  name="listen-period"
+                  value="all"
+                  checked
+                />
+                <label for="all">All Time</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="year"
+                  name="listen-period"
+                  value="year"
+                />
+                <label for="year">Last Year</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="month"
+                  name="listen-period"
+                  value="month"
+                />
+                <label for="month">Last Month</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="week"
+                  name="listen-period"
+                  value="week"
+                />
+                <label for="week">Last Week</label>
+              </div>
+            </div>
+
+            <div id="release-image" class="last-item stats-image"></div>
             <script src="scripts/release_year.js"></script>
           </div>
         </div>
@@ -109,14 +150,24 @@
 
       <section>
         <div id="release-decade" class="stats-container">
-          <div id="release-decade-title" class="item stats-title">
+          <div
+            id="release-decade-title"
+            class="item stats-title"
+            style="height: 35px"
+          >
             <h1>Release Decade of Albums by Listen Year</h1>
           </div>
-          <div id="release-decade-text" class="item stats-text"></div>
+          <chart-loader></chart-loader>
           <div
-            id="release-decade-image"
-            class="last-item release-decade-tile-container"
+            id="loading-content-wrapper"
+            class="is-loading"
+            style="height: 1375px"
           >
+            <div id="release-decade-text" class="item stats-text"></div>
+            <div
+              id="release-decade-image"
+              class="last-item release-decade-tile-container"
+            ></div>
             <script src="scripts/release_decade.js"></script>
           </div>
         </div>
@@ -124,41 +175,52 @@
 
       <section>
         <div id="artist" class="stats-container">
-          <div id="artist-title" class="item stats-title"></div>
-          <div id="artist-text" class="stats-text"></div>
+          <div id="artist-title" class="item stats-title" style="height: 35px">
+            <h1 id="artist-title-text">
+              Average Albums Per Day by Artist Status
+            </h1>
+          </div>
 
-          <div id="legend" class="legend-show">
+          <chart-loader></chart-loader>
+          <div
+            id="loading-content-wrapper"
+            class="is-loading"
+            style="height: 1110px"
+          >
+            <div id="artist-text" class="stats-text"></div>
+
+            <div id="legend" class="legend-show">
+              <div
+                class="artists-tile-container"
+                style="height: 150px; overflow-y: hidden; margin-bottom: 10px"
+              >
+                <div class="legends-tile" id="overview-legend-div"></div>
+              </div>
+            </div>
+
             <div
-              class="artists-tile-container"
-              style="height: 150px; overflow-y: hidden; margin-bottom: 10px"
+              id="album-container"
+              class="item album-container album-container-hide"
             >
-              <div class="legends-tile" id="overview-legend-div"></div>
+              <div class="album-info-tiles">
+                <div class="album-info-legend" id="album-info-legend"></div>
+                <div class="album-artist-image"></div>
+                <div class="album-artist-title"></div>
+                <div class="album-artist-info"></div>
+                <div class="album-artist-plays"></div>
+                <div class="album-src"></div>
+              </div>
             </div>
-          </div>
 
-          <div
-            id="album-container"
-            class="item album-container album-container-hide"
-          >
-            <div class="album-info-tiles">
-              <div class="album-info-legend" id="album-info-legend"></div>
-              <div class="album-artist-image"></div>
-              <div class="album-artist-title"></div>
-              <div class="album-artist-info"></div>
-              <div class="album-artist-plays"></div>
-              <div class="album-src"></div>
-            </div>
-          </div>
-
-          <div
-            id="artist-image"
-            class="artists-tile-container"
-            style="
-              border-top: solid #a9a9a9 1px;
-              padding-top: 10px;
-              padding-bottom: 10px;
-            "
-          >
+            <div
+              id="artist-image"
+              class="artists-tile-container"
+              style="
+                border-top: solid #a9a9a9 1px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+              "
+            ></div>
             <script src="scripts/artist_status.js"></script>
           </div>
         </div>
@@ -204,17 +266,6 @@
           // Start observing each container for height changes
           stickyObserver.observe(container);
         });
-      });
-    </script>
-
-    <!-- Remove loading screen -->
-    <script>
-      window.addEventListener("load", function () {
-        const flag = document.getElementById("overview-legend-svg");
-        const loader = document.getElementById("loader");
-        setTimeout(() => {
-          loader.classList.add("loader-hidden");
-        }, 2500);
       });
     </script>
   </body>
