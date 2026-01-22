@@ -86,18 +86,19 @@ d3.json(
         .append("rect")
         .attr("class", "release-decade-bar-bg")
         .attr("x", bar_start_x)
-        .attr("y", y + 4)
+        .attr("y", y + 2)
         .attr("width", bar_width)
-        .attr("height", row_height - 8);
+        .attr("height", row_height);
 
       rd_svg
         .append("text")
         .attr("class", "release-decalde-label")
         .attr("x", bar_start_x - 5)
-        .attr("y", y + row_height / 2 + 4)
+        .attr("y", y + 4 + row_height / 2)
         .attr("fill", "#121212")
         .attr("font-weight", decade == "" ? "bolder" : "normal")
         .attr("text-anchor", "end")
+        .attr("dominant-baseline", "middle")
         .text(
           decade == ""
             ? "Overall"
@@ -130,7 +131,7 @@ d3.json(
         .append("text")
         .attr("class", "release-decade-grid-label")
         .attr("x", x)
-        .attr("y", rd_svg_height - row_height / 2)
+        .attr("y", rd_svg_height - row_height / 2 + 4)
         .attr("text-anchor", "middle")
         .text(p + "%");
     });
@@ -152,9 +153,9 @@ d3.json(
           .append("rect")
           .attr("class", "release-decade-bar release-decade-bar-comp")
           .attr("x", bar_start_x)
-          .attr("y", y + 4)
+          .attr("y", y + 2 + 3)
           .attr("width", bar_width_pre)
-          .attr("height", row_height - 8)
+          .attr("height", row_height - 6)
           .attr("fill", "#1db954");
 
         // Post-2010 total bar
@@ -162,26 +163,28 @@ d3.json(
           .append("rect")
           .attr("class", "release-decade-bar release-decade-bar-comp")
           .attr("x", bar_start_x + bar_width_pre)
-          .attr("y", y + 4)
+          .attr("y", y + 2 + 3)
           .attr("width", bar_width_post)
-          .attr("height", row_height - 8)
+          .attr("height", row_height - 6)
           .attr("fill", "#9df7bd");
 
         rd_svg
           .append("text")
           .attr("class", "release-decade-comp-label")
-          .attr("x", bar_start_x + 2)
-          .attr("y", row_height * 0.7)
+          .attr("x", bar_start_x + 5)
+          .attr("y", y + 4 + row_height / 2)
           .attr("text-anchor", "start")
+          .attr("dominant-baseline", "middle")
           .attr("fill", "#ffffff")
           .text(pre_total > 15 ? Number(pre_total).toFixed(1) + "%" : "");
 
         rd_svg
           .append("text")
           .attr("class", "release-decade-comp-label")
-          .attr("x", bar_start_x + bar_width - 2)
-          .attr("y", row_height * 0.7)
+          .attr("x", bar_start_x + bar_width - 5)
+          .attr("y", y + 4 + row_height / 2)
           .attr("text-anchor", "end")
+          .attr("dominant-baseline", "middle")
           .attr("fill", "#121212")
           .text(Number(post_total).toFixed(1) + "%");
       }
@@ -195,9 +198,9 @@ d3.json(
           .append("rect")
           .attr("class", "release-decade-bar")
           .attr("x", barX)
-          .attr("y", y + 4)
+          .attr("y", y + 2 + 3)
           .attr("width", bar_width_)
-          .attr("height", row_height - 8)
+          .attr("height", row_height - 6)
           .attr("fill", decade.slice(0, 3) > 200 ? "#9df7bd" : "#1db954");
 
         cumulative += value;
