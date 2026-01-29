@@ -36,8 +36,6 @@ d3.json(
     .attr("id", "overview-text-desc")
     .html(overview_summary_text);
 
-  // TODO: update logic backend
-  res_data[0].day_albums = 0;
 
   var data = group_by_year(res_data),
     total_albums = Number(
