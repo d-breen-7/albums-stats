@@ -1,4 +1,4 @@
-var overview_margins = { top: 20, right: 60, bottom: 30, left: 10 },
+var overview_margins = { top: 20, right: 60, bottom: 30, left: 20 },
   current_year = new Date().getFullYear(),
   norm_year = current_year;
 parse_date = d3.timeParse("%Y-%m-%d");
