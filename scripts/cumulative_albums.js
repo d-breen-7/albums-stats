@@ -28,7 +28,7 @@ d3.json(
   to new releases before starting to consciously listen to more albums in 2020. 
   After excluding relistens, which are included below, I have listened to 
   <span style='color: #1db954; font-weight: 1000'>~${unique_albums}</span> unique albums.
-  The green barcode shows days where I listened to no albums.
+  The barcode shows days with no album listens.
   <br><span style='color: #a9a9a9'>2019 starts at 116 to account for some albums where I 
   don't have the exact listen date.</span>`;
 
