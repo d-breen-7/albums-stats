@@ -28,6 +28,7 @@ d3.json(
   to new releases before starting to consciously listen to more albums in 2020. 
   After excluding relistens, which are included below, I have listened to 
   <span style='color: #1db954; font-weight: 1000'>~${unique_albums}</span> unique albums.
+  The green barcode shows days where I listened to no albums.
   <br><span style='color: #a9a9a9'>2019 starts at 116 to account for some albums where I 
   don't have the exact listen date.</span>`;
 
@@ -36,13 +37,12 @@ d3.json(
     .attr("id", "overview-text-desc")
     .html(overview_summary_text);
 
-
   var data = group_by_year(res_data),
     total_albums = Number(
       d3.max(data, (d) => d.cumulative_albums),
     ).toLocaleString();
 
-  // Dynamically radio buttons for each year + all time + ytd
+  // Add radio buttons for each year + all time + ytd
   const years = Array.from(new Set(data.map((d) => +d.year))).sort(
     (a, b) => b - a,
   );
@@ -85,7 +85,7 @@ d3.json(
     .attr("width", overview_img_width)
     .attr("height", overview_img_height);
 
-  // Define X axis
+  // Define X axis - all time
   var overview_x = d3
     .scaleTime()
     .domain(d3.extent(data, (d) => parse_date(d.date)))
@@ -98,7 +98,7 @@ d3.json(
     .axisBottom(overview_x)
     .ticks(d3.timeYear)
     .tickPadding(10)
-    .tickSize(-overview_img_height)
+    .tickSize(-overview_img_height + 75)
     .tickPadding(10);
 
   overview_svg
@@ -113,10 +113,10 @@ d3.json(
   // Define Y axis
   var overview_y = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => +d.cumulative_albums + 5)])
+    .domain([0, d3.max(data, (d) => +d.cumulative_albums)])
     .range([
       overview_img_height - overview_margins.bottom,
-      overview_margins.top,
+      overview_margins.top + 30, // 30 for zero days
     ]);
 
   var overview_y_axis = d3
@@ -169,13 +169,47 @@ d3.json(
     .text(Number(d3.max(data, (d) => d.cumulative_albums)).toLocaleString())
     .attr("alignment-baseline", "middle");
 
+  // Zero days - all time
+  var barcode_width =
+      (overview_x.range()[1] - overview_x.range()[0]) / data.length,
+    no_listen_data = data.filter((d) => d.day_albums == 0);
+
+  // Text
+  overview_svg
+    .append("text")
+    .attr("class", "overview-zero-text")
+    .attr("id", "overview-zero-text")
+    .attr("x", 10)
+    .attr("y", 40)
+    .text(
+      Number(no_listen_data.length).toLocaleString() +
+        " days with no album listens",
+    )
+    .attr("alignment-baseline", "end");
+
+  // Barcode
+  overview_svg
+    .selectAll(".zero-day-rect")
+    .data(no_listen_data)
+    .enter()
+    .append("rect")
+    .attr("class", "zero-day-rect")
+    .attr("id", "overview-zero-days")
+    .attr("x", (d) => overview_x(parse_date(d.date)) - barcode_width / 2)
+    .attr("y", 2.5)
+    .attr("width", barcode_width)
+    .attr("height", 20)
+    .attr("fill", "#1db954");
+
   function transition_period(period) {
     // Remove existing elements
     d3.select("#overview-title-text").remove();
     d3.select("#overview-text-desc").remove();
     d3.select("#overview-today-text").remove();
+    d3.select("#overview-zero-text").remove();
     d3.selectAll("#overview-ytd-text").remove();
     d3.selectAll("#overview-year-lines").remove();
+    d3.selectAll("[id^='overview-zero-days']").remove();
     d3.selectAll(".overview-line-all").remove();
     d3.selectAll(".overview-line-current").remove();
     d3.selectAll(".overview-line-old").remove();
@@ -191,7 +225,7 @@ d3.json(
             ? d3.max(period_data, (d) => +d.cumulative_albums)
             : d3.max(period_data, (d) => +d.cum_sum);
 
-      // Update X axis
+      // Update X axis - period
       var overview_x = d3
         .scaleTime()
         .domain(d3.extent(period_data, (d) => parse_date(d.date)))
@@ -205,15 +239,14 @@ d3.json(
           ? d3
               .axisBottom(overview_x)
               .ticks(d3.timeYear)
-              .tickSize(-overview_img_height)
+              .tickSize(-overview_img_height + 75)
               .tickPadding(10)
           : d3
               .axisBottom(overview_x)
-              .tickSize(-overview_img_height)
+              .tickSize(-overview_img_height + 75)
               .ticks(d3.timeMonth)
               .tickPadding(10)
               .tickFormat(d3.timeFormat("%b"));
-
       overview_svg
         .select(".x-axis")
         .transition()
@@ -232,7 +265,7 @@ d3.json(
         .domain([0, period_total])
         .range([
           overview_img_height - overview_margins.bottom,
-          overview_margins.top,
+          overview_margins.top + 30, // 30 for zero days
         ]);
 
       var overview_y_axis = d3
@@ -333,8 +366,8 @@ d3.json(
         period == "all-time"
           ? overview_summary_text
           : period == current_year
-            ? `So far this year, I have listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`
-            : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including listens).`;
+            ? `So far this year, I have listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including relistens). The green barcode shows days where I listened to no albums.`
+            : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including relistens). The green barcode shows days where I listened to no albums.`;
 
       // Add h1, h2 title
       d3.select("#overview-title")
@@ -363,6 +396,37 @@ d3.json(
         .delay(1000)
         .text(Number(period_total).toLocaleString())
         .attr("alignment-baseline", "middle");
+
+      // Zero days - years
+      var barcode_width =
+          (overview_x.range()[1] - overview_x.range()[0]) / period_data.length,
+        no_listen_data = period_data.filter((d) => d.day_albums == 0);
+
+      // Text
+      overview_svg
+        .append("text")
+        .attr("class", "overview-zero-text")
+        .attr("id", "overview-zero-text")
+        .attr("x", 10)
+        .attr("y", 40)
+        .text(
+          Number(no_listen_data.length).toLocaleString() +
+            " days with no album listens",
+        );
+
+      // Barcode
+      overview_svg
+        .selectAll(".zero-day-rect")
+        .data(no_listen_data)
+        .enter()
+        .append("rect")
+        .attr("class", "zero-day-rect")
+        .attr("id", "overview-zero-days")
+        .attr("x", (d) => overview_x(parse_date(d.date)) - barcode_width / 2)
+        .attr("y", 2.5)
+        .attr("width", barcode_width)
+        .attr("height", 20)
+        .attr("fill", "#1db954");
     } else {
       // Logic for when ytd selected
       var ytd = d3.max(
@@ -370,13 +434,13 @@ d3.json(
         (d) => d.norm_date,
       );
 
-      ytd_data = data.filter((d) => d.norm_date <= ytd);
+      let ytd_data = data.filter((d) => d.norm_date <= ytd);
 
       ytd_data
         .filter((d) => d.day == 1 && d.month === 0)
         .forEach((d) => (d.cum_sum = 0)); // added month condition
 
-      // Update X axis
+      // Update X axis - YTD
       var overview_x = d3
         .scaleTime()
         .domain(
@@ -393,7 +457,7 @@ d3.json(
       var overview_x_axis = d3
         .axisBottom(overview_x)
         .ticks(d3.timeMonth)
-        .tickSize(-overview_img_height)
+        .tickSize(-overview_img_height + 75)
         .tickPadding(10)
         .tickFormat(d3.timeFormat("%b"));
 
@@ -417,10 +481,10 @@ d3.json(
         .domain([0, period_total])
         .range([
           overview_img_height - overview_margins.bottom,
-          overview_margins.top,
+          overview_margins.top + 30, // 30 for zero days
         ]);
 
-      var axis_shift = period_total < 10 ? 15 : period_total < 100 ? 30 : 50;
+      var axis_shift = period_total < 99 ? 15 : period_total < 1000 ? 30 : 50;
 
       var overview_y_axis = d3
         .axisLeft()
@@ -461,7 +525,7 @@ d3.json(
         )
         .call(overview_y_axis);
 
-      // Step 1: Group all rows by year
+      // Groups by year
       const groups = ytd_data.reduce((acc, row) => {
         const year = row.year;
         if (!acc[year]) acc[year] = [];
@@ -469,17 +533,15 @@ d3.json(
         return acc;
       }, {});
 
-      // Step 2: Pick the row with maximum cum_sum per year
+      // Get max per year
       const maxRowsPerYear = Object.values(groups).map((rows) => {
         return rows.reduce((maxRow, row) => {
           return row.cum_sum > maxRow.cum_sum ? row : maxRow;
         }, rows[0]);
       });
 
-      // Step 3: Sort by cum_sum descending
       maxRowsPerYear.sort((a, b) => b.cum_sum - a.cum_sum);
 
-      // Step 4: Add rank
       const rank = maxRowsPerYear.map((row, i) => ({
         ...row,
         ytd_rank: i + 1,
@@ -567,7 +629,8 @@ d3.json(
         I mostly listen to albums while working and listen to things like internet radio shows 
         and mixes while exercising, reading etc.
         The <span style='color: #1db954; font-weight: 1000';>${ytd_total}</span> albums so far this year ranks
-        <span style='color: #1db954; font-weight: 1000';>#${rank_num}</span> compared to previous years.`;
+        <span style='color: #1db954; font-weight: 1000';>#${rank_num}</span> compared to previous years.
+        The green barcode shows days where I listened to no albums.`;
 
       // Update h1, h2 text
       d3.select("#overview-title")
@@ -579,6 +642,43 @@ d3.json(
         .append("h2")
         .attr("id", "overview-text-desc")
         .html(summary_text);
+
+      // Zero days - YTD
+      var barcode_width =
+        (overview_x.range()[1] - overview_x.range()[0]) /
+        ytd_data.filter((d) => d.year == current_year).length;
+      no_listen_data = ytd_data.filter(
+        (d) => (d.day_albums == 0) & (d.year == current_year),
+      );
+
+      // Text
+      overview_svg
+        .append("text")
+        .attr("class", "overview-zero-text")
+        .attr("id", "overview-zero-text")
+        .attr("x", 10)
+        .attr("y", 40)
+        .text(
+          Number(
+            ytd_data.filter(
+              (d) => (d.day_albums == 0) & (d.year == current_year),
+            ).length,
+          ).toLocaleString() + " days this year with no album listens",
+        );
+
+      // Barcode
+      overview_svg
+        .selectAll(".zero-day-rect")
+        .data(no_listen_data)
+        .enter()
+        .append("rect")
+        .attr("class", "zero-day-rect")
+        .attr("id", "overview-zero-days")
+        .attr("x", (d) => overview_x(d.norm_date) - barcode_width / 2)
+        .attr("y", 2.5)
+        .attr("width", barcode_width)
+        .attr("height", 20)
+        .attr("fill", "#1db954");
     }
   }
 

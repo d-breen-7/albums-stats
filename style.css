@@ -334,6 +334,14 @@ h2 {
   text-anchor: end;
 }
 
+.overview-zero-text {
+  fill: #1db954;
+  opacity: 75%;
+  font-weight: 1000;
+  font-size: 18px;
+  text-anchor: start;
+}
+
 .overview-ytd-text {
   fill: #1db954;
   font-weight: 1000;
