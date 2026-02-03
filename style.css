@@ -389,6 +389,10 @@ h2 {
   stroke: none;
 }
 
+.release-grid-legend {
+  stroke: none;
+}
+
 .release-line {
   stroke: #ffffff;
   stroke-width: 5px;
@@ -412,6 +416,14 @@ h2 {
 .release-grid-label {
   fill: #a9a9a9;
   font-weight: 400;
+  font-size: 18px;
+  text-anchor: middle;
+  alignment-baseline: middle;
+}
+
+.release-grid-tooltip {
+  fill: #121212;
+  font-weight: 1000;
   font-size: 18px;
   text-anchor: middle;
   alignment-baseline: middle;

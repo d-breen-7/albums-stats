@@ -112,7 +112,7 @@ d3.json(
   // Legend: None
   release_svg
     .append("rect")
-    .attr("class", "release-grid")
+    .attr("class", "release-grid-legend")
     .attr("x", release_rect_width)
     .attr("y", release_rect_height / 2)
     .attr("width", 45)
@@ -141,7 +141,6 @@ d3.json(
   // Add labels for each year
   years_data = release_year_range(data["all"]);
 
-  // Update grid rects based on period selection
   release_svg
     .selectAll("release-svg")
     .data(years_data)
@@ -161,31 +160,26 @@ d3.json(
     )
     .text((d) => d.decade + d.year_num);
 
+  // Update grid rects based on period selection
   function draw_period(period) {
-    d3.selectAll("#release-year-color").remove();
+    d3.selectAll("[id^='rect-year-']").remove();
+    d3.selectAll(".release-grid-tooltip").remove();
+    d3.select("#release-text.h2").remove();
 
     var num_years = data[period].length,
       num_decades = [...new Set(data[period].map((d) => d.decade_num))].length;
 
-    d3.select("#release-text.h2").remove();
-
-    let overview_text = `<span style='color: #1db954; font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954; font-weight: 1000'>${num_decades}</span> decades.`;
+    let overview_text = `<span style='color: #1db954; font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954; font-weight: 1000'>${num_decades}</span> decades`,
+      tooltip_note = `<br><span style='color: #a9a9a9'>Hover over a year to see the number of albums</span>`;
 
     var release_text_desc =
       period === "all"
-        ? `Since the start of 2019, I've listened to albums from ${overview_text}`
+        ? `Since the start of 2019, I've listened to albums from ${overview_text}.${tooltip_note}`
         : period === "year"
-          ? `Over the past year, I've listened to albums from ${overview_text}`
+          ? `Over the past year, I've listened to albums from ${overview_text}.${tooltip_note}`
           : period === "month"
-            ? `Over the past month, I've listened to albums from ${overview_text}`
-            : `Over the past week, I've listened to albums from ${overview_text}`;
-
-    // var release_text_desc = `I've listened to albums from <span style='color: #1db954;
-    // font-weight: 1000'>${num_years}</span> years spread across <span style='color: #1db954;
-    // font-weight: 1000'>${num_decades}</span> decades, with at least one album from each
-    // year since 1957. I've listened to albums released between 2019 and 2021 most frequently. Some
-    // of this is due to my listening habits in 2020 and 2021, and the fact it is easier to find recent
-    // releases on Spotify. This has changed over time as I try to listen to more older albums.`;
+            ? `Over the past month, I've listened to albums from ${overview_text}.${tooltip_note}`
+            : `Over the past week, I've listened to albums from ${overview_text}.${tooltip_note}`;
 
     sub_text.html(release_text_desc);
 
@@ -194,13 +188,13 @@ d3.json(
       .domain(d3.extent(data[period], (d) => +d.year_total));
 
     // Update grid rects based on period selection
-    release_svg
+    let year_rects = release_svg
       .selectAll("release-svg")
       .data(data[period])
       .enter()
       .append("rect")
       .attr("class", "release-grid")
-      .attr("id", "release-year-color")
+      .attr("id", (d) => `rect-year-${d.decade}${d.year_num}`)
       .attr("x", (d) => release_rect_width + release_rect_width * d.year_num)
       .attr(
         "y",
@@ -245,6 +239,42 @@ d3.json(
         "y2",
         (d) => release_rect_height * 2 + d.decade_num * release_rect_height,
       );
+
+    // Add count for each release year
+    release_svg
+      .selectAll("release-svg")
+      .data(data[period])
+      .enter()
+      .append("text")
+      .attr("class", "release-grid-tooltip")
+      .attr("id", (d) => `text-${d.decade}${d.year_num}`)
+      .attr(
+        "x",
+        (d) =>
+          release_rect_width +
+          release_rect_width * d.year_num +
+          release_rect_width / 2,
+      )
+      .attr(
+        "y",
+        (d) => release_rect_height * 2.5 + release_rect_height * d.decade_num,
+      )
+      .text((d) => Number(d.year_total).toLocaleString())
+      .style("visibility", "hidden");
+
+    year_rects
+      .on("mouseover", function (d) {
+        d3.select(`#text-${d.decade}${d.year_num}`).style(
+          "visibility",
+          "visible",
+        );
+      })
+      .on("mouseout", function (d) {
+        d3.select(`#text-${d.decade}${d.year_num}`)
+          .transition()
+          .delay(10000)
+          .style("visibility", "hidden");
+      });
   }
 
   draw_period("all");
