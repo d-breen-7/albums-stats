@@ -229,18 +229,15 @@
 
     <script>
       function applyStickyToAllTallContainers() {
-        // Stick title and text for if larger than screen height
         const containers = document.querySelectorAll(".stats-container");
         const viewportHeight = window.innerHeight;
 
         containers.forEach((container) => {
-          // Find the specific title and text inside THIS container
           const title = container.querySelector(".stats-title");
           const text = container.querySelector(".stats-text");
 
-          if (!title || !text) return; // Skip if elements are missing
+          if (!title || !text) return;
 
-          // If the container is taller than the screen, make items sticky
           if (container.scrollHeight > viewportHeight) {
             title.classList.add("is-sticky");
             text.classList.add("is-sticky");
@@ -251,19 +248,16 @@
         });
       }
 
-      // Initialize on load and refresh on window resize
       window.addEventListener("load", applyStickyToAllTallContainers);
       window.addEventListener("resize", applyStickyToAllTallContainers);
 
       const stickyObserver = new ResizeObserver((entries) => {
-        // This runs every time a container's size changes
         applyStickyToAllTallContainers();
       });
 
       window.addEventListener("load", () => {
         const containers = document.querySelectorAll(".stats-container");
         containers.forEach((container) => {
-          // Start observing each container for height changes
           stickyObserver.observe(container);
         });
       });
