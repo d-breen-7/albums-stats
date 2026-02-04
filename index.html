@@ -228,7 +228,7 @@
     </main>
 
     <script>
-      function applyStickyToAllTallContainers() {
+      function stickHeaders() {
         const containers = document.querySelectorAll(".stats-container");
         const viewportHeight = window.innerHeight;
 
@@ -248,11 +248,11 @@
         });
       }
 
-      window.addEventListener("load", applyStickyToAllTallContainers);
-      window.addEventListener("resize", applyStickyToAllTallContainers);
+      window.addEventListener("load", stickHeaders);
+      window.addEventListener("resize", stickHeaders);
 
       const stickyObserver = new ResizeObserver((entries) => {
-        applyStickyToAllTallContainers();
+        stickHeaders();
       });
 
       window.addEventListener("load", () => {
