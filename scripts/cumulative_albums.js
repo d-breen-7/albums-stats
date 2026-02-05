@@ -366,8 +366,8 @@ d3.json(
         period == "all-time"
           ? overview_summary_text
           : period == current_year
-            ? `So far this year, I have listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including relistens). The green barcode shows days where I listened to no albums.`
-            : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including relistens). The green barcode shows days where I listened to no albums.`;
+            ? `So far this year, I have listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including relistens). The barcode shows days with no album listens.`
+            : `In ${period}, I listened to <span style='color: #1db954; font-weight: 1000';>${total_num}</span> albums (including relistens). The barcode shows days with no album listens.`;
 
       // Add h1, h2 title
       d3.select("#overview-title")
