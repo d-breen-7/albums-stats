@@ -143,7 +143,7 @@ d3.json(
       "x",
       (d) => recent_x(d3.timeParse("%Y-%m-%d")(d.date)) + recent_rect_width / 2,
     )
-    .attr("y", recent_y(day_max))
+    .attr("y", recent_y(day_max) - 5)
     .text("Today")
     .attr("font-size", "18px")
     .attr("text-anchor", "middle")
