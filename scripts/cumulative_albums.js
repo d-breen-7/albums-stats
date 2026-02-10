@@ -630,7 +630,7 @@ d3.json(
         and mixes while exercising, reading etc.
         The <span style='color: #1db954; font-weight: 1000';>${ytd_total}</span> albums so far this year ranks
         <span style='color: #1db954; font-weight: 1000';>#${rank_num}</span> compared to previous years.
-        The green barcode shows days where I listened to no albums.`;
+        The barcode shows days with no album listens.`;
 
       // Update h1, h2 text
       d3.select("#overview-title")
