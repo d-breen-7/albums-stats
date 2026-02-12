@@ -155,7 +155,7 @@ d3.json(
         const area_existing_avg = d3
           .area()
           .x((d) => scale_x(parseDate(d.listen_date)))
-          .y0(scale_y_total(-0.05))
+          .y0(scale_y_total(0))
           .y1((d) => scale_y_total(+d.avg_new))
           .curve(d3.curveMonotoneX);
 
@@ -327,7 +327,7 @@ d3.json(
           const areaNew = d3
             .area()
             .x((d) => scale_x(parseDate(d.listen_date)))
-            .y0(scale_y_total(-0.05))
+            .y0(scale_y_total(0))
             .y1((d) => scale_y_total(+d.avg_new))
             .curve(d3.curveMonotoneX);
 
@@ -384,7 +384,7 @@ d3.json(
             .attr("id", "overview")
             .attr("x", scale_x(parseDate("2019-07-22")))
             .attr("y", 85)
-            .text("By new artist")
+            .text("By new artists")
             .attr("fill", "#1db954")
             .attr("font-weight", 1000)
             .attr("font-size", "18px")
