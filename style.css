@@ -191,19 +191,17 @@ h2 {
 .release-decade-bar {
   rx: 5;
   ry: 5;
-  stroke: #121212;
-  stroke-width: 0.5px;
+  stroke-width: 1.5px;
 }
 
 .release-decade-bar-comp {
   rx: 5;
   ry: 5;
-  stroke: #121212;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
 }
 
 .release-decade-bar-bg {
-  fill: #edfcf2;
+  fill: #ffffff;
   stroke: #a9a9a9;
   stroke-width: 0.5px;
   opacity: 0.25;
