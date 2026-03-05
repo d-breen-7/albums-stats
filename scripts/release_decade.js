@@ -30,12 +30,12 @@ d3.json(
 
   var sub_text_rd = d3.select("#release-decade-text").append("h2");
 
-  var dy_sub_heading = `Over time, albums released <span style='color: #ffffff; font-weight: 1000; 
-  background-color: #1db954;border-radius: 5px;'> &nbsp&nbsp pre-2010 &nbsp&nbsp</span> have been making up a higher proportion of my total 
-  album listens. In 2020, these albums made up just <span style='color: #1db954; font-weight:1000'>${pre_2000_2020}%</span> of my album listens. 
-  So far this year, <span style='color: #1db954; font-weight:1000'>${pre_2000_current}%</span> of the albums I have listened to were released pre-2010. A big proportion of the
+  var dy_sub_heading = `Over time, albums released <span style='color: #121212; font-weight: 1000; 
+  background-color: #ffffff;border-radius: 5px; border-color: #1db954; border-style: solid; border-width: 2px;'> &nbsp pre-2010 &nbsp</span> have been making up a higher proportion of my total 
+  album listens. In 2020, these albums made up just <span style='font-weight:1000;'>${pre_2000_2020}%</span> of my album listens. 
+  So far this year, <span style='font-weight:1000;'>${pre_2000_current}%</span> of the albums I have listened to were released pre-2010. A big proportion of the
   albums I listen to are still those which were released from <span style=' color: #121212; font-weight: 1000; background-color:
-  #9df7bd; border-radius: 5px;'> &nbsp&nbsp 2010 onwards &nbsp&nbsp</span>. Given that I am now listening to less albums, and trying to listen to more older 
+  #9df7bd; border-radius: 5px; border-color: #1db954; border-style: solid; border-width: 2px;'> &nbsp 2010 onwards &nbsp</span>. Given that I am now listening to less albums, and trying to listen to more older 
   albums, the changes in proportions are not surprising.`;
 
   sub_text_rd.html(dy_sub_heading);
@@ -156,7 +156,8 @@ d3.json(
           .attr("y", y + 2 + 3)
           .attr("width", bar_width_pre)
           .attr("height", row_height - 6)
-          .attr("fill", "#1db954");
+          .attr("fill", "#ffffff")
+          .attr("stroke", "#1db954");
 
         // Post-2010 total bar
         rd_svg
@@ -166,7 +167,8 @@ d3.json(
           .attr("y", y + 2 + 3)
           .attr("width", bar_width_post)
           .attr("height", row_height - 6)
-          .attr("fill", "#9df7bd");
+          .attr("fill", "#9df7bd")
+          .attr("stroke", "#1db954");
 
         rd_svg
           .append("text")
@@ -175,7 +177,7 @@ d3.json(
           .attr("y", y + 4 + row_height / 2)
           .attr("text-anchor", "start")
           .attr("dominant-baseline", "middle")
-          .attr("fill", "#ffffff")
+          .attr("fill", "#121212")
           .text(pre_total > 15 ? Number(pre_total).toFixed(1) + "%" : "");
 
         rd_svg
@@ -201,7 +203,8 @@ d3.json(
           .attr("y", y + 2 + 3)
           .attr("width", bar_width_)
           .attr("height", row_height - 6)
-          .attr("fill", decade.slice(0, 3) > 200 ? "#9df7bd" : "#1db954");
+          .attr("fill", decade.slice(0, 3) > 200 ? "#9df7bd" : "#ffffff")
+          .attr("stroke", "#1db954");
 
         cumulative += value;
       }
