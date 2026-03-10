@@ -7,9 +7,9 @@ period_start.setDate(today.getDate() - 28);
 period_start.setHours(0, 0, 0, 0);
 today.setHours(0, 0, 0, 0);
 
-const legend_1_date = new Date(period_start.getTime() + day_seconds * 4),
-  legend_2_date = new Date(period_start.getTime() + day_seconds * 11),
-  legend_3_date = new Date(period_start.getTime() + day_seconds * 18);
+const legend_date_1 = new Date(period_start.getTime() + day_seconds * 4),
+  legend_date_2 = new Date(period_start.getTime() + day_seconds * 11),
+  legend_date_3 = new Date(period_start.getTime() + day_seconds * 18);
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/recent",
@@ -238,7 +238,7 @@ d3.json(
   recent_svg
     .append("rect")
     .attr("class", "recent-rect")
-    .attr("x", recent_x(legend_1_date) + recent_rect_width * 0.125)
+    .attr("x", recent_x(legend_date_1) + recent_rect_width * 0.125)
     .attr("y", 10)
     .attr("ry", 10)
     .attr("width", recent_rect_width * 0.75)
@@ -249,7 +249,7 @@ d3.json(
   recent_svg
     .append("rect")
     .attr("class", "recent-rect")
-    .attr("x", recent_x(legend_2_date) + recent_rect_width * 0.125)
+    .attr("x", recent_x(legend_date_2) + recent_rect_width * 0.125)
     .attr("y", 10)
     .attr("ry", 10)
     .attr("width", recent_rect_width * 0.75)
@@ -260,7 +260,7 @@ d3.json(
   recent_svg
     .append("rect")
     .attr("class", "recent-rect")
-    .attr("x", recent_x(legend_3_date) + recent_rect_width * 0.125)
+    .attr("x", recent_x(legend_date_3) + recent_rect_width * 0.125)
     .attr("y", 10)
     .attr("ry", 10)
     .attr("width", recent_rect_width * 0.75)
@@ -280,7 +280,7 @@ d3.json(
     },
     {
       text: "1st album by artist",
-      x: recent_x(legend_1_date) + recent_rect_width,
+      x: recent_x(legend_date_1) + recent_rect_width,
       y: 25,
       label: false,
       anchor: "start",
@@ -289,7 +289,7 @@ d3.json(
     },
     {
       text: "New album by artist",
-      x: recent_x(legend_2_date) + recent_rect_width,
+      x: recent_x(legend_date_2) + recent_rect_width,
       y: 25,
       label: false,
       anchor: "start",
@@ -298,7 +298,7 @@ d3.json(
     },
     {
       text: "N",
-      x: recent_x(legend_2_date) + recent_rect_width / 2,
+      x: recent_x(legend_date_2) + recent_rect_width / 2,
       y: 35,
       label: true,
       anchor: "middle",
@@ -307,7 +307,7 @@ d3.json(
     },
     {
       text: "N-th album by artist",
-      x: recent_x(legend_2_date) + recent_rect_width,
+      x: recent_x(legend_date_2) + recent_rect_width,
       y: 45,
       label: true,
       anchor: "start",
@@ -316,7 +316,7 @@ d3.json(
     },
     {
       text: "Album relisten",
-      x: recent_x(legend_3_date) + recent_rect_width,
+      x: recent_x(legend_date_3) + recent_rect_width,
       y: 25,
       label: false,
       anchor: "start",
@@ -325,7 +325,7 @@ d3.json(
     },
     {
       text: "I-th time listening to album",
-      x: recent_x(legend_3_date) + recent_rect_width,
+      x: recent_x(legend_date_3) + recent_rect_width,
       y: 45,
       label: true,
       anchor: "start",
@@ -334,7 +334,7 @@ d3.json(
     },
     {
       text: "I",
-      x: recent_x(legend_3_date) + recent_rect_width / 2,
+      x: recent_x(legend_date_3) + recent_rect_width / 2,
       y: 35,
       label: true,
       anchor: "middle",
