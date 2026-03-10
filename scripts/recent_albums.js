@@ -8,8 +8,8 @@ period_start.setHours(0, 0, 0, 0);
 today.setHours(0, 0, 0, 0);
 
 const legend_1_date = new Date(period_start.getTime() + day_seconds * 4),
-  legend_2_date = new Date(period_start.getTime() + day_seconds * 10),
-  legend_3_date = new Date(period_start.getTime() + day_seconds * 16);
+  legend_2_date = new Date(period_start.getTime() + day_seconds * 11),
+  legend_3_date = new Date(period_start.getTime() + day_seconds * 18);
 
 d3.json(
   "https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/recent",
