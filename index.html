@@ -67,13 +67,24 @@
           <div
             id="loading-content-wrapper"
             class="is-loading"
-            style="height: 505px"
+            style="height: 475px"
           >
             <div
               id="recent-text"
               class="item stats-text"
               style="height: 55px"
             ></div>
+            <div class="toggle-checkbox-wrapper">
+              <input
+                class="toggle-checkbox"
+                type="checkbox"
+                id="toggle"
+                name="recent-toggle"
+              />
+              <label class="slider" for="toggle" name="recent-toggle">
+                <span class="toggle-switch">Show stats</span>
+              </label>
+            </div>
             <div id="recent-image" class="last-item stats-image"></div>
             <script src="scripts/recent_albums.js"></script>
           </div>

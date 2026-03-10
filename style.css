@@ -1013,3 +1013,56 @@ button:disabled {
   background: #1db954;
   border-radius: 10px;
 }
+
+/* Recent toggle */
+.toggle-checkbox-wrapper {
+  background-color: #ffffff;
+  padding: 5px;
+}
+
+.toggle-checkbox {
+  display: none;
+}
+
+.slider {
+  position: relative;
+}
+
+.slider::before {
+  background: #a9a9a9;
+  border-radius: 34px;
+  bottom: 0;
+  content: "";
+  height: 24px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  width: 40px;
+}
+
+.slider::after {
+  background: #ffffff;
+  border-radius: 50%;
+  bottom: 0;
+  content: "";
+  height: 16px;
+  left: 4px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  transition: 0.4s;
+  width: 16px;
+}
+
+.toggle-switch {
+  margin-left: 45px;
+}
+
+.toggle-checkbox:checked + .slider::before {
+  background-color: #1db954;
+}
+
+.toggle-checkbox:checked + .slider::after {
+  background-color: #ffffff;
+  transform: translateX(16px);
+}
