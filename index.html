@@ -210,20 +210,6 @@
             </div>
 
             <div
-              id="album-container"
-              class="item album-container album-container-hide"
-            >
-              <div class="album-info-tiles">
-                <div class="album-info-legend" id="album-info-legend"></div>
-                <div class="album-artist-image"></div>
-                <div class="album-artist-title"></div>
-                <div class="album-artist-info"></div>
-                <div class="album-artist-plays"></div>
-                <div class="album-src"></div>
-              </div>
-            </div>
-
-            <div
               id="artist-image"
               class="artists-tile-container"
               style="
@@ -233,6 +219,86 @@
               "
             ></div>
             <script src="scripts/artist_status.js"></script>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div id="library" class="stats-container" style="height: 700px">
+          <div id="library-title" class="item stats-title" style="height: 35px">
+            <h1 id="library-title-text">Library Overview</h1>
+          </div>
+
+          <chart-loader></chart-loader>
+
+          <div
+            id="loading-content-wrapper"
+            class="is-loading"
+            style="height: 375px"
+          >
+            <div id="library" class="item stats-text" style="height: 80px">
+              <h2>
+                An overview of the albums saved to my Spotify library and how
+                the number of albums and the runtime of saved albums has changed
+                recently.
+                <br />
+                <span style="color: #a9a9a9"
+                  >Drag to see older data, hover to see albums added and removed
+                  each day</span
+                >
+              </h2>
+            </div>
+
+            <div class="dashboard-grid">
+              <div class="stat-card">
+                <h2 class="card-title">Albums in library</h2>
+                <div class="current-value" id="albums-current">--</div>
+
+                <div class="metrics-footer">
+                  <div class="time-context">Δ Last 2 weeks</div>
+                  <div class="metric-breakdown">
+                    <div class="metric-item">
+                      <span class="label">Added</span>
+                      <span class="value" id="albums-added">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Removed</span>
+                      <span class="value" id="albums-removed">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Change</span>
+                      <span class="value" id="albums-change">--</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <h2 class="card-title">Total Runtime</h2>
+                <div class="current-value" id="runtime-current">--</div>
+
+                <div class="metrics-footer">
+                  <div class="time-context">Δ Last 2 weeks</div>
+                  <div class="metric-breakdown">
+                    <div class="metric-item">
+                      <span class="label">Added</span>
+                      <span class="value" id="runtime-added">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Removed</span>
+                      <span class="value" id="runtime-removed">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Change</span>
+                      <span class="value" id="runtime-change">--</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="library-image" class="stats-image last-item"></div>
+            <script src="scripts/library_status.js"></script>
           </div>
         </div>
       </section>
