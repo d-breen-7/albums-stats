@@ -411,3 +411,37 @@ class ChartLoader extends HTMLElement {
 
 // Register the custom tag name
 customElements.define('chart-loader', ChartLoader);
+
+
+// Helper function to format value to days, hours and mins
+function format_milliseconds(msValue) {
+  if (msValue === undefined || msValue === null || isNaN(msValue)) return "-";
+
+  // Convert milliseconds directly to total minutes
+  const totalMinutes = Math.round(msValue / 60000);
+
+  if (totalMinutes === 0) return "0 mins";
+
+  const minutesInDay = 24 * 60;
+  const minutesInHour = 60;
+
+  // Split into days, hours and mins
+  const days = Math.floor(totalMinutes / minutesInDay);
+  const hours = Math.floor((totalMinutes % minutesInDay) / minutesInHour);
+  const mins = totalMinutes % minutesInHour;
+
+  let parts = [];
+
+  // Format value based on days, hours and mins
+  if (days > 0) {
+    parts.push(`${days} day${days > 1 ? "s" : ""}`);
+  }
+  if (hours > 0) {
+    parts.push(`${hours} hr${hours !== 1 ? "s" : ""}`);
+  }
+  if ((mins > 0) & (days < 1)) {
+    parts.push(`${mins} min${mins !== 1 ? "s" : ""}`);
+  }
+
+  return parts.join(" ");
+}
