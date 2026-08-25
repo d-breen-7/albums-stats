@@ -29,7 +29,7 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
         d3.select("#albums-removed").text(stats.recent_n_dropped);
 
         d3.select("#albums-change")
-            .text(stats.recent_n_change < 0 ? "- " + Math.abs(stats.recent_n_change) : "+" + stats.recent_n_change)
+            .text(stats.recent_n_change < 0 ? `-${Math.abs(stats.recent_n_change)}` : `+${stats.recent_n_change}`)
             .style("color", stats.recent_n_change < 0 ? "red" : "#1db954");
 
 
@@ -39,7 +39,10 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
         d3.select("#runtime-removed").text(format_milliseconds(stats.recent_d_dropped));
 
         d3.select("#runtime-change")
-            .text(stats.recent_d_change < 0 ? "- " + format_milliseconds(Math.abs(stats.recent_d_change)) : "+" + format_milliseconds(stats.recent_d_change))
+            .text(stats.recent_d_change < 0 ?
+                `-${format_milliseconds(Math.abs(stats.recent_d_change))}`
+                : `+ ${format_milliseconds(stats.recent_d_change)
+                } `)
             .style("color", stats.recent_d_change < 0 ? "red" : "#1db954");
 
 
