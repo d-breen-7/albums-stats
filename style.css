@@ -1235,7 +1235,7 @@ button:disabled {
 .metric-breakdown {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20 px;
+  gap: 20px;
 }
 
 .metric-item {
