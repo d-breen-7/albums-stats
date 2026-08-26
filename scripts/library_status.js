@@ -1,8 +1,8 @@
 var library_margins = { top: 20, right: 20, bottom: 30, left: 60 },
     parse_date = d3.timeParse("%Y-%m-%d");
 
-// d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/library-stats",
-d3.json("..//data//library_duration_data.json"
+d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/library-stats",
+    // d3.json("..//data//library_duration_data.json"
 )
     .then(function (response) {
 
