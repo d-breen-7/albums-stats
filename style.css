@@ -1217,6 +1217,20 @@ button:disabled {
   text-transform: uppercase;
 }
 
+.metrics-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 10px;
+}
+
+.current-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
 .current-value {
   font-size: 24px;
   font-weight: 700;
@@ -1246,6 +1260,14 @@ button:disabled {
 
 .metric-item .label {
   font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: #94a3b8;

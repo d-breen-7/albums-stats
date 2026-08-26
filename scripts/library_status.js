@@ -1,7 +1,8 @@
-var library_margins = { top: 20, right: 10, bottom: 30, left: 60 },
+var library_margins = { top: 20, right: 20, bottom: 30, left: 60 },
     parse_date = d3.timeParse("%Y-%m-%d");
 
-d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/library-stats",
+// d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/library-stats",
+d3.json("..//data//library_duration_data.json"
 )
     .then(function (response) {
 
@@ -24,7 +25,8 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
 
         // Stats
         // Albums
-        d3.select("#albums-current").text(stats.total_albums);
+        d3.select("#albums-current").html(`${stats.total_albums}<span class='label'> in total</span>`);
+        d3.select("#albums-current-new").html(`${stats.by_new_artist}<span class='label'> by new artists</span)`);
         d3.select("#albums-added").text(stats.recent_n_added);
         d3.select("#albums-removed").text(stats.recent_n_dropped);
 
@@ -164,14 +166,58 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
         // Current total
         library_svg
             .append("text")
-            .attr("x", library_x(max_date) + 2)
-            .attr("y", library_y(stats.total_albums))
-            .style("text-anchor", "start")
+            .attr("x", library_x(max_date) + 20)
+            .attr("y", library_y(stats.total_albums) - 7.5)
+            .style("text-anchor", "middle")
             .style("alignment-baseline", "middle")
             .style("font-weight", 600)
             .style("font-size", "18px")
             .style("fill", "#1db954")
             .text(stats.total_albums);
+
+        // By new artist
+        library_svg
+            .append("text")
+            .attr("x", library_x(max_date) + 20)
+            .attr("y", library_y(stats.by_new_artist) - 7.5)
+            .style("text-anchor", "middle")
+            .style("alignment-baseline", "middle")
+            .style("font-weight", 600)
+            .style("font-size", "18px")
+            .style("fill", "#1db954")
+            .text(stats.total_albums - stats.by_new_artist < 30 ? "" : stats.by_new_artist < 10 ? "" : stats.by_new_artist);
+
+        // By new artist bar
+        let new_artist_texture = textures
+            .lines()
+            .stroke("#1db954")
+            .background("#76e99f")
+            .thicker()
+            .shapeRendering("crispEdges");
+
+        library_svg.call(new_artist_texture);
+
+        library_svg
+            .append("rect")
+            .attr("x", library_x(max_date))
+            .attr("y", library_y(stats.total_albums) - 0.5)
+            .attr("height", library_y(0) - library_y(stats.total_albums))
+            .attr("width", 40)
+            .attr("stroke", "#1db954")
+            .attr("stroke-width", 2)
+            .attr("fill", "none")
+            .attr("opacity", 1);
+
+        library_svg
+            .append("rect")
+            .attr("x", library_x(max_date))
+            .attr("y", library_y(stats.by_new_artist))
+            .attr("height", library_y(0) - library_y(stats.by_new_artist))
+            .attr("width", 40)
+            .attr("stroke", "#1db954")
+            .attr("stroke-width", 2)
+            .style("fill", new_artist_texture.url())
+            .attr("opacity", 1);
 
         // Crosshairs
         var bisect_date = d3.bisector(function (d) { return d.date; }).left;
@@ -229,7 +275,8 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .style("text-anchor", "middle")
             .style("opacity", 0);
 
-        var rect_label_bg = crosshair_g.append("rect")
+        // Recent rect label
+        var rect_label_bg = plot_area.append("rect")
             .attr("fill", "#E8F8EE")
             .style("pointer-events", "none")
             .style("opacity", 0)
@@ -238,8 +285,7 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .attr("width", 107.5)
             .attr("height", 20);
 
-        // Recent rect label
-        recent_label = crosshair_g
+        var recent_label = plot_area
             .append("text")
             .attr("x", library_x(highlight_period) + 5)
             .attr("y", library_img_height - library_margins.bottom - 5)
@@ -286,6 +332,7 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             vertical_label.style("opacity", 0);
             vertical_label_bg.style("opacity", 0);
             rect_label_bg.style("opacity", 0);
+            recent_label.style("opqacity", 0);
             added_label.style("opacity", 0);
             added_label_bg.style("opacity", 0);
             dropped_label.style("opacity", 0);

@@ -58,6 +58,92 @@
       </section>
 
       <section>
+        <div id="library" class="stats-container" style="height: 715px">
+          <div id="library-title" class="item stats-title" style="height: 35px">
+            <h1 id="library-title-text">Library Overview</h1>
+          </div>
+
+          <chart-loader></chart-loader>
+
+          <div
+            id="loading-content-wrapper"
+            class="is-loading"
+            style="height: 375px"
+          >
+            <div id="library" class="item stats-text" style="height: 95px">
+              <h2>
+                An overview of the albums saved to my Spotify library and how
+                the number of albums and total runtime have changed over the
+                last two weeks. The stacked bar shows the current total and the
+                number by new artists. I started to track this data towards the
+                end of July 2026.
+                <br />
+                <span style="color: #a9a9a9"
+                  >Drag to see older data, hover to see albums added and removed
+                  each day</span
+                >
+              </h2>
+            </div>
+
+            <div class="dashboard-grid">
+              <div class="stat-card">
+                <h2 class="card-title">Albums in library</h2>
+                <div class="metric-header">
+                  <div class="current-stats">
+                    <div class="current-value" id="albums-current">--</div>
+                    <div class="current-value" id="albums-current-new">--</div>
+                  </div>
+                </div>
+                <div class="metrics-footer">
+                  <div class="time-context">Δ Last 2 weeks</div>
+                  <div class="metric-breakdown">
+                    <div class="metric-item">
+                      <span class="label">Added</span>
+                      <span class="value" id="albums-added">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Removed</span>
+                      <span class="value" id="albums-removed">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Change</span>
+                      <span class="value" id="albums-change">--</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <h2 class="card-title">Total Runtime</h2>
+                <div class="current-value" id="runtime-current">--</div>
+
+                <div class="metrics-footer">
+                  <div class="time-context">Δ Last 2 weeks</div>
+                  <div class="metric-breakdown">
+                    <div class="metric-item">
+                      <span class="label">Added</span>
+                      <span class="value" id="runtime-added">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Removed</span>
+                      <span class="value" id="runtime-removed">--</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="label">Change</span>
+                      <span class="value" id="runtime-change">--</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="library-image" class="stats-image last-item"></div>
+            <script src="scripts/library_status.js"></script>
+          </div>
+        </div>
+      </section>
+
+      <section>
         <div id="recent" class="stats-container" style="height: 600px">
           <div id="recent-title" class="item stats-title" style="height: 35px">
             <h1>Recent Albums</h1>
@@ -219,87 +305,6 @@
               "
             ></div>
             <script src="scripts/artist_status.js"></script>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div id="library" class="stats-container" style="height: 700px">
-          <div id="library-title" class="item stats-title" style="height: 35px">
-            <h1 id="library-title-text">Library Overview</h1>
-          </div>
-
-          <chart-loader></chart-loader>
-
-          <div
-            id="loading-content-wrapper"
-            class="is-loading"
-            style="height: 375px"
-          >
-            <div id="library" class="item stats-text" style="height: 80px">
-              <h2>
-                An overview of the albums saved to my Spotify library and how
-                the number of albums and total runtime have changed over the
-                last two weeks. I started to track this data towards the end of
-                July 2026.
-                <br />
-                <span style="color: #a9a9a9"
-                  >Drag to see older data, hover to see albums added and removed
-                  each day</span
-                >
-              </h2>
-            </div>
-
-            <div class="dashboard-grid">
-              <div class="stat-card">
-                <h2 class="card-title">Albums in library</h2>
-                <div class="current-value" id="albums-current">--</div>
-
-                <div class="metrics-footer">
-                  <div class="time-context">Δ Last 2 weeks</div>
-                  <div class="metric-breakdown">
-                    <div class="metric-item">
-                      <span class="label">Added</span>
-                      <span class="value" id="albums-added">--</span>
-                    </div>
-                    <div class="metric-item">
-                      <span class="label">Removed</span>
-                      <span class="value" id="albums-removed">--</span>
-                    </div>
-                    <div class="metric-item">
-                      <span class="label">Change</span>
-                      <span class="value" id="albums-change">--</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="stat-card">
-                <h2 class="card-title">Total Runtime</h2>
-                <div class="current-value" id="runtime-current">--</div>
-
-                <div class="metrics-footer">
-                  <div class="time-context">Δ Last 2 weeks</div>
-                  <div class="metric-breakdown">
-                    <div class="metric-item">
-                      <span class="label">Added</span>
-                      <span class="value" id="runtime-added">--</span>
-                    </div>
-                    <div class="metric-item">
-                      <span class="label">Removed</span>
-                      <span class="value" id="runtime-removed">--</span>
-                    </div>
-                    <div class="metric-item">
-                      <span class="label">Change</span>
-                      <span class="value" id="runtime-change">--</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div id="library-image" class="stats-image last-item"></div>
-            <script src="scripts/library_status.js"></script>
           </div>
         </div>
       </section>
