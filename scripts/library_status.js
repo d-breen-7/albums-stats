@@ -1,4 +1,4 @@
-var library_margins = { top: 20, right: 20, bottom: 30, left: 60 },
+var library_margins = { top: 20, right: 20, bottom: 30, left: 40 },
     parse_date = d3.timeParse("%Y-%m-%d");
 
 d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/library-stats",
@@ -49,7 +49,7 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
 
 
         // Calculate the precise inner width of the chart grid canvas
-        const chart_inner_width = library_img_width - library_margins.left - library_margins.right - 45;
+        const chart_inner_width = library_img_width - library_margins.left - library_margins.right - 21;
 
         // Define SVG
         var library_svg = d3
@@ -108,7 +108,7 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .axisLeft()
             .scale(library_y)
             .ticks(y_max_limit / 50)
-            .tickPadding(35)
+            .tickPadding(40)
             .tickSize(-chart_inner_width);
 
         library_svg
@@ -187,38 +187,6 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .style("fill", "#1db954")
             .text(stats.total_albums - stats.by_new_artist < 30 ? "" : stats.by_new_artist < 10 ? "" : stats.by_new_artist);
 
-        // By new artist bar
-        let new_artist_texture = textures
-            .lines()
-            .stroke("#1db954")
-            .background("#76e99f")
-            .thicker()
-            .shapeRendering("crispEdges");
-
-        library_svg.call(new_artist_texture);
-
-        library_svg
-            .append("rect")
-            .attr("x", library_x(max_date))
-            .attr("y", library_y(stats.total_albums) - 0.5)
-            .attr("height", library_y(0) - library_y(stats.total_albums))
-            .attr("width", 40)
-            .attr("stroke", "#1db954")
-            .attr("stroke-width", 2)
-            .attr("fill", "none")
-            .attr("opacity", 1);
-
-        library_svg
-            .append("rect")
-            .attr("x", library_x(max_date))
-            .attr("y", library_y(stats.by_new_artist))
-            .attr("height", library_y(0) - library_y(stats.by_new_artist))
-            .attr("width", 40)
-            .attr("stroke", "#1db954")
-            .attr("stroke-width", 2)
-            .style("fill", new_artist_texture.url())
-            .attr("opacity", 1);
-
         // Crosshairs
         var bisect_date = d3.bisector(function (d) { return d.date; }).left;
 
@@ -276,7 +244,7 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .style("opacity", 0);
 
         // Recent rect label
-        var rect_label_bg = plot_area.append("rect")
+        var rect_label_bg = crosshair_g.append("rect")
             .attr("fill", "#E8F8EE")
             .style("pointer-events", "none")
             .style("opacity", 0)
@@ -285,7 +253,7 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .attr("width", 107.5)
             .attr("height", 20);
 
-        var recent_label = plot_area
+        var recent_label = crosshair_g
             .append("text")
             .attr("x", library_x(highlight_period) + 5)
             .attr("y", library_img_height - library_margins.bottom - 5)
@@ -321,6 +289,38 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .style("font-weight", "bold")
             .style("pointer-events", "none")
             .style("opacity", 0);
+
+            // By new artist bar
+        let new_artist_texture = textures
+            .lines()
+            .stroke("#1db954")
+            .background("#76e99f")
+            .thicker()
+            .shapeRendering("crispEdges");
+
+        library_svg.call(new_artist_texture);
+
+        library_svg
+            .append("rect")
+            .attr("x", library_x(max_date))
+            .attr("y", library_y(stats.total_albums) - 0.5)
+            .attr("height", library_y(0) - library_y(stats.total_albums))
+            .attr("width", 40)
+            .attr("fill", "#ffffff")
+            .attr("stroke", "#1db954")
+            .attr("stroke-width", 2)
+            .attr("opacity", 1);
+
+        library_svg
+            .append("rect")
+            .attr("x", library_x(max_date))
+            .attr("y", library_y(stats.by_new_artist))
+            .attr("height", library_y(0) - library_y(stats.by_new_artist))
+            .attr("width", 40)
+            .attr("stroke", "#1db954")
+            .attr("stroke-width", 2)
+            .style("fill", new_artist_texture.url())
+            .attr("opacity", 1);
 
         // Helper layout clear command
         function hide_crosshairs() {
@@ -360,12 +360,12 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
 
         // Compute initial matrix transform to force view viewport down into the target recent window
         const full_timeline_width = library_x_orig(max_date) - library_x_orig(date_range[0]);
-        const single_month_width = library_x_orig(max_date) - library_x_orig(default_start); // Changed highlight_period to default_start
+        const single_month_width = library_x_orig(max_date) - library_x_orig(default_start);
 
         const initial_scale = full_timeline_width / single_month_width;
         const initial_transform = d3.zoomIdentity
             .scale(initial_scale)
-            .translate(-library_x_orig(default_start) + (library_margins.left / initial_scale), 0); // Changed highlight_period to default_start
+            .translate(-library_x_orig(default_start) + (library_margins.left / initial_scale), 0);
 
         zoom_pane.call(zoom.transform, initial_transform);
 
@@ -392,9 +392,18 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
                 if (mousex >= minx && mousex <= maxx && mousey >= miny && mousey <= maxy) {
                     var active_scale = current_x_scale || library_x;
                     var hovered_date = active_scale.invert(mousex);
-                    var i = bisect_date(data, hovered_date, 1);
 
-                    if (i >= data.length) { i = data.length - 1; }
+                    // Get current date range
+                    var visible_domain = active_scale.domain();
+                    var min_visible_date = visible_domain[0];
+                    var max_visible_date = visible_domain[1];
+
+                    var visible_start_idx = d3.max([0, bisect_date(data, min_visible_date, 1) - 1]);
+                    var visible_end_idx = d3.min([data.length - 1, bisect_date(data, max_visible_date, 1)]);
+
+                    // Bisect for visible range
+                    var i = bisect_date(data, hovered_date, visible_start_idx + 1);
+                    if (i > visible_end_idx) { i = visible_end_idx; }
 
                     var d0 = data[i - 1];
                     var d1 = data[i];
@@ -404,7 +413,8 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
                         d = hovered_date - parse_date(d0.date) > parse_date(d1.date) - hovered_date ? d1 : d0;
                     }
 
-                    if (d) {
+                    // Check crosshair dates are within visible range
+                    if (d && d.date >= min_visible_date && d.date <= max_visible_date) {
                         var snapped_value = +d.total_albums;
                         var snappedy = library_y(snapped_value);
 
@@ -477,7 +487,10 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
                             .attr("width", 40)
                             .attr("height", 16)
                             .style("opacity", dropped_val > 0 ? 1 : 0);
+                    } else {
+                        hide_crosshairs();
                     }
+
                 } else {
                     hide_crosshairs();
                 }
