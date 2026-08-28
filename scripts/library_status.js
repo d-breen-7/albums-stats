@@ -163,30 +163,6 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .style("stroke-dasharray", "5    5")
             .style("opacity", 0.75);
 
-        // Current total
-        library_svg
-            .append("text")
-            .attr("x", library_x(max_date) + 20)
-            .attr("y", library_y(stats.total_albums) - 7.5)
-            .style("text-anchor", "middle")
-            .style("alignment-baseline", "middle")
-            .style("font-weight", 600)
-            .style("font-size", "18px")
-            .style("fill", "#1db954")
-            .text(stats.total_albums);
-
-        // By new artist
-        library_svg
-            .append("text")
-            .attr("x", library_x(max_date) + 20)
-            .attr("y", library_y(stats.by_new_artist) - 7.5)
-            .style("text-anchor", "middle")
-            .style("alignment-baseline", "middle")
-            .style("font-weight", 600)
-            .style("font-size", "18px")
-            .style("fill", "#1db954")
-            .text(stats.total_albums - stats.by_new_artist < 30 ? "" : stats.by_new_artist < 10 ? "" : stats.by_new_artist);
-
         // Crosshairs
         var bisect_date = d3.bisector(function (d) { return d.date; }).left;
 
@@ -290,15 +266,9 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .style("pointer-events", "none")
             .style("opacity", 0);
 
-            // By new artist bar
-        let new_artist_texture = textures
-            .lines()
-            .stroke("#1db954")
-            .background("#76e99f")
-            .thicker()
-            .shapeRendering("crispEdges");
 
-        library_svg.call(new_artist_texture);
+        // Add bar for todays split
+        // Current total bar
 
         library_svg
             .append("rect")
@@ -311,6 +281,16 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .attr("stroke-width", 2)
             .attr("opacity", 1);
 
+        // By new artist bar
+        let new_artist_texture = textures
+            .lines()
+            .stroke("#1db954")
+            .background("#76e99f")
+            .thicker()
+            .shapeRendering("crispEdges");
+
+        library_svg.call(new_artist_texture);
+
         library_svg
             .append("rect")
             .attr("x", library_x(max_date))
@@ -321,6 +301,31 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             .attr("stroke-width", 2)
             .style("fill", new_artist_texture.url())
             .attr("opacity", 1);
+
+        // Add bar labels
+        // Current total
+        library_svg
+            .append("text")
+            .attr("x", library_x(max_date) + 20)
+            .attr("y", library_y(stats.total_albums) - 7.5)
+            .style("text-anchor", "middle")
+            .style("alignment-baseline", "middle")
+            .style("font-weight", 600)
+            .style("font-size", "18px")
+            .style("fill", "#1db954")
+            .text(stats.total_albums);
+
+        // By new artist
+        library_svg
+            .append("text")
+            .attr("x", library_x(max_date) + 20)
+            .attr("y", library_y(stats.by_new_artist) - 7.5)
+            .style("text-anchor", "middle")
+            .style("alignment-baseline", "middle")
+            .style("font-weight", 600)
+            .style("font-size", "18px")
+            .style("fill", "#1db954")
+            .text(stats.total_albums - stats.by_new_artist < 30 ? "" : stats.by_new_artist < 10 ? "" : stats.by_new_artist);
 
         // Helper layout clear command
         function hide_crosshairs() {
