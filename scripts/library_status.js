@@ -535,6 +535,9 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
             }, 80);
         }
 
+        // Add scroll shadow
+        d3.select("#library-image").style("--left-shadow-opacity", 1);
+
         hideLoader("library");
 
     });

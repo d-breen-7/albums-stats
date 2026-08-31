@@ -239,8 +239,26 @@ h2 {
 }
 
 #library-image {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+}
+
+#library-image::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  width: 25px;
+  height: calc(100% - 50px);
+  z-index: 10;
+  pointer-events: none;
+  opacity: var(--left-shadow-opacity, 0);
+  background: linear-gradient(
+    to right,
+
+    rgb(118, 233, 159, 0.3) 0%,
+    rgb(118, 233, 159, 0) 100%
+  );
+  transition: opacity 0.2s ease;
 }
 
 .library-trendline {
