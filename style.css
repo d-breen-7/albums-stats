@@ -254,7 +254,6 @@ h2 {
   opacity: var(--left-shadow-opacity, 0);
   background: linear-gradient(
     to right,
-
     rgb(118, 233, 159, 0.3) 0%,
     rgb(118, 233, 159, 0) 100%
   );
