@@ -1,4 +1,4 @@
-var library_margins = { top: 20, right: 20, bottom: 30, left: 40 },
+var library_margins = { top: 20, right: 30, bottom: 30, left: 40 },
     parse_date = d3.timeParse("%Y-%m-%d");
 
 d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/library-stats",
@@ -268,8 +268,19 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
 
 
         // Add bar for todays split
-        // Current total bar
+        // Add white background to block last 2 weeks label
+        library_svg
+            .append("rect")
+            .attr("x", library_x(max_date))
+            .attr("y", library_y(stats.total_albums) - 0.5)
+            .attr("height", library_y(0) - library_y(stats.total_albums))
+            .attr("width", 100)
+            .attr("fill", "#ffffff")
+            .attr("stroke", "#ffffff")
+            .attr("stroke-width", 2)
+            .attr("opacity", 1);
 
+        // Current total bar
         library_svg
             .append("rect")
             .attr("x", library_x(max_date))
