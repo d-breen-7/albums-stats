@@ -18,8 +18,8 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
 
         const date_range = d3.extent(data, d => d.date);
         const max_date = date_range[1];
-        const default_start = d3.timeMonth.offset(max_date, -1); // Update to 3 when more data
-        const highlight_period = d3.timeDay.offset(max_date, -13); //
+        const default_start = d3.timeMonth.offset(max_date, -3);
+        const highlight_period = d3.timeDay.offset(max_date, -13);
         const y_max_limit = Math.ceil(d3.max(data, (d) => +d.total_albums));
         const day_ticks = d3.range(0, y_max_limit + 1);
 
@@ -98,10 +98,10 @@ d3.json("https://i3aounsm6zgjctztzbplywogfy0gnuij.lambda-url.eu-west-1.on.aws/li
         // Define Y axis
         var library_y = d3
             .scaleLinear()
-            .domain([0, d3.max(data, (d) => +d.total_albums)])
+            .domain([0, d3.max(data, (d) => +d.total_albums) + 50])
             .range([
                 library_img_height - library_margins.bottom,
-                library_margins.top + 25
+                library_margins.top
             ]);
 
         var library_y_axis = d3
